@@ -1,0 +1,2 @@
+- MISRA C (§5.3, spnu151v)
+- Bit fields (§6.2.2, spnu151v)
