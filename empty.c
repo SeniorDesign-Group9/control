@@ -51,25 +51,36 @@
 /*
  *  ======== mainThread ========
  */
-void *mainThread(void *arg0)
-{
-    /* 1 second delay */
-    uint32_t time = 1;
+void *mainThread(void *arg0) {
+    uint32_t time = 1;                          // 1 sec delay
 
-    /* Call driver init functions */
-    GPIO_init();
+    GPIO_init();                                // Call driver init functions
     // I2C_init();
     // SPI_init();
     // Watchdog_init();
 
-    /* Configure the LED pin */
-    GPIO_setConfig(CONFIG_GPIO_LED_0, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
+    // Configure the LED pin
+    GPIO_setConfig(LED_RED, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
+    GPIO_setConfig(LED_GREEN, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
+    GPIO_setConfig(LED_YELLOW, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
 
-    /* Turn on user LED */
-    GPIO_write(CONFIG_GPIO_LED_0, CONFIG_GPIO_LED_ON);
+    // Turn on user LED
+    GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
+    GPIO_write(LED_GREEN, CONFIG_GPIO_LED_ON);
+    GPIO_write(LED_YELLOW, CONFIG_GPIO_LED_ON);
 
     while (1) {
         sleep(time);
-        GPIO_toggle(CONFIG_GPIO_LED_0);
+        GPIO_toggle(LED_RED);
+        sleep(time);
+        GPIO_toggle(LED_RED);
+        sleep(time);
+        GPIO_toggle(LED_GREEN);
+        sleep(time);
+        GPIO_toggle(LED_GREEN);
+        sleep(time);
+        GPIO_toggle(LED_YELLOW);
+        sleep(time);
+        GPIO_toggle(LED_YELLOW);
     }
 }
