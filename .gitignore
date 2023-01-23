@@ -2,3 +2,5 @@
 .launches/*
 MCU+Image/
 MCU+Image/*
+Debug/
+Debug/*

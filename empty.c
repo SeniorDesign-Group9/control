@@ -43,6 +43,7 @@
 #include <ti/drivers/GPIO.h>
 // #include <ti/drivers/I2C.h>
 // #include <ti/drivers/SPI.h>
+#include <ti/drivers/UART2.h>
 // #include <ti/drivers/Watchdog.h>
 
 /* Driver configuration */
@@ -52,23 +53,72 @@
  *  ======== mainThread ========
  */
 void *mainThread(void *arg0) {
-    uint32_t time = 1;                          // 1 sec delay
+    uint32_t     time = 5;                          // 5 sec delay
+    char         input;
+    const char   echoPrompt[] = "Echoing characters:\r\n";
+    UART2_Handle uart;
+    UART2_Params uartParams;
+    size_t       bytesRead;
+    size_t       bytesWritten = 0;
+    uint32_t     status = UART2_STATUS_SUCCESS;
+
 
     GPIO_init();                                // Call driver init functions
     // I2C_init();
     // SPI_init();
     // Watchdog_init();
 
-    // Configure the LED pin
+
+
+    // Configure the LED pins
     GPIO_setConfig(LED_RED, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
     GPIO_setConfig(LED_GREEN, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
     GPIO_setConfig(LED_YELLOW, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
 
-    // Turn on user LED
-    GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
-    GPIO_write(LED_GREEN, CONFIG_GPIO_LED_ON);
-    GPIO_write(LED_YELLOW, CONFIG_GPIO_LED_ON);
+    // Create a UART where the default read and write mode is BLOCKING
+    UART2_Params_init(&uartParams);
+    uartParams.baudRate = 115200;
+    uart = UART2_open(CONFIG_UART2_0, &uartParams);
 
+    // Check if UART open failed
+    if (uart == NULL) {
+        GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
+        while (1);
+    }
+
+
+    sleep(time);
+
+    // Turn on user LED
+    // GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
+    GPIO_write(LED_GREEN, CONFIG_GPIO_LED_ON);
+    // GPIO_write(LED_YELLOW, CONFIG_GPIO_LED_ON);
+
+    // Loop forever echoing
+    while (1) {
+        bytesRead = 0;
+        while (bytesRead == 0) {
+            status = UART2_read(uart, &input, 1, &bytesRead);
+
+            if (status != UART2_STATUS_SUCCESS) {
+                /* UART2_read() failed */
+                GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
+                while (1);
+            }
+        }
+
+        bytesWritten = 0;
+        while (bytesWritten == 0) {
+            status = UART2_write(uart, &input, 1, &bytesWritten);
+
+            if (status != UART2_STATUS_SUCCESS) {
+                /* UART2_write() failed */
+                GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
+                while (1);
+            }
+        }
+    }
+    /*
     while (1) {
         sleep(time);
         GPIO_toggle(LED_RED);
@@ -83,4 +133,5 @@ void *mainThread(void *arg0) {
         sleep(time);
         GPIO_toggle(LED_YELLOW);
     }
+    */
 }
