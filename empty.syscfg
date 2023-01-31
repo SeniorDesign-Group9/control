@@ -14,6 +14,8 @@ const GPIO2       = GPIO.addInstance();
 const GPIO3       = GPIO.addInstance();
 const GPIO4       = GPIO.addInstance();
 const GPIO5       = GPIO.addInstance();
+const PWM         = scripting.addModule("/ti/drivers/PWM", {}, false);
+const PWM1        = PWM.addInstance();
 const Power       = scripting.addModule("/ti/drivers/Power");
 const UART2       = scripting.addModule("/ti/drivers/UART2", {}, false);
 const UART21      = UART2.addInstance();
@@ -48,6 +50,8 @@ GPIO5.$name            = "BUTTON_3";
 GPIO5.$hardware        = system.deviceData.board.components.SW3;
 GPIO5.interruptTrigger = "Rising Edge";
 GPIO5.pull             = "Pull Up";
+
+PWM1.$name = "CONFIG_PWM_0";
 
 Power.parkPins.$name = "ti_drivers_power_PowerCC32XXPins0";
 
@@ -91,6 +95,8 @@ GPIO2.gpioPin.$suggestSolution            = "boosterpack.10";
 GPIO3.gpioPin.$suggestSolution            = "boosterpack.9";
 GPIO4.gpioPin.$suggestSolution            = "boosterpack.3";
 GPIO5.gpioPin.$suggestSolution            = "boosterpack.11";
+PWM1.timer.$suggestSolution               = "Timer1";
+PWM1.timer.pwmPin.$suggestSolution        = "boosterpack.13";
 UART21.uart.$suggestSolution              = "UART0";
 UART21.uart.txPin.$suggestSolution        = "ball.55";
 UART21.uart.txDmaChannel.$suggestSolution = "UDMA_CH9";

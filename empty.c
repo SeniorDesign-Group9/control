@@ -42,8 +42,9 @@
 /* Driver Header files */
 #include <ti/drivers/GPIO.h>
 // #include <ti/drivers/I2C.h>
+#include <ti/drivers/PWM.h>
 // #include <ti/drivers/SPI.h>
-#include <ti/drivers/UART2.h>
+// #include <ti/drivers/UART2.h>
 // #include <ti/drivers/Watchdog.h>
 
 /* Driver configuration */
@@ -53,85 +54,46 @@
  *  ======== mainThread ========
  */
 void *mainThread(void *arg0) {
-    uint32_t     time = 5;                          // 5 sec delay
-    char         input;
-    const char   echoPrompt[] = "Echoing characters:\r\n";
-    UART2_Handle uart;
-    UART2_Params uartParams;
-    size_t       bytesRead;
-    size_t       bytesWritten = 0;
-    uint32_t     status = UART2_STATUS_SUCCESS;
-
-
     GPIO_init();                                // Call driver init functions
-    // I2C_init();
-    // SPI_init();
-    // Watchdog_init();
 
+    /* Period and duty in microseconds */
+    uint16_t   pwmPeriod = 1000;
+    uint16_t   duty = 0;
+    uint16_t   dutyInc = 100;
 
+    /* Sleep time in microseconds */
+    uint32_t   time = 50000;
+    PWM_Handle pwm_inst = NULL;
+    PWM_Params params;
 
-    // Configure the LED pins
-    GPIO_setConfig(LED_RED, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
-    GPIO_setConfig(LED_GREEN, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
-    GPIO_setConfig(LED_YELLOW, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
+    /* Call driver init functions. */
+    PWM_init();
 
-    // Create a UART where the default read and write mode is BLOCKING
-    UART2_Params_init(&uartParams);
-    uartParams.baudRate = 115200;
-    uart = UART2_open(CONFIG_UART2_0, &uartParams);
+    PWM_Params_init(&params);
+    params.dutyUnits = PWM_DUTY_US;
+    params.dutyValue = 0;
+    params.periodUnits = PWM_PERIOD_US;
+    params.periodValue = pwmPeriod;
 
-    // Check if UART open failed
-    if (uart == NULL) {
-        GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
+    pwm_inst = PWM_open(CONFIG_PWM_0, &params);
+    if (pwm_inst == NULL) {
+        /* CONFIG_PWM_0 did not open */
         while (1);
     }
 
+    PWM_start(pwm_inst);
 
-    sleep(time);
 
-    // Turn on user LED
-    // GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
-    GPIO_write(LED_GREEN, CONFIG_GPIO_LED_ON);
-    // GPIO_write(LED_YELLOW, CONFIG_GPIO_LED_ON);
-
-    // Loop forever echoing
+    /* Loop forever incrementing the PWM duty */
     while (1) {
-        bytesRead = 0;
-        while (bytesRead == 0) {
-            status = UART2_read(uart, &input, 1, &bytesRead);
+        PWM_setDuty(pwm_inst, duty);
 
-            if (status != UART2_STATUS_SUCCESS) {
-                /* UART2_read() failed */
-                GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
-                while (1);
-            }
+        duty = (duty + dutyInc);
+
+        if (duty == pwmPeriod || (!duty)) {
+            dutyInc = - dutyInc;
         }
 
-        bytesWritten = 0;
-        while (bytesWritten == 0) {
-            status = UART2_write(uart, &input, 1, &bytesWritten);
-
-            if (status != UART2_STATUS_SUCCESS) {
-                /* UART2_write() failed */
-                GPIO_write(LED_RED, CONFIG_GPIO_LED_ON);
-                while (1);
-            }
-        }
+        usleep(time);
     }
-    /*
-    while (1) {
-        sleep(time);
-        GPIO_toggle(LED_RED);
-        sleep(time);
-        GPIO_toggle(LED_RED);
-        sleep(time);
-        GPIO_toggle(LED_GREEN);
-        sleep(time);
-        GPIO_toggle(LED_GREEN);
-        sleep(time);
-        GPIO_toggle(LED_YELLOW);
-        sleep(time);
-        GPIO_toggle(LED_YELLOW);
-    }
-    */
 }
