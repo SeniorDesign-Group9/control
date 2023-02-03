@@ -35,6 +35,7 @@
  */
 
 /* For usleep() */
+#include "DRV8833.h"
 #include <unistd.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -42,7 +43,7 @@
 /* Driver Header files */
 #include <ti/drivers/GPIO.h>
 // #include <ti/drivers/I2C.h>
-#include <ti/drivers/PWM.h>
+// #include <ti/drivers/PWM.h>
 // #include <ti/drivers/SPI.h>
 // #include <ti/drivers/UART2.h>
 // #include <ti/drivers/Watchdog.h>
@@ -54,46 +55,35 @@
  *  ======== mainThread ========
  */
 void *mainThread(void *arg0) {
-    GPIO_init();                                // Call driver init functions
+    GPIO_init();
 
-    /* Period and duty in microseconds */
-    uint16_t   pwmPeriod = 1000;
-    uint16_t   duty = 0;
-    uint16_t   dutyInc = 100;
+    GPIO_setConfig(MOTOR_A1, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
+    GPIO_setConfig(MOTOR_A2, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
+    GPIO_setConfig(MOTOR_B1, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
+    GPIO_setConfig(MOTOR_B2, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
+    GPIO_setConfig(LED_GREEN, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
+    GPIO_setConfig(LED_RED, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
 
-    /* Sleep time in microseconds */
-    uint32_t   time = 50000;
-    PWM_Handle pwm_inst = NULL;
-    PWM_Params params;
+    GPIO_write(LED_GREEN, GPIO_CFG_OUT_HIGH);
+    GPIO_write(LED_RED, GPIO_CFG_OUT_HIGH);
 
-    /* Call driver init functions. */
-    PWM_init();
+    sleep(1);
 
-    PWM_Params_init(&params);
-    params.dutyUnits = PWM_DUTY_US;
-    params.dutyValue = 0;
-    params.periodUnits = PWM_PERIOD_US;
-    params.periodValue = pwmPeriod;
+    GPIO_write(LED_GREEN, GPIO_CFG_OUT_LOW);
+    GPIO_write(LED_RED, GPIO_CFG_OUT_LOW);
 
-    pwm_inst = PWM_open(CONFIG_PWM_0, &params);
-    if (pwm_inst == NULL) {
-        /* CONFIG_PWM_0 did not open */
-        while (1);
+
+    DRV8833 drv (200, MOTOR_A1, MOTOR_A2, MOTOR_B1, MOTOR_B2);
+
+    drv.set_speed(3);
+
+    while(1) {
+        drv.step(200);
+        GPIO_write(LED_GREEN, GPIO_CFG_OUT_HIGH);
+        GPIO_write(LED_RED, GPIO_CFG_OUT_LOW);
+        drv.step(-200);
+        GPIO_write(LED_RED, GPIO_CFG_OUT_HIGH);
+        GPIO_write(LED_GREEN, GPIO_CFG_OUT_LOW);
     }
 
-    PWM_start(pwm_inst);
-
-
-    /* Loop forever incrementing the PWM duty */
-    while (1) {
-        PWM_setDuty(pwm_inst, duty);
-
-        duty = (duty + dutyInc);
-
-        if (duty == pwmPeriod || (!duty)) {
-            dutyInc = - dutyInc;
-        }
-
-        usleep(time);
-    }
 }
