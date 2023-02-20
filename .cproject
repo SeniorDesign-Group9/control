@@ -253,4 +253,5 @@
 		<project id="empty_CC3220S_LAUNCHXL_tirtos7_ccs.com.ti.ccstudio.buildDefinitions.TMS470.ProjectType.240328105" name="TMS470" projectType="com.ti.ccstudio.buildDefinitions.TMS470.ProjectType"/>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>
