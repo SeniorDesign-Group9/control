@@ -1,12 +1,11 @@
-#include "adc.hh"
+//#include <ti/drivers/GPIO.h>
+#include "water.hh"
 
 // ****************************************************************************
 // *                                ADC CLASS                                 *
 // ****************************************************************************
 // Empty constructor
-WaterSolenoid::WaterSolenoid() {
-    waterGpio = VALVE_EN;
-}
+WaterSolenoid::WaterSolenoid() {}
 
 // Empty destructor
 WaterSolenoid::~WaterSolenoid() {}
@@ -18,17 +17,21 @@ WaterSolenoid& WaterSolenoid::instance() {
     return inst;
 }
 
-// int n getter
-void WaterSolenoid::waterSet(bool on) {
-    int
-    return n;
+// Set GPIO
+void WaterSolenoid::waterConfig(unsigned int gpio) {
+    //waterGpio = gpio;
 }
 
-// int n setter
-void WaterSolenoid::waterToggle(void) {
-    n = x;
+// Set water solenoid on or off
+void WaterSolenoid::waterSet(bool on) {
+    //GPIO_write(waterGpio, on);
+    //waterFlow = on;
     return;
 }
-// ****************************************************************************
-// *                              END ADC CLASS                               *
-// ****************************************************************************
+
+// Toggle water solenoid
+void WaterSolenoid::waterToggle(void) {
+    //GPIO_toggle(waterGpio);
+    //waterFlow = !waterFlow;
+    return;
+}

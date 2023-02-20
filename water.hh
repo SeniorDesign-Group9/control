@@ -22,6 +22,9 @@ class WaterSolenoid {
 
         // Toggle water solenoid
         void waterToggle(void);
+
+        // Set GPIO
+        void waterConfig(unsigned int gpio);
     
     private:
         // Singleton variables
@@ -29,7 +32,7 @@ class WaterSolenoid {
         ~WaterSolenoid();
 
         // Class variables
-        int waterGpio;
+        unsigned int waterGpio;
         bool waterFlow;
 };
 

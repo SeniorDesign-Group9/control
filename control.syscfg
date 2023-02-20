@@ -4,72 +4,115 @@
  * @cliArgs --device "CC3220S" --package "Default" --part "Default" --rtos "tirtos7" --product "simplelink_cc32xx_sdk@6.10.00.05"
  * @versions {"tool":"1.14.0+2667"}
  */
+scripting.excludeFromBuild("ti_utils_runtime_model.gv");
+scripting.excludeFromBuild("ti_utils_runtime_Makefile");
+
+/**
+ * Import the modules used in this configuration.
+ */
+const GPIO   = scripting.addModule("/ti/drivers/GPIO", {}, false);
+const GPIO1  = GPIO.addInstance();
+const GPIO2  = GPIO.addInstance();
+const GPIO3  = GPIO.addInstance();
+const GPIO4  = GPIO.addInstance();
+const GPIO5  = GPIO.addInstance();
+const GPIO6  = GPIO.addInstance();
+const GPIO7  = GPIO.addInstance();
+const GPIO8  = GPIO.addInstance();
+const GPIO9  = GPIO.addInstance();
+const GPIO10 = GPIO.addInstance();
+const GPIO11 = GPIO.addInstance();
+const GPIO12 = GPIO.addInstance();
+const GPIO13 = GPIO.addInstance();
+const GPIO14 = GPIO.addInstance();
+const I2C    = scripting.addModule("/ti/drivers/I2C", {}, false);
+const I2C1   = I2C.addInstance();
+const UART2  = scripting.addModule("/ti/drivers/UART2", {}, false);
+const UART21 = UART2.addInstance();
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+GPIO1.$name           = "AIN1";
+GPIO1.mode            = "Output";
+GPIO1.gpioPin.$assign = "ball.1";
+
+GPIO2.$name           = "AIN2";
+GPIO2.mode            = "Output";
+GPIO2.gpioPin.$assign = "ball.2";
+
+GPIO3.$name           = "DRV_SLEEP";
+GPIO3.mode            = "Output";
+GPIO3.gpioPin.$assign = "ball.3";
+
+GPIO4.$name           = "DRV_FAULT";
+GPIO4.gpioPin.$assign = "ball.4";
+
+GPIO5.$name           = "GREEN_LED";
+GPIO5.mode            = "Output";
+GPIO5.gpioPin.$assign = "ball.7";
+
+GPIO6.$name           = "AMBER_LED";
+GPIO6.mode            = "Output";
+GPIO6.gpioPin.$assign = "ball.8";
+
+GPIO7.$name           = "RED_LED";
+GPIO7.mode            = "Output";
+GPIO7.gpioPin.$assign = "ball.15";
+
+GPIO8.$name           = "CHRG_OK";
+GPIO8.gpioPin.$assign = "ball.50";
+
+GPIO9.$name           = "BIN1";
+GPIO9.mode            = "Output";
+GPIO9.gpioPin.$assign = "ball.58";
+
+GPIO10.$name           = "BIN2";
+GPIO10.mode            = "Output";
+GPIO10.gpioPin.$assign = "ball.59";
+
+GPIO11.$name           = "ADC_BUSY";
+GPIO11.gpioPin.$assign = "ball.61";
+
+GPIO12.$name           = "VALVE_EN";
+GPIO12.mode            = "Output";
+GPIO12.gpioPin.$assign = "ball.62";
+
+GPIO13.$name           = "LAMP_EN";
+GPIO13.mode            = "Output";
+GPIO13.gpioPin.$assign = "ball.63";
+
+GPIO14.$name           = "PROCHOT";
+GPIO14.gpioPin.$assign = "ball.64";
+
+I2C1.$name              = "MyI2C1";
+I2C1.i2c.$assign        = "I2C0";
+I2C1.i2c.sdaPin.$assign = "ball.6";
+I2C1.i2c.sclPin.$assign = "ball.5";
+
+const Power          = scripting.addModule("/ti/drivers/Power", {}, false);
+Power.parkPins.$name = "ti_drivers_power_PowerCC32XXPins0";
+
+UART21.$name              = "MyUART1";
+UART21.uart.$assign       = "UART0";
+UART21.uart.txPin.$assign = "ball.55";
+UART21.uart.rxPin.$assign = "ball.57";
 
 /**
  * These are the reserved peripherals and settings in this configuration
  */
-const iGPIO1          = scripting.addPeripheral("GPIO");
-iGPIO1["0"].$assign   = "ball.1";
-iGPIO1.$name          = "AIN1";
-const iGPIO2          = scripting.addPeripheral("GPIO");
-iGPIO2["0"].$assign   = "ball.2";
-iGPIO2.$name          = "AIN2";
-const iGPIO3          = scripting.addPeripheral("GPIO");
-iGPIO3["0"].$assign   = "ball.3";
-iGPIO3.$name          = "DRV_SLEEP";
-const iGPIO4          = scripting.addPeripheral("GPIO");
-iGPIO4["0"].$assign   = "ball.4";
-iGPIO4.$name          = "DRV_FAULT";
-const iGPIO5          = scripting.addPeripheral("GPIO");
-iGPIO5["0"].$assign   = "ball.7";
-iGPIO5.$name          = "GREEN_LED";
-const iGPIO6          = scripting.addPeripheral("GPIO");
-iGPIO6["0"].$assign   = "ball.8";
-iGPIO6.$name          = "AMBER_LED";
-const iGPIO7          = scripting.addPeripheral("GPIO");
-iGPIO7["0"].$assign   = "ball.15";
-iGPIO7.$name          = "RED_LED";
-const iGPIO8          = scripting.addPeripheral("GPIO");
-iGPIO8["0"].$assign   = "ball.58";
-iGPIO8.$name          = "BIN1";
-const iGPIO9          = scripting.addPeripheral("GPIO");
-iGPIO9["0"].$assign   = "ball.59";
-iGPIO9.$name          = "BIN2";
-const iGPIO10         = scripting.addPeripheral("GPIO");
-iGPIO10["0"].$assign  = "ball.61";
-iGPIO10.$name         = "ADC_BUSY";
-const iGPIO11         = scripting.addPeripheral("GPIO");
-iGPIO11["0"].$assign  = "ball.62";
-iGPIO11.$name         = "VALVE_EN";
-const iGPIO12         = scripting.addPeripheral("GPIO");
-iGPIO12["0"].$assign  = "ball.64";
-iGPIO12.$name         = "PROCHOT";
-const iGPIO13         = scripting.addPeripheral("GPIO");
-iGPIO13["0"].$assign  = "ball.63";
-iGPIO13.$name         = "LAMP_EN";
-const iGPIO14         = scripting.addPeripheral("GPIO");
-iGPIO14["0"].$assign  = "ball.50";
-iGPIO14.$name         = "CHRG_OK";
-const iI2C1           = scripting.addPeripheral("I2C");
-iI2C1.$name           = "MyI2C1";
-iI2C1.$assign         = "I2C0";
-iI2C1.DMA_RX.$used    = false;
-iI2C1.DMA_TX.$used    = false;
-iI2C1.SCL.$assign     = "ball.5";
-iI2C1.SDA.$assign     = "ball.6";
-const iJTAG1          = scripting.addPeripheral("JTAG");
-iJTAG1.$name          = "MyJTAG1";
-iJTAG1.$assign        = "JTAG0";
-iJTAG1.TDI.$assign    = "ball.16";
-iJTAG1.TDO.$assign    = "ball.17";
-iJTAG1.TCK.$assign    = "ball.19";
-iJTAG1.TMS.$assign    = "ball.20";
-const iUART1          = scripting.addPeripheral("UART");
-iUART1.$name          = "MyUART1";
-iUART1.$assign        = "UART0";
-iUART1.DMA_CHRX.$used = false;
-iUART1.DMA_CHTX.$used = false;
-iUART1.RTS.$used      = false;
-iUART1.CTS.$used      = false;
-iUART1.TX.$assign     = "ball.55";
-iUART1.RX.$assign     = "ball.57";
+const iJTAG1       = scripting.addPeripheral("JTAG");
+iJTAG1.$name       = "MyJTAG1";
+iJTAG1.$assign     = "JTAG0";
+iJTAG1.TDI.$assign = "ball.16";
+iJTAG1.TDO.$assign = "ball.17";
+iJTAG1.TCK.$assign = "ball.19";
+iJTAG1.TMS.$assign = "ball.20";
+
+/**
+ * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
+ * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
+ * re-solve from scratch.
+ */
+UART21.uart.txDmaChannel.$suggestSolution = "UDMA_CH9";
+UART21.uart.rxDmaChannel.$suggestSolution = "UDMA_CH8";
