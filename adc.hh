@@ -8,14 +8,9 @@
 // The C++ Programming Language, §8.2.3 Structures and Classes
 class AdcInternal { 
     public:
+        // Singleton functions
         // Get AdcInternal instance
         static AdcInternal& instance();
-
-        // int n getter
-        int get_n(void);
-
-        // int n setter
-        void set_n(int x);
 
         // Disallow copying
         AdcInternal& operator = (const AdcInternal&) = delete;
@@ -24,11 +19,20 @@ class AdcInternal {
         // Disallow moving
         AdcInternal& operator = (AdcInternal&&) = delete;
         AdcInternal(AdcInternal&&) = delete;
+
+        // Class functions
+        // int n getter
+        int get_n(void);
+
+        // int n setter
+        void set_n(int x);
     
     private:
-        // int n
+        // Singleton variables
         AdcInternal();
         ~AdcInternal();
+
+        // Class variables
         int n;
 };
 // ****************************************************************************

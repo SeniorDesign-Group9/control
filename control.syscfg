@@ -1,0 +1,75 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --device "CC3220S" --package "Default" --part "Default" --rtos "tirtos7" --product "simplelink_cc32xx_sdk@6.10.00.05"
+ * @versions {"tool":"1.14.0+2667"}
+ */
+
+/**
+ * These are the reserved peripherals and settings in this configuration
+ */
+const iGPIO1          = scripting.addPeripheral("GPIO");
+iGPIO1["0"].$assign   = "ball.1";
+iGPIO1.$name          = "AIN1";
+const iGPIO2          = scripting.addPeripheral("GPIO");
+iGPIO2["0"].$assign   = "ball.2";
+iGPIO2.$name          = "AIN2";
+const iGPIO3          = scripting.addPeripheral("GPIO");
+iGPIO3["0"].$assign   = "ball.3";
+iGPIO3.$name          = "DRV_SLEEP";
+const iGPIO4          = scripting.addPeripheral("GPIO");
+iGPIO4["0"].$assign   = "ball.4";
+iGPIO4.$name          = "DRV_FAULT";
+const iGPIO5          = scripting.addPeripheral("GPIO");
+iGPIO5["0"].$assign   = "ball.7";
+iGPIO5.$name          = "GREEN_LED";
+const iGPIO6          = scripting.addPeripheral("GPIO");
+iGPIO6["0"].$assign   = "ball.8";
+iGPIO6.$name          = "AMBER_LED";
+const iGPIO7          = scripting.addPeripheral("GPIO");
+iGPIO7["0"].$assign   = "ball.15";
+iGPIO7.$name          = "RED_LED";
+const iGPIO8          = scripting.addPeripheral("GPIO");
+iGPIO8["0"].$assign   = "ball.58";
+iGPIO8.$name          = "BIN1";
+const iGPIO9          = scripting.addPeripheral("GPIO");
+iGPIO9["0"].$assign   = "ball.59";
+iGPIO9.$name          = "BIN2";
+const iGPIO10         = scripting.addPeripheral("GPIO");
+iGPIO10["0"].$assign  = "ball.61";
+iGPIO10.$name         = "ADC_BUSY";
+const iGPIO11         = scripting.addPeripheral("GPIO");
+iGPIO11["0"].$assign  = "ball.62";
+iGPIO11.$name         = "VALVE_EN";
+const iGPIO12         = scripting.addPeripheral("GPIO");
+iGPIO12["0"].$assign  = "ball.64";
+iGPIO12.$name         = "PROCHOT";
+const iGPIO13         = scripting.addPeripheral("GPIO");
+iGPIO13["0"].$assign  = "ball.63";
+iGPIO13.$name         = "LAMP_EN";
+const iGPIO14         = scripting.addPeripheral("GPIO");
+iGPIO14["0"].$assign  = "ball.50";
+iGPIO14.$name         = "CHRG_OK";
+const iI2C1           = scripting.addPeripheral("I2C");
+iI2C1.$name           = "MyI2C1";
+iI2C1.$assign         = "I2C0";
+iI2C1.DMA_RX.$used    = false;
+iI2C1.DMA_TX.$used    = false;
+iI2C1.SCL.$assign     = "ball.5";
+iI2C1.SDA.$assign     = "ball.6";
+const iJTAG1          = scripting.addPeripheral("JTAG");
+iJTAG1.$name          = "MyJTAG1";
+iJTAG1.$assign        = "JTAG0";
+iJTAG1.TDI.$assign    = "ball.16";
+iJTAG1.TDO.$assign    = "ball.17";
+iJTAG1.TCK.$assign    = "ball.19";
+iJTAG1.TMS.$assign    = "ball.20";
+const iUART1          = scripting.addPeripheral("UART");
+iUART1.$name          = "MyUART1";
+iUART1.$assign        = "UART0";
+iUART1.DMA_CHRX.$used = false;
+iUART1.DMA_CHTX.$used = false;
+iUART1.RTS.$used      = false;
+iUART1.CTS.$used      = false;
+iUART1.TX.$assign     = "ball.55";
+iUART1.RX.$assign     = "ball.57";
