@@ -1,0 +1,8 @@
+.launches/
+.launches/*
+MCU+Image/
+MCU+Image/*
+Debug/
+Debug/*
+targetConfigs/
+targetConfigs/*
