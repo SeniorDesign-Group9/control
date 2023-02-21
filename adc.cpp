@@ -1,21 +1,21 @@
+// adc.cpp
+
 #include "adc.hh"
 
-// ****************************************************************************
-// *                                ADC CLASS                                 *
-// ****************************************************************************
+// Singleton functions
 // Empty constructor
 AdcInternal::AdcInternal() {}
 
 // Empty destructor
 AdcInternal::~AdcInternal() {}
 
-// Based on the Meyers Singleton, apparently thread-safe since C++11
-// The C++ Programming Language, §8.2.3 Structures and Classes
+// Instance
 AdcInternal& AdcInternal::instance() {
     static AdcInternal inst;
     return inst;
 }
 
+// Class functions
 // int n getter
 int AdcInternal::get_n(void) {
     return n;
@@ -26,6 +26,3 @@ void AdcInternal::set_n(int x) {
     n = x;
     return;
 }
-// ****************************************************************************
-// *                              END ADC CLASS                               *
-// ****************************************************************************

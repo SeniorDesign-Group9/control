@@ -1,3 +1,5 @@
+// water.hh
+
 #ifndef WATER_H
 #define WATER_H
 
@@ -22,9 +24,6 @@ class WaterSolenoid {
 
         // Toggle water solenoid
         void waterToggle(void);
-
-        // Set GPIO
-        void waterConfig(unsigned int gpio);
     
     private:
         // Singleton variables
