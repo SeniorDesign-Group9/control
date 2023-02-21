@@ -33,7 +33,10 @@ void *mainThread(void *arg0) {
     I2C_Handle      i2c;
     I2C_Params      i2cParams;
     I2C_Transaction i2cTransaction;
+    uint8_t         adc_address = 0x1F;
+    uint8_t         data;
 
+    /*
     I2C_init();
     GPIO_init();
 
@@ -49,6 +52,13 @@ void *mainThread(void *arg0) {
         std::cout << "I2C initialized" << std::endl;
     }
 
+
+
+
+
+
+
+
     // Setup I2C transaction to find slave
     i2cTransaction.writeBuf = &data;
     i2cTransaction.writeCount = 1;
@@ -63,11 +73,12 @@ void *mainThread(void *arg0) {
         fprintf(stdout, "Error finding I2C device at 0x%x\n", i2cTransaction.slaveAddress);
     }
 
+    */
 
 
 
-
-
+    // ADC init
+    AdcExternal::instance().init(i2c, adc_address);
 
 
     // Water test

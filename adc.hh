@@ -21,33 +21,71 @@ class AdcExternal {
         AdcExternal& operator = (AdcExternal&&) = delete;
         AdcExternal(AdcExternal&&) = delete;
 
-        // Class functions
-        void init();
-        void destroy();
+        // Class enums
+        enum Channel {
+            CH0 = 0x00,
+            CH1 = 0x01
+        };
 
-        /*!
-         *  @brief  Puts 'data' into the register 'reg' on the OPT3001
-         *
-         *  @param[in]  reg     A register from the Register enum
-         *  @param[in]  data    A 16-bit value to store in reg
-         *
-         *  @return @p true for a successful transfer; @p false
-         *          for an error (for example, an I2C bus fault (NACK)).
-         */
+        enum Register {
+            WKEY = 0x17,
+            DEVICE_RESET = 0x14,
+            OFFSET_CAL = 0x15,
+            OPMODE_SEL = 0x1C,
+            OPMODE_I2CMODE_STATUS = 0x00,
+            CHANNEL_INPUT_CFG = 0x24,
+            AUTO_SEQ_CHEN = 0x20,
+            START_SEQUENCE = 0x1E,
+            ABORT_SEQUENCE = 0x1F,
+            SEQUENCE_STATUS = 0x04,
+            OSC_SEL = 0x18,
+            nCLK_SEL = 0x19,
+            DATA_BUFFER_OPMODE = 0x2C,
+            DOUT_FORMAT_CFG = 0x28,
+            DATA_BUFFER_STATUS = 0x01,
+            ACC_EN = 0x30,
+            ACC_CH0_LSB = 0x08,
+            ACC_CH0_MSB = 0x09,
+            ACC_CH1_LSB = 0x0A,
+            ACC_CH1_MSB = 0x0B,
+            ACCUMULATOR_STATUS = 0x02,
+            ALERT_DWC_EN = 0x37,
+            ALERT_CHEN = 0x34,
+            DWC_HTH_CH0_MSB = 0x39,
+            DWC_HTH_CH0_LSB = 0x38,
+            DWC_LTH_CH0_MSB = 0x3B,
+            DWC_LTH_CH0_LSB = 0x3A,
+            DWC_HYS_CH0 = 0x40,
+            DWC_HTH_CH1_MSB = 0x3D,
+            DWC_HTH_CH1_LSB = 0x3C,
+            DWC_LTH_CH1_MSB = 0x3F,
+            DWC_LTH_CH1_LSB = 0x3E,
+            DWC_HYS_CH1 = 0x41,
+            PRE_ALT_MAX_EVENT_COUNT = 0x36,
+            ALERT_TRIG_CHID = 0x03,
+            ALERT_LOW_FLAGS = 0x0C,
+            ALERT_HIGH_FLAGS = 0x0E
+        };
+
+        // Class functions
+        // Init ADC
+        bool init(I2C_Handle i2cHandle, uint8_t i2cAddress);
+
+        // Performs I2C transfer with txBuffer, rxBuffer, txCount, and rxCount
+        // Returns true on transfer success, false on failure
+        bool transfer();
+
+        // Sends uint16_t data to uint8_t reg
+        // Returns true on transfer success, false on failure
         bool setRawRegisterValue(uint8_t reg, uint16_t data);
 
-        /*!
-         *  @brief  Calls an i2c transfer with txBuffer and rxBuffer
-         *          and the txCount and rxCount variables
-         *
-         *  @return @p true for a successful transfer; @p false
-         *          for an error (for example, an I2C bus fault (NACK)).
-         */
-        bool transfer();
-        int32_t getResultRaw(unsigned int channel);
+        // Get the raw value of the register reg
+        // Returns value on success, -1 on failure
+        int32_t getRawRegisterValue(Register reg);
 
+        // I2C error handler
+        void i2cErrorHandler(I2C_Transaction *transaction);
 
-    
     private:
         // Singleton variables
         AdcExternal();
@@ -62,10 +100,7 @@ class AdcExternal {
         uint8_t rxBuffer[2];
         uint8_t rxCount;
 
-        enum Channel {
-            CH0 = 0,
-            CH1 = 1
-        };
+
 };
 
 #endif // ADC_H
