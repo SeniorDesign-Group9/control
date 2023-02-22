@@ -22,11 +22,6 @@
 #include "adc.hh"
 #include "water.hh"
 
-// Thread function prototypes
-extern "C" {
-    void  *mainThread(void *arg0);
-}
-
 // mainThread
 void *mainThread(void *arg0) {
     // I2C structures
@@ -36,10 +31,9 @@ void *mainThread(void *arg0) {
     uint8_t         adc_address = 0x1F;
     uint8_t         data;
 
-    /*
+
     I2C_init();
     GPIO_init();
-
 
     // Create I2C for usage
     I2C_Params_init(&i2cParams);
@@ -52,7 +46,7 @@ void *mainThread(void *arg0) {
         std::cout << "I2C initialized" << std::endl;
     }
 
-
+    /*
 
 
 

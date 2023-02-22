@@ -20,7 +20,8 @@ AdcExternal& AdcExternal::instance() {
 }
 
 // Class functions
-// Initializes ADC (I2C bus and parameters
+// Initializes ADC (I2C bus and parameters)
+// Returns true on success, false on failure
 bool AdcExternal::init(I2C_Handle i2cHandle, uint8_t i2cAddress) {
     this->i2cHandle = i2cHandle;
     this->i2cAddress = i2cAddress;
@@ -29,17 +30,22 @@ bool AdcExternal::init(I2C_Handle i2cHandle, uint8_t i2cAddress) {
     txCount = 0;
     rxCount = 0;
 
-    /* if getConfiguration returns -1, then we failed to
-    * communicate with the OPT3001 sensor. Return false
-    * to indicate that initialization failed. */
-    /*
-    if(getConfiguration() == -1) {
+    // Expecting 0b00000000
+    if(getRawRegisterValue(OPMODE_I2CMODE_STATUS) == -1) {
         return false;
     } else {
         return true;
     }
+
+    /*
+    // TODO: Set ADC config
+    // Set manual mode with AUTO sequenc
+    setRawRegisterValue(OPMODE_SEL, 0b00000100);            // FIXME: High precision mode (111b)?
+
+    // Select channels in AUTO_SEQ_CFG
+    // Both channels enabled by default
     */
-    return true;
+
 }
 
 // Performs I2C transfer with txBuffer, rxBuffer, txCount, and rxCount
@@ -66,12 +72,12 @@ bool AdcExternal::transfer() {
     return ret;
 }
 
-// Sends uint16_t data to uint8_t reg
+// Sends uint8_t data to uint8_t reg
 // Returns true on transfer success, false on failure
-bool AdcExternal::setRawRegisterValue(uint8_t reg, uint16_t data) {
-    txBuffer[0] = reg;
-    txBuffer[1] = (uint8_t)((data & 0xFF00) >> 8);
-    txBuffer[2] = (uint8_t)(data & 0x00FF);
+bool AdcExternal::setRawRegisterValue(Register reg, uint8_t data) {
+    txBuffer[0] = SINGLE_WRITE;
+    txBuffer[1] = (uint8_t)reg;
+    txBuffer[2] = data;
     txCount = 3;
     rxCount = 0;
 
@@ -80,19 +86,68 @@ bool AdcExternal::setRawRegisterValue(uint8_t reg, uint16_t data) {
 
 // Get the raw value of the register reg
 // Returns value on success, -1 on failure
-int32_t AdcExternal::getRawRegisterValue(Register reg) {
-    txBuffer[0] = reg;
-    txCount = 1;
-    rxCount = 2;
+int8_t AdcExternal::getRawRegisterValue(Register reg) {
+    txBuffer[0] = SINGLE_READ;
+    txBuffer[1] = reg;
+    txCount = 2;
+    rxCount = 1;
 
     // if transfer fails, return -1
     if (!transfer()) {
         return -1;
     } else {
-        return ( (rxBuffer[0] << 8) | (rxBuffer[1]) );
+        return rxBuffer[0];
     }
 }
 
+// Set bit in reg
+// Returns true on transfer success, false on failure
+bool AdcExternal::setRawRegisterBit(Register reg, uint8_t bits) {
+    txBuffer[0] = SET_BIT;
+    txBuffer[1] = (uint8_t)reg;
+    txBuffer[2] = bits;
+    txCount = 3;
+    rxCount = 0;
+
+    return transfer();
+}
+
+// Clear bit in reg
+// Returns true on success, false on failure
+bool AdcExternal::clearRawRegisterBit(Register reg, uint8_t bits) {
+    txBuffer[0] = CLEAR_BIT;
+    txBuffer[1] = (uint8_t)reg;
+    txBuffer[2] = bits;
+    txCount = 3;
+    rxCount = 0;
+
+    return transfer();
+}
+
+
+// Get value of OPMODE_I2CMODE_STATUS register
+// Returns value on success, -1 on failure
+int8_t AdcExternal::getOpmodeStatus() {
+    return getRawRegisterValue(OPMODE_I2CMODE_STATUS);
+}
+
+// Get value of OPMODE_I2CMODE_STATUS register
+// Returns value on success, -1 on failure
+int16_t AdcExternal::getRawResult(Channel ch) {
+    uint16_t result = 0;
+
+    // Set bit SEQ_START in START_SEQUENCE
+    setRawRegisterBit(START_SEQUENCE, 0b00000001);
+
+    //getRawRegisterValue()
+    // Need to keep SCL on?
+
+    // Set bit SEQ_ABORT in ABORT_SEQUENCE
+    setRawRegisterBit(START_SEQUENCE, 0b00000001);
+
+    // FIXME: debug
+    return 0;
+}
 
 // I2C error handler
 void AdcExternal::i2cErrorHandler(I2C_Transaction *transaction) {
