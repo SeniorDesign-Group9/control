@@ -3,8 +3,8 @@
 #ifndef ADC_H
 #define ADC_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <ti/drivers/I2C.h>
 
 class AdcExternal {
@@ -67,6 +67,15 @@ class AdcExternal {
             ALERT_HIGH_FLAGS = 0x0E
         };
 
+        enum Opcode {
+            SINGLE_READ = 0b00010000,
+            SINGLE_WRITE = 0b00001000,
+            SET_BIT = 0b00011000,
+            CLEAR_BIT = 0b00100000,
+            CONT_READ = 0b00110000,
+            CONT_WRITE = 0b00101000
+        };
+
         // Class functions
         // Init ADC
         bool init(I2C_Handle i2cHandle, uint8_t i2cAddress);
@@ -75,13 +84,24 @@ class AdcExternal {
         // Returns true on transfer success, false on failure
         bool transfer();
 
-        // Sends uint16_t data to uint8_t reg
+        // Sends uint8_t data to uint8_t reg
         // Returns true on transfer success, false on failure
-        bool setRawRegisterValue(uint8_t reg, uint16_t data);
+        bool setRawRegisterValue(Register reg, uint8_t data);
 
         // Get the raw value of the register reg
         // Returns value on success, -1 on failure
-        int32_t getRawRegisterValue(Register reg);
+        int8_t getRawRegisterValue(Register reg);
+
+        // Set bit in reg
+        // Returns true on transfer success, false on failure
+        bool setRawRegisterBit(Register reg, uint8_t bits);
+
+        // Clear bit in reg
+        // Returns true on success, false on failure
+        bool clearRawRegisterBit(Register reg, uint8_t bits);
+
+        int8_t getOpmodeStatus();
+        int16_t getRawResult(Channel ch);
 
         // I2C error handler
         void i2cErrorHandler(I2C_Transaction *transaction);

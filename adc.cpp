@@ -1,10 +1,15 @@
 // adc.cpp
 
 #include "adc.hh"
+#include "ti_drivers_config.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <ti/drivers/GPIO.h>
 #include <ti/drivers/I2C.h>
+
+#define SLEEP 50000             // Sleep 50 ms (50000 us)
 
 // Singleton functions
 // Empty constructor
@@ -30,22 +35,33 @@ bool AdcExternal::init(I2C_Handle i2cHandle, uint8_t i2cAddress) {
     txCount = 0;
     rxCount = 0;
 
-    // Expecting 0b00000000
-    if(getRawRegisterValue(OPMODE_I2CMODE_STATUS) == -1) {
-        return false;
-    } else {
-        return true;
-    }
+    // Set ADC config
+    // OFFSET_CAL: OFFSET calibration on powerup
+    // Offset disabled by default
 
-    /*
-    // TODO: Set ADC config
-    // Set manual mode with AUTO sequenc
-    setRawRegisterValue(OPMODE_SEL, 0b00000100);            // FIXME: High precision mode (111b)?
+    // CHANNEL_INPUT_CFG reg
+    // Two-Channel, Single-Ended enabled by default
+
+    // OPMODE_SEL reg
+    // Manual by default
+
+    // I2C speed
+    // Standard mode as determined by MCU
+
+    // Set manual mode with AUTO seq
+    if (!setRawRegisterValue(OPMODE_SEL, 0b00000100) == -1) {   // FIXME: High precision mode (111b)?
+        return false;
+    }
 
     // Select channels in AUTO_SEQ_CFG
     // Both channels enabled by default
-    */
 
+    // Expecting 0b00000000
+    if (getRawRegisterValue(OPMODE_I2CMODE_STATUS) == -1) {
+        return false;
+    }
+
+    return true;
 }
 
 // Performs I2C transfer with txBuffer, rxBuffer, txCount, and rxCount
@@ -135,18 +151,48 @@ int8_t AdcExternal::getOpmodeStatus() {
 // Returns value on success, -1 on failure
 int16_t AdcExternal::getRawResult(Channel ch) {
     uint16_t result = 0;
+    int8_t result_msb = 0;
+    int8_t result_lsb = 0;
+    Register reg_lsb = ACC_CH0_LSB;
+    Register reg_msb = ACC_CH0_MSB;
+
+    if (ch == CH1) {
+        reg_lsb = ACC_CH1_LSB;
+        reg_msb = ACC_CH1_MSB;
+    }
 
     // Set bit SEQ_START in START_SEQUENCE
     setRawRegisterBit(START_SEQUENCE, 0b00000001);
 
-    //getRawRegisterValue()
     // Need to keep SCL on?
+    // Maybe increase size of txBuffer or rxBuffer?
+    // Set txBuffer to zeroes and increase txCount enough to get the conversion result
+    //
+    // After BUSY pin goes low, we can ABORT and then check the result registers
+
+    // Stopgap for now
+    while (GPIO_read(ADC_BUSY) != 0) {
+        usleep(SLEEP);
+    }
 
     // Set bit SEQ_ABORT in ABORT_SEQUENCE
-    setRawRegisterBit(START_SEQUENCE, 0b00000001);
+    setRawRegisterBit(ABORT_SEQUENCE, 0b00000001);
 
-    // FIXME: debug
-    return 0;
+    // Get value from accumulators
+    result_msb = getRawRegisterValue(reg_msb);
+    result_lsb = getRawRegisterValue(reg_lsb);
+
+    // Error checking
+    if (result_msb == -1 || result_lsb == -1) {
+        return -1;
+    }
+
+    // Put the 8-bit results into a 16-bit number
+    result = ((uint8_t)result_msb << 8) & 0xFF00;
+    result |= (uint8_t)result_lsb & 0x00FF;
+
+    // Return result
+    return result;
 }
 
 // I2C error handler
