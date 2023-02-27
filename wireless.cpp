@@ -3,12 +3,19 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "ti_drivers_config.h"
+
+#include <ti/display/Display.h>
 #include <ti/drivers/SPI.h>
 #include <ti/drivers/net/wifi/device.h>
 #include <ti/drivers/net/wifi/simplelink.h>
 #include <ti/drivers/net/wifi/wlan.h>
+
+#include "ti_drivers_config.h"
 #include "wireless.hh"
+
+#define SL_STOP_TIMEOUT 200
+
+void SimpleLinkInitCallback(uint32_t status, SlDeviceInitInfo_t *DeviceInitInfo);
 
 // Singleton functions
 // Empty constructor
@@ -25,18 +32,22 @@ Wireless& Wireless::instance() {
 
 // Class functions
 void Wireless::init() {
-
+    /*
     int16_t start_retval = 0;
     int16_t stop_retval = 0;
 
-    printf("0, start_retval: 0x%x\n", start_retval);
-    printf("0, stop_retval: 0x%x\n", stop_retval);
+    printf("0, start_retval: %d (0x%x)\n", start_retval, start_retval);
+    printf("0, stop_retval:  %d (0x%x)\n", stop_retval, stop_retval);
 
     printf("sl_Start\n");
-    start_retval = sl_Start(0, 0, 0);
+    printf("sl_Start");
 
-    printf("1, start_retval: 0x%x\n", start_retval);
-    printf("1, stop_retval: 0x%x\n", stop_retval);
+    sl_WlanSetMode(ROLE_AP);
+    sl_Stop(SL_STOP_TIMEOUT);
+    start_retval = sl_Start(NULL, NULL, NULL);
+
+    printf("1, start_retval: %d (0x%x)\n", start_retval, start_retval);
+    printf("1, stop_retval:  %d (0x%x)\n", stop_retval, stop_retval);
 
     switch (start_retval) {
         case ROLE_STA:
@@ -71,13 +82,66 @@ void Wireless::init() {
     sleep(1);
 
     printf("sl_Stop\n");
-    stop_retval = sl_Stop(0xFFFF);
 
-    printf("2, start_retval: 0x%x\n", start_retval);
-    printf("2, stop_retval: 0x%x\n", stop_retval);
+    stop_retval = sl_Stop(SL_STOP_TIMEOUT);
+
+    printf("2, start_retval: %d (0x%x)\n", start_retval, start_retval);
+    printf("2, stop_retval:  %d (0x%x)\n", stop_retval, stop_retval);
 
     printf("Wireless module finished!\n");
 
+    return;
+    */
+
+    int32_t            iRetVal = 0;
+
+    iRetVal = sl_Start(NULL, NULL, (P_INIT_CALLBACK)SimpleLinkInitCallback);
+    /* Initialize Simple Link */
+    if(iRetVal < 0) {
+        printf("sl_Start Failed\r\n");
+        if (iRetVal == SL_ERROR_RESTORE_IMAGE_COMPLETE) {
+            printf(
+                "\r\n**********************************\r\n"
+                "Return to Factory Default been Completed\r\n"
+                "Please RESET the Board\r\n"
+                "**********************************\r\n");
+        }
+        while(1) {}
+    }
+
+    else {
+        printf("sl_Start returned.\n");
+        while(1) {}
+    }
+
+
+}
+
+void SimpleLinkInitCallback(uint32_t status, SlDeviceInitInfo_t *DeviceInitInfo) {
+    if ((int32_t)status == SL_ERROR_RESTORE_IMAGE_COMPLETE) {
+        printf(
+            "\r\n**********************************\r\nReturn to"
+            " Factory Default been Completed\r\nPlease RESET the Board\r\n"
+            "**********************************\r\n");
+
+        while(1) {}
+    }
+
+    printf("status: %d\n", status);
+
+
+    printf("Device started in %s role\n\r", (0 == status) ? "Station" :\
+        (2 == status) ? "AP" : ((3 == status) ? "P2P" : "Start Role error"));
+
+    if (ROLE_STA == status) {
+        printf("ROLE_STA\n");
+        printf("AppEvent_STARTED");
+    } else if (ROLE_AP == status) {
+        printf("ROLE_AP\n");
+        printf("AppEvent_RESTART");
+    } else {
+        printf("AppEvent_ERROR");
+    }
 }
 
 // Event handlers
@@ -117,4 +181,3 @@ void SimpleLinkGeneralEventHandler(SlDeviceEvent_t *pDevEvent) {
 }
 void SimpleLinkSockEventHandler(SlSockEvent_t *pSock) {}
 void SimpleLinkNetAppRequestEventHandler(SlNetAppRequest_t *pNetAppRequest, SlNetAppResponse_t *pNetAppResponse) {}
-

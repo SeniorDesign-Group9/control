@@ -1,8 +1,9 @@
 /*
- *  control.cpp
+control.cpp
  */
 
 // Driver header files
+#include <ti/display/Display.h>
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/I2C.h>
 #include <ti/drivers/SPI.h>
@@ -27,9 +28,12 @@
 #include "wireless.hh"
 #include "water.hh"
 
+UART2_Handle uart;
+
 // mainThread
 void *mainThread(void *arg0) {
     GPIO_init();
+    SPI_init();
 
     // Wireless test
     Wireless::instance().init();

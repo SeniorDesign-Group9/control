@@ -98,9 +98,10 @@ const Power          = scripting.addModule("/ti/drivers/Power", {}, false);
 Power.parkPins.$name = "ti_drivers_power_PowerCC32XXPins0";
 
 UART21.$name              = "MyUART1";
-UART21.uart.$assign       = "UART0";
 UART21.uart.txPin.$assign = "ball.55";
 UART21.uart.rxPin.$assign = "ball.57";
+
+SimpleLinkWifi.connectionPolicy = ["(0,0,0,1)","(1,0,0,0)"];
 
 /**
  * These are the reserved peripherals and settings in this configuration
@@ -118,5 +119,6 @@ iJTAG1.TMS.$assign = "ball.20";
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
-UART21.uart.txDmaChannel.$suggestSolution = "UDMA_CH9";
-UART21.uart.rxDmaChannel.$suggestSolution = "UDMA_CH8";
+UART21.uart.$suggestSolution              = "UART1";
+UART21.uart.txDmaChannel.$suggestSolution = "UDMA_CH11";
+UART21.uart.rxDmaChannel.$suggestSolution = "UDMA_CH10";
