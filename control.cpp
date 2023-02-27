@@ -5,8 +5,12 @@
 // Driver header files
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/I2C.h>
+#include <ti/drivers/SPI.h>
 #include <ti/drivers/UART2.h>
 #include <ti/drivers/Watchdog.h>
+#include <ti/drivers/net/wifi/device.h>
+#include <ti/drivers/net/wifi/simplelink.h>
+#include <ti/drivers/net/wifi/wlan.h>
 
 // Driver configuration
 #include "ti_drivers_config.h"
@@ -20,23 +24,15 @@
 
 // Project header files
 #include "adc.hh"
+#include "wireless.hh"
 #include "water.hh"
 
 // mainThread
 void *mainThread(void *arg0) {
     GPIO_init();
 
-    // Water test
-    WaterSolenoid::instance().waterSet(true);
-    std::cout << "Water on" << std::endl;
-    sleep(1);
-    WaterSolenoid::instance().waterToggle();
-    std::cout << "Water off" << std::endl;
-
-    // ADC test (WIP)
-    std::cout << AdcInternal::instance().get_n() << std::endl;
-    AdcInternal::instance().set_n(5);
-    std::cout << AdcInternal::instance().get_n() << std::endl;
+    // Wireless test
+    Wireless::instance().init();
 
     // C++ ver (debug)
     std::cout << "ver" << __cplusplus << std::endl;

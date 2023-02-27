@@ -3,7 +3,7 @@
 #ifndef WIRELESS_H
 #define WIRELESS_H
 
-// Water solenoid class
+// WiFi (station) class
 class Wireless {
     public:
         // Singleton functions
@@ -19,6 +19,17 @@ class Wireless {
         Wireless(Wireless&&) = delete;
 
         // Class functions
+        void init();
+        /*
+        void SimpleLinkFatalErrorEventHandler();
+        void SimpleLinkGeneralEventHandler();
+        void SimpleLinkHttpServerEventHandler();
+        void SimpleLinkNetAppEventHandler();
+        void SimpleLinkNetAppRequestEventHandler();
+        void SimpleLinkNetAppRequestMemFreeEventHandler();
+        void SimpleLinkSockEventHandler();
+        void SimpleLinkWlanEventHandler();
+        */
     
     private:
         // Singleton variables
@@ -26,6 +37,7 @@ class Wireless {
         ~Wireless();
 
         // Class variables
+
 };
 
 #endif // WIRELESS_H
