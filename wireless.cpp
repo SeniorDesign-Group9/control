@@ -21,10 +21,6 @@
 #include "wireless.hh"
 // end Includes
 
-// Global vars
-pthread_t slSpawnThread = (pthread_t)NULL;
-int32_t returnToFactoryDefault(void);
-// end Global vars
 
 void SimpleLinkInitCallback(uint32_t status, SlDeviceInitInfo_t *DeviceInitInfo);
 
@@ -43,23 +39,8 @@ Wireless& Wireless::instance() {
 
 // Class functions
 void Wireless::init() {
-    uint32_t            RetVal;
-    pthread_attr_t      pAttrs_spawn;
-    struct sched_param  priParam;
     int16_t start_retval = 0;
     int16_t stop_retval = 0;
-
-    // Create sl_Task
-    pthread_attr_init(&pAttrs_spawn);
-    priParam.sched_priority = SPAWN_TASK_PRIORITY;
-    RetVal = pthread_attr_setschedparam(&pAttrs_spawn, &priParam);
-    RetVal |= pthread_attr_setstacksize(&pAttrs_spawn, TASK_STACK_SIZE);
-    RetVal = pthread_create(&slSpawnThread, &pAttrs_spawn, sl_Task, NULL);
-
-    if (RetVal) {
-        printf("Spawn task error\n");
-        while(1) {}
-    }
 
     /*
     _i32 slRetVal;
@@ -74,17 +55,20 @@ void Wireless::init() {
         ExtendedStatus = (_u16)slRetVal& 0xFFFF;
         return;
     }
-    //Reset
-    sl_Stop(SL_STOP_TIMEOUT);
-    //sl_Start(NULL, NULL, NULL);
     */
-
+    //Reset
+    printf("sl_Stop:  %d\n", sl_Stop(SL_STOP_TIMEOUT));
+    printf("sl_Start: %d\n", sl_Start(NULL, NULL, NULL));
+    printf("sl_Stop:  %d\n", sl_Stop(SL_STOP_TIMEOUT));
+    /*
     //sl_WlanSetMode(ROLE_AP);
-    //sl_Stop(SL_STOP_TIMEOUT);
+    sl_Stop(SL_STOP_TIMEOUT);
+    start_retval = sl_Start(NULL, NULL, NULL);
 
     GPIO_write(11, 0);  // Green
+    */
 
-
+    /*
     // Example for getting WLAN class status:
     _u32 statusWlan = 0;
     _u8 pConfigOpt = 0;
@@ -119,11 +103,9 @@ void Wireless::init() {
             SL_VERSION_NUM,
             SL_SUB_VERSION_NUM
     );
-
-
-
-
-    switch (statusWlan) {
+    */
+    /*
+    switch (start_retval) {
         case ROLE_STA:
             printf(">>ROLE_STA\n");
             GPIO_write(11, 1);   // Green
@@ -154,7 +136,12 @@ void Wireless::init() {
             GPIO_write(9, 1);   // Red
             break;
     }
+    printf("start_retval: %d\n", start_retval);
 
+
+    stop_retval = sl_Stop(SL_STOP_TIMEOUT);
+    printf("stop_retval:  %d\n", stop_retval);
+    */
     printf("Wireless module finished!\n");
 
     return;
@@ -207,6 +194,7 @@ void SimpleLinkFatalErrorEventHandler(SlDeviceFatal_t *slFatalErrorEvent) {
 
         case SL_DEVICE_EVENT_FATAL_SYNC_LOSS:
             printf("[ERROR] - FATAL ERROR: Sync loss detected n\r");
+            // Need MCU device reset
             break;
 
         case SL_DEVICE_EVENT_FATAL_CMD_TIMEOUT:
