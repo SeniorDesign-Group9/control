@@ -5,7 +5,7 @@
 
 #define SPAWN_TASK_PRIORITY     9
 #define TASK_STACK_SIZE         2048
-#define SL_STOP_TIMEOUT         200
+#define SL_STOP_TIMEOUT         0xFFFF // 200
 
 // WiFi (station) class
 class Wireless {

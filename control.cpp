@@ -30,8 +30,6 @@ control.cpp
 
 // mainThread
 void *mainThread(void *arg0) {
-
-
     GPIO_init();
     SPI_init();
 
