@@ -3,6 +3,10 @@
 #ifndef WIRELESS_H
 #define WIRELESS_H
 
+#define SPAWN_TASK_PRIORITY     9
+#define TASK_STACK_SIZE         2048
+#define SL_STOP_TIMEOUT         200
+
 // WiFi (station) class
 class Wireless {
     public:

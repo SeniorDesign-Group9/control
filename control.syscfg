@@ -119,6 +119,6 @@ iJTAG1.TMS.$assign = "ball.20";
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
-UART21.uart.$suggestSolution              = "UART1";
-UART21.uart.txDmaChannel.$suggestSolution = "UDMA_CH11";
-UART21.uart.rxDmaChannel.$suggestSolution = "UDMA_CH10";
+UART21.uart.$suggestSolution              = "UART0";
+UART21.uart.txDmaChannel.$suggestSolution = "UDMA_CH9";
+UART21.uart.rxDmaChannel.$suggestSolution = "UDMA_CH8";
