@@ -38,11 +38,12 @@
 #include <ti/drivers/net/wifi/device.h>
 #include <ti/sysbios/BIOS.h>
 
+//
 extern void *mainThread(void *arg0);
 
 // Stack size in bytes
-#define MAINTHREAD_STACKSIZE    1024
-#define SLTASK_STACKSIZE        2048
+#define MAINTHREAD_STACKSIZE    2048
+#define SLTASK_STACKSIZE        4096
 
 // Main
 int main(void) {

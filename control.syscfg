@@ -2,7 +2,7 @@
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
  * @cliArgs --device "CC3220S" --package "Default" --part "Default" --rtos "tirtos7" --product "simplelink_cc32xx_sdk@6.10.00.05"
- * @versions {"tool":"1.14.0+2667"}
+ * @versions {"tool":"1.15.0+2826"}
  */
 scripting.excludeFromBuild("ti_utils_runtime_model.gv");
 scripting.excludeFromBuild("ti_utils_runtime_Makefile");
@@ -102,6 +102,10 @@ UART21.uart.txPin.$assign = "ball.55";
 UART21.uart.rxPin.$assign = "ball.57";
 
 SimpleLinkWifi.connectionPolicy = ["(0,0,0,1)","(1,0,0,0)"];
+
+BIOS.heapSize     = 0x00002000;
+BIOS.heapBaseAddr = "__primary_heap_start__";
+BIOS.heapEndAddr  = "__primary_heap_end__";
 
 /**
  * These are the reserved peripherals and settings in this configuration
