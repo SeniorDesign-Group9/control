@@ -1,27 +1,19 @@
-/*
-control.cpp
- */
+// control.cpp
 
 // Driver header files
-#include <ti/display/Display.h>
 #include <ti/drivers/GPIO.h>
-#include <ti/drivers/I2C.h>
-#include <ti/drivers/SPI.h>
-#include <ti/drivers/UART2.h>
-#include <ti/drivers/Watchdog.h>
 #include <ti/drivers/net/wifi/device.h>
-#include <ti/drivers/net/wifi/simplelink.h>
-#include <ti/drivers/net/wifi/wlan.h>
+//#include <ti/drivers/I2C.h>
+#include <ti/drivers/SPI.h>
+//#include <ti/drivers/Watchdog.h>
 
 // Driver configuration
 #include "ti_drivers_config.h"
 
 // Standard libraries
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <unistd.h>
+#include <cstdio>
 #include <iostream>
+#include <unistd.h>
 
 // Project header files
 #include "adc.hh"
@@ -30,6 +22,7 @@ control.cpp
 
 // mainThread
 void *mainThread(void *arg0) {
+
     GPIO_init();
     SPI_init();
 
@@ -44,9 +37,11 @@ void *mainThread(void *arg0) {
     sleep(1);
 
     // Wireless test
-    Wireless::instance().start();
-    printf("NWP started\n");
-    //Wireless::instance().stop();
+    if (Wireless::instance().start() < 0) {
+        printf("NWP startup error\n");
+    } else {
+        printf("NWP started successfully\n");
+    }
 
     // C++ ver (debug)
     std::cout << "ver" << __cplusplus << std::endl;

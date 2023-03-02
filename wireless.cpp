@@ -1,29 +1,21 @@
 // wireless.cpp
 
 // Includes
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
 #include <pthread.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
 #include <unistd.h>
 
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/SPI.h>
 #include <ti/drivers/net/wifi/device.h>
-#include <ti/drivers/net/wifi/fs.h>
 #include <ti/drivers/net/wifi/netapp.h>
-#include <ti/drivers/net/wifi/netcfg.h>
 #include <ti/drivers/net/wifi/simplelink.h>
-#include <ti/drivers/net/wifi/sl_socket.h>
-#include <ti/drivers/net/wifi/trace.h>
 #include <ti/drivers/net/wifi/wlan.h>
 
 #include "ti_drivers_config.h"
 #include "wireless.hh"
-// end Includes
-
-
-void SimpleLinkInitCallback(uint32_t status, SlDeviceInitInfo_t *DeviceInitInfo);
 
 // Singleton functions
 // Empty constructor
@@ -40,15 +32,12 @@ Wireless& Wireless::instance() {
 
 // Class functions
 // Start and provision NWP
-int Wireless::start() {
+int Wireless::start(void) {
     int32_t retval = 0;
-
-    char dev[] = "GARDENIRS";
-    char dom[] = "www.mygardenirs.net";
-
     uint8_t pConfigOpt = 0;         // FIXME debug
     uint16_t pConfigLen = 0;        // FIXME debug
-    SlDeviceVersion_t ver;          // FIXME debug
+    SlDeviceVersion_t ver = {0};    // FIXME debug
+
 
     // Set NWP to state defined in sysconfig
     retval = sl_WifiConfig();
@@ -67,33 +56,34 @@ int Wireless::start() {
     // FIXME debug get chip ver
     pConfigLen = sizeof(ver);
     pConfigOpt = SL_DEVICE_GENERAL_VERSION;
-    sl_DeviceGet(SL_DEVICE_GENERAL,&pConfigOpt,&pConfigLen,(_u8 *)(&ver));
+    sl_DeviceGet(SL_DEVICE_GENERAL, &pConfigOpt, &pConfigLen, (uint8_t *)(&ver));
     printf("CHIP 0x%x\nMAC 31.%d.%d.%d.%d\nPHY %d.%d.%d.%d\nNWP %d.%d.%d.%d\nROM %d\nHOST %d.%d.%d.%d\n",
-                 ver.ChipId,
-                 ver.FwVersion[0],ver.FwVersion[1],
-                 ver.FwVersion[2],ver.FwVersion[3],
-                 ver.PhyVersion[0],ver.PhyVersion[1],
-                 ver.PhyVersion[2],ver.PhyVersion[3],
-                 ver.NwpVersion[0],ver.NwpVersion[1],ver.NwpVersion[2],ver.NwpVersion[3],
-                 ver.RomVersion,
-                 SL_MAJOR_VERSION_NUM,SL_MINOR_VERSION_NUM,SL_VERSION_NUM,SL_SUB_VERSION_NUM);
+            ver.ChipId,
+            ver.FwVersion[0],ver.FwVersion[1],
+            ver.FwVersion[2],ver.FwVersion[3],
+            ver.PhyVersion[0],ver.PhyVersion[1],
+            ver.PhyVersion[2],ver.PhyVersion[3],
+            ver.NwpVersion[0],ver.NwpVersion[1],ver.NwpVersion[2],ver.NwpVersion[3],
+            ver.RomVersion,
+            SL_MAJOR_VERSION_NUM,SL_MINOR_VERSION_NUM,SL_VERSION_NUM,SL_SUB_VERSION_NUM);
+
 
     // Set device name
-    //retval = sl_NetAppSet(SL_NETAPP_DEVICE_ID, SL_NETAPP_DEVICE_URN, strlen(device_name), (uint8_t *)dev);
+    retval = sl_NetAppSet(SL_NETAPP_DEVICE_ID, SL_NETAPP_DEVICE_URN, strlen(device_name), (uint8_t *)device_name);
     if (retval < 0) {
         printf("set SL_NETAPP_DEVICE_URN error %d\n", retval);
         return retval;
     }
 
     // Set domain name
-    //retval = sl_NetAppSet(SL_NETAPP_DEVICE_ID, SL_NETAPP_DEVICE_DOMAIN, strlen(domain_name), (uint8_t *)dom);
+    retval = sl_NetAppSet(SL_NETAPP_DEVICE_ID, SL_NETAPP_DEVICE_DOMAIN, strlen(domain_name), (uint8_t *)domain_name);
     if (retval < 0) {
         printf("set SL_NETAPP_DEVICE_ID error%d\n", retval);
         return retval;
     }
 
-    // Set AP+SC provisioning
-    retval = sl_WlanProvisioning((uint8_t)SL_WLAN_PROVISIONING_CMD_START_MODE_SC,
+    // Set SC provisioning
+    retval = sl_WlanProvisioning((uint8_t)SL_WLAN_PROVISIONING_CMD_START_MODE_APSC,
                                  (uint8_t)ROLE_STA,
                                  (uint16_t)PROVISIONING_INACTIVITY_TIMEOUT,
                                  NULL,
@@ -103,12 +93,11 @@ int Wireless::start() {
         return retval;
     }
 
-
     return 0;
 }
 
 // Stop NWP
-int Wireless::stop() {
+int Wireless::stop(void) {
     int16_t stop_retval = 0;
 
     stop_retval = sl_Stop(SL_STOP_TIMEOUT);

@@ -32,8 +32,8 @@
  */
 
 #include <pthread.h>
-#include <stdint.h>
-#include <stdio.h>
+#include <cstdint>
+#include <cstdio>
 #include <ti/drivers/Board.h>
 #include <ti/drivers/net/wifi/device.h>
 #include <ti/sysbios/BIOS.h>
