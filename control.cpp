@@ -44,7 +44,9 @@ void *mainThread(void *arg0) {
     sleep(1);
 
     // Wireless test
-    Wireless::instance().init();
+    Wireless::instance().start();
+    printf("NWP started\n");
+    //Wireless::instance().stop();
 
     // C++ ver (debug)
     std::cout << "ver" << __cplusplus << std::endl;

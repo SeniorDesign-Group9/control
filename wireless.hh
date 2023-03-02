@@ -3,7 +3,10 @@
 #ifndef WIRELESS_H
 #define WIRELESS_H
 
-#define SL_STOP_TIMEOUT         0xFFFF // 200
+#include <stdint.h>
+
+#define SL_STOP_TIMEOUT                 200     // sl_Stop timeout in ms
+#define PROVISIONING_INACTIVITY_TIMEOUT 1200    // Provisioning inactivity timeout in s
 
 // WiFi (station) class
 class Wireless {
@@ -21,7 +24,10 @@ class Wireless {
         Wireless(Wireless&&) = delete;
 
         // Class functions
-        void init();
+        // Start and provision NWP
+        int start(void);
+        // Stop NWP
+        int stop(void);
         /*
         void SimpleLinkFatalErrorEventHandler();
         void SimpleLinkGeneralEventHandler();
@@ -39,6 +45,8 @@ class Wireless {
         ~Wireless();
 
         // Class variables
+        const char *device_name = "GARDENIRS";
+        const char *domain_name = "www.mygardenirs.net";
 
 };
 
