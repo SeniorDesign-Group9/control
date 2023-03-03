@@ -31,6 +31,8 @@ const SPI            = scripting.addModule("/ti/drivers/SPI");
 const UART2          = scripting.addModule("/ti/drivers/UART2", {}, false);
 const UART21         = UART2.addInstance();
 const SimpleLinkWifi = scripting.addModule("/ti/drivers/net/wifi/SimpleLinkWifi");
+const SlNet          = scripting.addModule("/ti/net/SlNet", {}, false);
+const SlNet1         = SlNet.addInstance();
 const Settings       = scripting.addModule("/ti/posix/tirtos/Settings");
 const BIOS           = scripting.addModule("/ti/sysbios/BIOS");
 
@@ -102,7 +104,8 @@ UART21.uart.txPin.$assign = "ball.55";
 UART21.uart.rxPin.$assign = "ball.57";
 
 SimpleLinkWifi.connectionPolicy = ["(0,0,0,1)","(1,0,0,0)"];
-SimpleLinkWifi.ipv4Config       = "DHCP";
+
+SlNet1.$name = "MySlnet";
 
 BIOS.heapSize     = 0x00002000;
 BIOS.heapBaseAddr = "__primary_heap_start__";

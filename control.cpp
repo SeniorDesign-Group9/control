@@ -17,8 +17,10 @@
 
 // Project header files
 #include "adc.hh"
-#include "wireless.hh"
+#include "http.hh"
 #include "water.hh"
+#include "wireless.hh"
+
 
 // mainThread
 void *mainThread(void *arg0) {
@@ -36,12 +38,26 @@ void *mainThread(void *arg0) {
 
     sleep(1);
 
-    // Wireless test
+
+    // Wireless init
     if (Wireless::instance().start() < 0) {
         printf("NWP startup error\n");
+        while(1) {}
     } else {
         printf("NWP started successfully\n");
     }
+
+    /*
+    // HTTP server init
+    if (HttpServer::instance().start() < 0) {
+        printf("HTTP server startup error\n");
+        while(1) {}
+    } else {
+        printf("HTTP server started successfully\n");
+    }
+    */~
+
+
 
     // C++ ver (debug)
     std::cout << "ver" << __cplusplus << std::endl;

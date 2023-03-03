@@ -42,7 +42,7 @@
 extern void *mainThread(void *arg0);
 
 // Stack size in bytes
-#define MAINTHREAD_STACKSIZE    2048
+#define MAINTHREAD_STACKSIZE    8192
 #define SLTASK_STACKSIZE        4096
 
 // Main

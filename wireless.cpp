@@ -82,6 +82,7 @@ int Wireless::start(void) {
         return retval;
     }
 
+
     // Set SC provisioning
     retval = sl_WlanProvisioning((uint8_t)SL_WLAN_PROVISIONING_CMD_START_MODE_APSC,
                                  (uint8_t)ROLE_STA,
@@ -92,6 +93,10 @@ int Wireless::start(void) {
         printf("set SL_WLAN_PROVISIONING_CMD_START_MODE_APSC_EXTERNAL_CONFIGURATION error %d\n", retval);
         return retval;
     }
+
+    // FIXME debug: stop provisioning
+    //sl_WlanProvisioning(SL_WLAN_PROVISIONING_CMD_STOP,0xFF,0,NULL, 0x0);
+
 
     return 0;
 }
