@@ -17,8 +17,8 @@
 
 // Project header files
 #include "adc.hh"
-#include "http.hh"
 #include "water.hh"
+#include "web.hh"
 #include "wireless.hh"
 
 
@@ -55,7 +55,7 @@ void *mainThread(void *arg0) {
     } else {
         printf("HTTP server started successfully\n");
     }
-    */~
+    */
 
 
 

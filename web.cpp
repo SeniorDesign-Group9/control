@@ -1,34 +1,38 @@
-// HttpServer.cpp
+// web.cpp
 
 // Includes
 #include <cstdio>
 #include <cstdint>
+#include <arpa/inet.h>
+#include <netinet/in.h>
 
+#include <ti/net/http/httpserver.h>
+#include <ti/net/http/urlhandler.h>
 
 #include <ti/drivers/net/wifi/device.h>
 #include <ti/drivers/net/wifi/fs.h>
 #include <ti/drivers/net/wifi/netapp.h>
 #include <ti/drivers/net/wifi/simplelink.h>
 #include <ti/drivers/net/wifi/wlan.h>
+#include "web.hh"
 
 #include "ti_drivers_config.h"
-#include "http.hh"
 
 // Singleton functions
 // Empty constructor
-HttpServer::HttpServer() {}
+WebServer::WebServer() {}
 
 // Empty destructor
-HttpServer::~HttpServer() {}
+WebServer::~WebServer() {}
 
 // Instance
-HttpServer& HttpServer::instance() {
-    static HttpServer inst;
+WebServer& WebServer::instance() {
+    static WebServer inst;
     return inst;
 }
 
 // Start HTTP server
-int HttpServer::start(void) {
+int WebServer::start(void) {
     int16_t retval = 0;
 
     // SL_ERROR_NET_APP_HTTP_SERVER_ALREADY_STARTED is -6214
@@ -103,7 +107,7 @@ int HttpServer::start(void) {
 }
 
 // Stop HTTP server
-int HttpServer::stop(void) {
+int WebServer::stop(void) {
     int16_t retval = 0;
 
     retval = sl_NetAppStop(SL_NETAPP_HTTP_SERVER_ID);
