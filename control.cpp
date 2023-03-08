@@ -1,29 +1,35 @@
 // control.cpp
 
-// Driver header files
+// TI Driver header files
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/net/wifi/device.h>
-//#include <ti/drivers/I2C.h>
+#include <ti/drivers/I2C.h>
 #include <ti/drivers/SPI.h>
-//#include <ti/drivers/Watchdog.h>
+#include <ti/drivers/Watchdog.h>
 
-// Driver configuration
+// TI Driver configuration
 #include "ti_drivers_config.h"
 
 // Standard libraries
 #include <cstdio>
 #include <iostream>
+#include <pthread.h>
 #include <unistd.h>
 
 // Project header files
 #include "adc.hh"
 #include "water.hh"
-#include "web.hh"
 #include "wireless.hh"
-
 
 // mainThread
 void *mainThread(void *arg0) {
+    int i = 0;
+    bool prov = false;
+    _u32 statusWlan;
+    _u8 pConfigOpt;
+    _u16 pConfigLen;
+    pConfigOpt = SL_DEVICE_EVENT_CLASS_WLAN;
+    pConfigLen = sizeof(_u32);
 
     GPIO_init();
     SPI_init();
@@ -47,16 +53,6 @@ void *mainThread(void *arg0) {
         printf("NWP started successfully\n");
     }
 
-    /*
-    // HTTP server init
-    if (HttpServer::instance().start() < 0) {
-        printf("HTTP server startup error\n");
-        while(1) {}
-    } else {
-        printf("HTTP server started successfully\n");
-    }
-    */
-
 
 
     // C++ ver (debug)
@@ -64,5 +60,14 @@ void *mainThread(void *arg0) {
 
     while(1) {
         sleep(1);
+
+        // Get provisioning status every 1 second
+        std::cout << "[" << ++i << "] Provisioning? ";
+
+        sl_DeviceGet(SL_DEVICE_STATUS,&pConfigOpt,&pConfigLen,(_u8 *)(&statusWlan));
+        prov = (SL_WLAN_EVENT_PROVISIONING_STATUS & statusWlan) ? true : false;
+
+        std::cout << (prov ? "Running." : "Stopped.") << std::endl;
+        // Will output 1 if provisioning, 0 if not provisioned.
     }
 }
