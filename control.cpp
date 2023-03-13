@@ -14,10 +14,12 @@
 #include <cstdio>
 #include <iostream>
 #include <pthread.h>
+#include <string>
 #include <unistd.h>
 
 // Project header files
 #include "adc.hh"
+#include "file.hh"
 #include "water.hh"
 #include "wireless.hh"
 
@@ -30,6 +32,10 @@ void *mainThread(void *arg0) {
     _u16 pConfigLen;
     pConfigOpt = SL_DEVICE_EVENT_CLASS_WLAN;
     pConfigLen = sizeof(_u32);
+
+    // FS
+    std::string fn = "test_file.txt";
+    FileManager fm(fn);
 
     GPIO_init();
     SPI_init();
@@ -61,6 +67,9 @@ void *mainThread(void *arg0) {
     while(1) {
         sleep(1);
 
+        // FIXME debug: stop provisioning
+        sl_WlanProvisioning(SL_WLAN_PROVISIONING_CMD_STOP,0xFF,0,NULL, 0x0);
+
         // Get provisioning status every 1 second
         std::cout << "[" << ++i << "] Provisioning? ";
 
@@ -68,6 +77,20 @@ void *mainThread(void *arg0) {
         prov = (SL_WLAN_EVENT_PROVISIONING_STATUS & statusWlan) ? true : false;
 
         std::cout << (prov ? "Running." : "Stopped.") << std::endl;
-        // Will output 1 if provisioning, 0 if not provisioned.
+
+        // If not provisioning, break from loop
+        if (!prov) {
+            break;
+        }
     }
+
+    // FS test
+    std::cout << "Filename:    " << fm.getFileName() << std::endl;
+
+    int32_t rval = 0;
+    rval = fm.writeToFile("Hello, World!");
+
+    std::cout << "writeToFile: " << rval << std::endl;
+
+    return 0;
 }
