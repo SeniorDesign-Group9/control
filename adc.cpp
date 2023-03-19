@@ -36,6 +36,7 @@ bool AdcExternal::init(I2C_Handle i2cHandle, uint8_t i2cAddress) {
     rxCount = 0;
 
     // Set ADC config
+
     // OFFSET_CAL: OFFSET calibration on powerup
     // Offset disabled by default
 
@@ -43,23 +44,39 @@ bool AdcExternal::init(I2C_Handle i2cHandle, uint8_t i2cAddress) {
     // Two-Channel, Single-Ended enabled by default
 
     // OPMODE_SEL reg
-    // Manual by default
+    // Set high-precision mode with AUTO sequencing
+    if (!setRawRegisterValue(OPMODE_SEL, 0b00000111)) {
+        return false;
+    }
 
     // I2C speed
     // Standard mode as determined by MCU
 
-    // Set manual mode with AUTO seq
-    if (!setRawRegisterValue(OPMODE_SEL, 0b00000100) == -1) {   // FIXME: High precision mode (111b)?
-        return false;
-    }
-
     // Select channels in AUTO_SEQ_CFG
     // Both channels enabled by default
 
+    // Select low-power oscillator
+    if (!setRawRegisterValue(OSC_SEL, 0b00000001)) {
+        return false;
+    }
+
+    // Enable accumulators
+    if (!setRawRegisterValue(ACC_EN, 0b00001111)) {
+        return false;
+    }
+
+    // FIXME: set stop burst mode
+    // N/a in high-precision mode
+
     // Expecting 0b00000000
+    /*
     if (getRawRegisterValue(OPMODE_I2CMODE_STATUS) == -1) {
         return false;
     }
+    */
+
+    // Set GPIO callback for BUSY/RDY
+    //GPIO_setCallback(ADC_BUSY, (GPIO_CallbackFxn)readyCallback);
 
     return true;
 }
@@ -102,7 +119,7 @@ bool AdcExternal::setRawRegisterValue(Register reg, uint8_t data) {
 
 // Get the raw value of the register reg
 // Returns value on success, -1 on failure
-int8_t AdcExternal::getRawRegisterValue(Register reg) {
+uint8_t AdcExternal::getRawRegisterValue(Register reg) {
     txBuffer[0] = SINGLE_READ;
     txBuffer[1] = reg;
     txCount = 2;
@@ -110,7 +127,8 @@ int8_t AdcExternal::getRawRegisterValue(Register reg) {
 
     // if transfer fails, return -1
     if (!transfer()) {
-        return -1;
+        //return -1;
+        return 0;
     } else {
         return rxBuffer[0];
     }
@@ -149,7 +167,7 @@ int8_t AdcExternal::getOpmodeStatus() {
 
 // Get value of OPMODE_I2CMODE_STATUS register
 // Returns value on success, -1 on failure
-int16_t AdcExternal::getRawResult(Channel ch) {
+uint16_t AdcExternal::getRawResult(Channel ch) {
     uint16_t result = 0;
     int8_t result_msb = 0;
     int8_t result_lsb = 0;
@@ -162,21 +180,14 @@ int16_t AdcExternal::getRawResult(Channel ch) {
     }
 
     // Set bit SEQ_START in START_SEQUENCE
-    setRawRegisterBit(START_SEQUENCE, 0b00000001);
-
-    // Need to keep SCL on?
-    // Maybe increase size of txBuffer or rxBuffer?
-    // Set txBuffer to zeroes and increase txCount enough to get the conversion result
-    //
-    // After BUSY pin goes low, we can ABORT and then check the result registers
-
-    // Stopgap for now
-    while (GPIO_read(ADC_BUSY) != 0) {
-        usleep(SLEEP);
+    if (!setRawRegisterBit(START_SEQUENCE, 0b00000001)) {
+        //return -1;
+        return 0;
     }
 
-    // Set bit SEQ_ABORT in ABORT_SEQUENCE
-    setRawRegisterBit(ABORT_SEQUENCE, 0b00000001);
+    // FIXME: determine time to wait
+    // TODO: wait until BUSY/RDY pin goes low
+    sleep(2);
 
     // Get value from accumulators
     result_msb = getRawRegisterValue(reg_msb);
@@ -184,7 +195,8 @@ int16_t AdcExternal::getRawResult(Channel ch) {
 
     // Error checking
     if (result_msb == -1 || result_lsb == -1) {
-        return -1;
+        //return -1;
+        return 0;
     }
 
     // Put the 8-bit results into a 16-bit number
@@ -193,6 +205,11 @@ int16_t AdcExternal::getRawResult(Channel ch) {
 
     // Return result
     return result;
+}
+
+void * readyCallback(void) {
+    printf("ADC ready pin callback\n");
+    return nullptr;
 }
 
 // I2C error handler

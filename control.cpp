@@ -24,13 +24,16 @@
 
 // mainThread
 void *mainThread(void *arg0) {
-    // I2C structures
+    const uint16_t  ONE_VOLT = static_cast<uint16_t>(static_cast<float>(UINT16_MAX) / static_cast<float>(3.3));
     I2C_Handle      i2c;
     I2C_Params      i2cParams;
     I2C_Transaction i2cTransaction;
-    uint8_t         adc_address = 0x1F;
-    uint8_t         data;
-
+    uint8_t         adc_address = 0x18;     // 0x18 for eval board, 0x1F for prod board
+    uint16_t        ch0_result = 0;
+    uint16_t        ch1_result = 0;
+    float           ch0_voltage = 0.0F;
+    float           ch1_voltage = 0.0F;
+    int             i = 0;
 
     I2C_init();
     GPIO_init();
@@ -40,52 +43,33 @@ void *mainThread(void *arg0) {
     i2cParams.bitRate = I2C_400kHz;
     i2c = I2C_open(MyI2C1, &i2cParams);
     if (i2c == NULL) {
-        std::cout << "Error initializing I2C" << std::endl;
-        while (1);
+        printf("Error initializing I2C\n");
+        while (1) {}
     } else {
-        std::cout << "I2C initialized" << std::endl;
+        printf("I2C initialized\n");
     }
-
-    /*
-
-
-
-
-
-
-    // Setup I2C transaction to find slave
-    i2cTransaction.writeBuf = &data;
-    i2cTransaction.writeCount = 1;
-    i2cTransaction.readBuf = &data;
-    i2cTransaction.readCount = 0;
-    data = 0;
-
-    i2cTransaction.slaveAddress = 0x1F;
-    if (I2C_transfer(i2c, &i2cTransaction)) {
-        fprintf(stdout, "I2C device found at 0x%x\n", i2cTransaction.slaveAddress);
-    } else {
-        fprintf(stdout, "Error finding I2C device at 0x%x\n", i2cTransaction.slaveAddress);
-    }
-
-    */
-
-
 
     // ADC init
-    AdcExternal::instance().init(i2c, adc_address);
+    if (AdcExternal::instance().init(i2c, adc_address)) {
+        printf("ADC initialized\n");
+    } else {
+        printf("Error initializing ADC\n");
+    }
 
+    // ADC test
+    while(1) {
+        ch0_result = AdcExternal::instance().getRawResult(AdcExternal::CH0);
+        ch1_result = AdcExternal::instance().getRawResult(AdcExternal::CH1);
+        ch0_voltage = static_cast<float>(ch0_result) / static_cast<float>(ONE_VOLT);
+        ch1_voltage = static_cast<float>(ch1_result) / static_cast<float>(ONE_VOLT);
 
-    // Water test
-    WaterSolenoid::instance().waterSet(true);
-    std::cout << "Water on" << std::endl;
-    sleep(1);
-    WaterSolenoid::instance().waterToggle();
-    std::cout << "Water off" << std::endl;
+        printf("[%2d] CH0 raw result: %u\n", i, ch0_result);
+        printf("     CH0 voltage:    %.3f V\n", ch0_voltage);
+        printf("     CH1 raw result: %u\n", ch1_result);
+        printf("     CH1 voltage:    %.3f V\n", ch1_voltage);
 
-    // ADC test (WIP)
-    //std::cout << AdcInternal::instance().get_n() << std::endl;
-    //AdcInternal::instance().set_n(5);
-    //std::cout << AdcInternal::instance().get_n() << std::endl;
+        ++i;
+    }
 
     // C++ ver (debug)
     std::cout << "ver" << __cplusplus << std::endl;

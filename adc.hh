@@ -7,6 +7,11 @@
 #include <stdint.h>
 #include <ti/drivers/I2C.h>
 
+//#define N_RDY_TMP 24
+//#define N_ALERT_TMP 25
+//#define SCL_TMP 10
+//#define SDA_TMP 11
+
 class AdcExternal {
     public:
         // Singleton functions
@@ -20,6 +25,7 @@ class AdcExternal {
         // Disallow moving
         AdcExternal& operator = (AdcExternal&&) = delete;
         AdcExternal(AdcExternal&&) = delete;
+
 
         // Class enums
         enum Channel {
@@ -90,7 +96,7 @@ class AdcExternal {
 
         // Get the raw value of the register reg
         // Returns value on success, -1 on failure
-        int8_t getRawRegisterValue(Register reg);
+        uint8_t getRawRegisterValue(Register reg);
 
         // Set bit in reg
         // Returns true on transfer success, false on failure
@@ -101,7 +107,7 @@ class AdcExternal {
         bool clearRawRegisterBit(Register reg, uint8_t bits);
 
         int8_t getOpmodeStatus();
-        int16_t getRawResult(Channel ch);
+        uint16_t getRawResult(Channel ch);
 
         // I2C error handler
         void i2cErrorHandler(I2C_Transaction *transaction);
@@ -120,7 +126,8 @@ class AdcExternal {
         uint8_t rxBuffer[2];
         uint8_t rxCount;
 
-
 };
+
+void * readyCallback(void);
 
 #endif // ADC_H
