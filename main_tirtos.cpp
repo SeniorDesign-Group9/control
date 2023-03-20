@@ -35,6 +35,7 @@
  *  ======== main_tirtos.c ========
  */
 #include <stdint.h>
+#include <unistd.h>
 
 /* POSIX Header files */
 #include <pthread.h>
@@ -43,6 +44,9 @@
 #include <ti/sysbios/BIOS.h>
 
 #include <ti/drivers/Board.h>
+#include <ti/drivers/GPIO.h>
+#include "ti_drivers_config.h"
+
 
 extern void *mainThread(void *arg0);
 

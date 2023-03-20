@@ -20,6 +20,7 @@
 
 // Project header files
 #include "adc.hh"
+#include "DRV8833.h"
 #include "water.hh"
 
 // mainThread
@@ -29,6 +30,14 @@ void *mainThread(void *arg0) {
     // Water test
     WaterSolenoid::instance().waterSet(true);
     std::cout << "Water on" << std::endl;
+    DRV8833* motor = new DRV8833(AIN1, AIN2, BIN1, BIN2, DRV_FAULT);
+
+        while (1) {
+            motor->stepSteps(600, 60);
+            sleep(1);
+            motor->stepSteps(-600, 60);
+            sleep(1);
+        }
     sleep(1);
     WaterSolenoid::instance().waterToggle();
     std::cout << "Water off" << std::endl;

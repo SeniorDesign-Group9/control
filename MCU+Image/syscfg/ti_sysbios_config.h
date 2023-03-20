@@ -27,7 +27,7 @@ extern "C" {
 
 #define xdc_runtime_Log_DISABLE_ALL 1
 
-#define BIOS_assertsEnabled_D false
+#define BIOS_assertsEnabled_D true
 #define BIOS_cpuFrequency_D 80000000
 #define BIOS_runtimeCreatesEnabled_D true
 #define BIOS_taskEnabled_D true
@@ -47,9 +47,9 @@ extern "C" {
 /* ensure Error and Assert defines come before dependent modules */
 
 /* ti_sysbios_runtime_Error module definitions */
-#define Error_policy_D Error_SPIN
+#define Error_policy_D Error_UNWIND
 #define Error_raiseHook_D 1
-#define Error_printDetails_D 0
+#define Error_printDetails_D 1
 #define Error_addFileLine_D 1
 #define Error_retainStrings_D 1
 
@@ -57,6 +57,11 @@ extern "C" {
 #include <ti/sysbios/runtime/Error.h>
 
 #define Error_raiseHookFxn(x)
+
+/* ti_sysbios_runtime_Assert module definitions */
+
+#define Assert_addFileLine_D 1
+#define Assert_useBkpt_D 0
 
 /* Settings module definitions */
 
@@ -77,7 +82,7 @@ extern "C" {
 #define Hwi_dispatcherAutoNestingSupport_D true
 #define Hwi_dispatcherSwiSupport_D true
 #define Hwi_dispatcherTaskSupport_D true
-#define Hwi_excHandlerFunc_D Hwi_excHandlerMin
+#define Hwi_excHandlerFunc_D Hwi_excHandlerMax
 #define Hwi_resetVectorAddress_D 0x20004000
 #define Hwi_vectorTableAddress_D 0x20000000
 #define Hwi_initStackFlag_D true
@@ -101,10 +106,6 @@ extern "C" {
 #define Hwi_nvic (*(volatile Hwi_NVIC *)0xe000e000)
 
 
-/* ti/sysbios/family/arm/m3/TimestampProvider module definitions */
-
-#define ti_sysbios_family_arm_m3_TimestampProvider_useClockTimer_D true
-
 /* HwiHooks module definitions */
 
 #define HwiHooks_numHooks_D 0
@@ -127,11 +128,11 @@ extern "C" {
 
 /* Idle module definitions */
 
-#define Idle_numFuncs_D 2
+#define Idle_numFuncs_D 1
 
 /* Semaphore module definitions */
 
-#define Semaphore_supportsPriority_D false
+#define Semaphore_supportsPriority_D true
 #define Semaphore_supportsEvents_D false
 #define Semaphore_eventPost_D NULL
 #define Semaphore_eventSync_D NULL
@@ -153,11 +154,11 @@ extern "C" {
 
 #define Task_allBlockedFunc_D NULL
 #define Task_numPriorities_D 16
-#define Task_defaultStackSize_D 512
-#define Task_idleTaskStackSize_D 512
+#define Task_defaultStackSize_D 1024
+#define Task_idleTaskStackSize_D 1024
 #define Task_idleTaskVitalTaskFlag_D true
 #define Task_initStackFlag_D true
-#define Task_checkStackFlag_D false
+#define Task_checkStackFlag_D true
 #define Task_deleteTerminatedTasks_D false
 #define Task_numVitalTasks_D 0
 #define Task_minimizeLatency_D false
@@ -176,31 +177,19 @@ extern "C" {
 /* Startup module definitions */
 
 /* Startup functions */
-extern void ti_sysbios_family_arm_m3_TimestampProvider_init(void);
 
-/* SysCallback module definitions */
+/* SysMin module definitions */
 
-#define SysCallback_abortFxn_D SysCallback_defaultAbort
-#define SysCallback_exitFxn_D SysCallback_defaultExit
-#define SysCallback_flushFxn_D SysCallback_defaultFlush
-#define SysCallback_initFxn_D SysCallback_defaultInit
-#define SysCallback_putchFxn_D SysCallback_defaultPutch
-#define SysCallback_readyFxn_D SysCallback_defaultReady
+#define SysMin_bufSize_D 1024
+#define SysMin_outputFunc_D SysMin_output
+#define SysMin_flushAtExit_D true
 
 /* System module definitions */
 
 #define System_maxAtexitHandlers_D 8
-#define System_abortFxn_D System_abortSpin
-#define System_exitFxn_D System_exitSpin
-#define System_supportPercentF_D 1
-extern void System_exitSpin(int);
-
-/* ti_sysbios_runtime_Timestamp module definitions */
-
-#define TimestampProvider_get32_D ti_sysbios_family_arm_m3_TimestampProvider_get32
-#define TimestampProvider_get64_D ti_sysbios_family_arm_m3_TimestampProvider_get64
-#define TimestampProvider_getFreq_D ti_sysbios_family_arm_m3_TimestampProvider_getFreq
-#define TimestampProvider_init_D ti_sysbios_family_arm_m3_TimestampProvider_init
+#define System_abortFxn_D System_abortStd
+#define System_exitFxn_D System_exitStd
+#define System_supportPercentF_D 0
 
 #ifdef __cplusplus
 }
