@@ -30,22 +30,26 @@ void *mainThread(void *arg0) {
     // Water test
     WaterSolenoid::instance().waterSet(true);
     std::cout << "Water on" << std::endl;
-    DRV8833* motor = new DRV8833(AIN1, AIN2, BIN1, BIN2, DRV_FAULT);
-
-        while (1) {
-            motor->stepSteps(600, 60);
-            sleep(1);
-            motor->stepSteps(-600, 60);
-            sleep(1);
-        }
+    DRV8833 motor(AIN1, AIN2, BIN1, BIN2, DRV_FAULT);
+    while(1) {
+        // step quarters
+        motor.stepSteps(-2400, 60);
+        sleep(1);
+        motor.stepSteps(-2400, 60);
+        sleep(1);
+        motor.stepSteps(-2400, 60);
+        sleep(1);
+        motor.stepSteps(-2400, 60);
+        sleep(1);
+        //return
+        motor.stepSteps(9600, 240);
+        sleep(1);
+    }
     sleep(1);
     WaterSolenoid::instance().waterToggle();
     std::cout << "Water off" << std::endl;
 
-    // ADC test (WIP)
-    std::cout << AdcInternal::instance().get_n() << std::endl;
-    AdcInternal::instance().set_n(5);
-    std::cout << AdcInternal::instance().get_n() << std::endl;
+
 
     // C++ ver (debug)
     std::cout << "ver" << __cplusplus << std::endl;
