@@ -187,7 +187,7 @@ uint16_t AdcExternal::getRawResult(Channel ch) {
 
     // FIXME: determine time to wait
     // TODO: wait until BUSY/RDY pin goes low
-    sleep(2);
+    usleep(500000);
 
     // Get value from accumulators
     result_msb = getRawRegisterValue(reg_msb);
