@@ -24,6 +24,10 @@ DRV8833::DRV8833(uint_least8_t
     //        DRV8833::stop
     // );
     GPIO_enableInt(pin_fault);
+    GPIODirModeSet(AIN1_PORT, AIN1_BIT, GPIO_DIR_MODE_OUT);
+    GPIODirModeSet(AIN2_PORT, AIN2_BIT, GPIO_DIR_MODE_OUT);
+    GPIODirModeSet(BIN1_PORT, BIN1_BIT, GPIO_DIR_MODE_OUT);
+    GPIODirModeSet(BIN2_PORT, BIN2_BIT, GPIO_DIR_MODE_OUT);
 }
 
 // Step the motor a number of steps
@@ -85,10 +89,10 @@ void DRV8833::calibrate(uint32_t rpm) {
 }
 
 void DRV8833::stop(uint_least8_t pin) {
-    GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
-    GPIO_write(this->a2, GPIO_CFG_OUT_HIGH);
-    GPIO_write(this->b1, GPIO_CFG_OUT_HIGH);
-    GPIO_write(this->b2, GPIO_CFG_OUT_HIGH);
+    GPIOPinWrite(AIN1_PORT, AIN1_BIT, AIN1_BIT);
+    GPIOPinWrite(AIN2_PORT, AIN2_BIT, AIN1_BIT);
+    GPIOPinWrite(BIN1_PORT, BIN1_BIT, BIN1_BIT);
+    GPIOPinWrite(BIN2_PORT, BIN2_BIT, AIN1_BIT);
     GPIO_clearInt(this->fault);
 }
 
@@ -97,9 +101,9 @@ void DRV8833::stepMotor(int32_t step) {
     printf("stepMotor\n");
     switch (step) {
         case 0: // 1010
-            GPIOPinWrite(AIN1_PORT, AIN1_BIT, 1);
+            GPIOPinWrite(AIN1_PORT, AIN1_BIT, AIN1_BIT);
             GPIOPinWrite(AIN2_PORT, AIN2_BIT, 0);
-            GPIOPinWrite(BIN1_PORT, BIN1_BIT, 1);
+            GPIOPinWrite(BIN1_PORT, BIN1_BIT, BIN1_BIT);
             GPIOPinWrite(BIN2_PORT, BIN2_BIT, 0);
             /*
             GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
@@ -110,8 +114,8 @@ void DRV8833::stepMotor(int32_t step) {
             break;
         case 1: // 0110
             GPIOPinWrite(AIN1_PORT, AIN1_BIT, 0);
-            GPIOPinWrite(AIN2_PORT, AIN2_BIT, 1);
-            GPIOPinWrite(BIN1_PORT, BIN1_BIT, 1);
+            GPIOPinWrite(AIN2_PORT, AIN2_BIT, AIN2_BIT);
+            GPIOPinWrite(BIN1_PORT, BIN1_BIT, BIN1_BIT);
             GPIOPinWrite(BIN2_PORT, BIN2_BIT, 0);
             /*
             GPIO_write(this->a1, GPIO_CFG_OUT_LOW);
@@ -122,9 +126,9 @@ void DRV8833::stepMotor(int32_t step) {
             break;
         case 2: // 0101
             GPIOPinWrite(AIN1_PORT, AIN1_BIT, 0);
-            GPIOPinWrite(AIN2_PORT, AIN2_BIT, 1);
+            GPIOPinWrite(AIN2_PORT, AIN2_BIT, AIN2_BIT);
             GPIOPinWrite(BIN1_PORT, BIN1_BIT, 0);
-            GPIOPinWrite(BIN2_PORT, BIN2_BIT, 1);
+            GPIOPinWrite(BIN2_PORT, BIN2_BIT, BIN2_BIT);
             /*
             GPIO_write(this->a1, GPIO_CFG_OUT_LOW);
             GPIO_write(this->a2, GPIO_CFG_OUT_HIGH);
@@ -133,10 +137,10 @@ void DRV8833::stepMotor(int32_t step) {
             */
             break;
         case 3: // 1001
-            GPIOPinWrite(AIN1_PORT, AIN1_BIT, 1);
+            GPIOPinWrite(AIN1_PORT, AIN1_BIT, AIN1_BIT);
             GPIOPinWrite(AIN2_PORT, AIN2_BIT, 0);
             GPIOPinWrite(BIN1_PORT, BIN1_BIT, 0);
-            GPIOPinWrite(BIN2_PORT, BIN2_BIT, 1);
+            GPIOPinWrite(BIN2_PORT, BIN2_BIT, BIN2_BIT);
             /*
             GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->a2, GPIO_CFG_OUT_LOW);
@@ -145,10 +149,10 @@ void DRV8833::stepMotor(int32_t step) {
             */
             break;
         default: // Brake
-            GPIOPinWrite(AIN1_PORT, AIN1_BIT, 1);
-            GPIOPinWrite(AIN2_PORT, AIN2_BIT, 1);
-            GPIOPinWrite(BIN1_PORT, BIN1_BIT, 1);
-            GPIOPinWrite(BIN2_PORT, BIN2_BIT, 1);
+            GPIOPinWrite(AIN1_PORT, AIN1_BIT, AIN1_BIT);
+            GPIOPinWrite(AIN2_PORT, AIN2_BIT, AIN2_BIT);
+            GPIOPinWrite(BIN1_PORT, BIN1_BIT, BIN1_BIT);
+            GPIOPinWrite(BIN2_PORT, BIN2_BIT, BIN2_BIT);
             /*
             GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->a2, GPIO_CFG_OUT_HIGH);

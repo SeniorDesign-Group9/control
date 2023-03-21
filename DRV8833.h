@@ -16,7 +16,6 @@
 #define BIN1_BIT    0b00000001      // GPIOA2 [0] GPIO16
 #define BIN2_BIT    0b00000010      // GPIOA2 [1] GOIO17
 
-
 class DRV8833 {
 public:
     DRV8833(uint_least8_t pin_a1, uint_least8_t pin_a2, uint_least8_t pin_b1,
