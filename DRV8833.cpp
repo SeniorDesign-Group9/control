@@ -2,8 +2,11 @@
 // Created by Nicholas Chitty on 3/13/23.
 //
 #include <unistd.h>
+#include <cstdio>
 #include <ti/drivers/GPIO.h>
+#include <ti/devices/cc32xx/driverlib/gpio.h>
 #include "DRV8833.h"
+
 
 // This expects that the pins are correctly configured, the motor pins should be set as
 // output, with fault going to NFAULT setup for interrupt on falling edge, when the system faults
@@ -91,36 +94,67 @@ void DRV8833::stop(uint_least8_t pin) {
 
 // Driver function to step motor in certain way
 void DRV8833::stepMotor(int32_t step) {
+    printf("stepMotor\n");
     switch (step) {
         case 0: // 1010
+            GPIOPinWrite(AIN1_PORT, AIN1_BIT, 1);
+            GPIOPinWrite(AIN2_PORT, AIN2_BIT, 0);
+            GPIOPinWrite(BIN1_PORT, BIN1_BIT, 1);
+            GPIOPinWrite(BIN2_PORT, BIN2_BIT, 0);
+            /*
             GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->a2, GPIO_CFG_OUT_LOW);
             GPIO_write(this->b1, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->b2, GPIO_CFG_OUT_LOW);
+            */
             break;
         case 1: // 0110
+            GPIOPinWrite(AIN1_PORT, AIN1_BIT, 0);
+            GPIOPinWrite(AIN2_PORT, AIN2_BIT, 1);
+            GPIOPinWrite(BIN1_PORT, BIN1_BIT, 1);
+            GPIOPinWrite(BIN2_PORT, BIN2_BIT, 0);
+            /*
             GPIO_write(this->a1, GPIO_CFG_OUT_LOW);
             GPIO_write(this->a2, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->b1, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->b2, GPIO_CFG_OUT_LOW);
+            */
             break;
         case 2: // 0101
+            GPIOPinWrite(AIN1_PORT, AIN1_BIT, 0);
+            GPIOPinWrite(AIN2_PORT, AIN2_BIT, 1);
+            GPIOPinWrite(BIN1_PORT, BIN1_BIT, 0);
+            GPIOPinWrite(BIN2_PORT, BIN2_BIT, 1);
+            /*
             GPIO_write(this->a1, GPIO_CFG_OUT_LOW);
             GPIO_write(this->a2, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->b1, GPIO_CFG_OUT_LOW);
             GPIO_write(this->b2, GPIO_CFG_OUT_HIGH);
+            */
             break;
         case 3: // 1001
+            GPIOPinWrite(AIN1_PORT, AIN1_BIT, 1);
+            GPIOPinWrite(AIN2_PORT, AIN2_BIT, 0);
+            GPIOPinWrite(BIN1_PORT, BIN1_BIT, 0);
+            GPIOPinWrite(BIN2_PORT, BIN2_BIT, 1);
+            /*
             GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->a2, GPIO_CFG_OUT_LOW);
             GPIO_write(this->b1, GPIO_CFG_OUT_LOW);
             GPIO_write(this->b2, GPIO_CFG_OUT_HIGH);
+            */
             break;
         default: // Brake
+            GPIOPinWrite(AIN1_PORT, AIN1_BIT, 1);
+            GPIOPinWrite(AIN2_PORT, AIN2_BIT, 1);
+            GPIOPinWrite(BIN1_PORT, BIN1_BIT, 1);
+            GPIOPinWrite(BIN2_PORT, BIN2_BIT, 1);
+            /*
             GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->a2, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->b1, GPIO_CFG_OUT_HIGH);
             GPIO_write(this->b2, GPIO_CFG_OUT_HIGH);
+            */
             break;
     }
 
