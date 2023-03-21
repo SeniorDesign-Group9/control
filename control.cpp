@@ -32,16 +32,9 @@ void *mainThread(void *arg0) {
 
     while(1) {
         // step quarters
-        motor.stepSteps(-2400, 60);
+        motor.stepSteps(600, 60);
         sleep(1);
-        motor.stepSteps(-2400, 60);
-        sleep(1);
-        motor.stepSteps(-2400, 60);
-        sleep(1);
-        motor.stepSteps(-2400, 60);
-        sleep(1);
-        //return
-        motor.stepSteps(9600, 240);
+        motor.stepSteps(-600, 60);
         sleep(1);
     }
     sleep(1);

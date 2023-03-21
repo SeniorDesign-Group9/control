@@ -7,10 +7,8 @@
 
 #include <ti/devices/cc32xx/inc/hw_memmap.h>
 
-#define AIN1_PORT   GPIOA1_BASE
-#define AIN2_PORT   GPIOA1_BASE
-#define BIN1_PORT   GPIOA2_BASE
-#define BIN2_PORT   GPIOA2_BASE
+#define A_PORT   GPIOA1_BASE
+#define B_PORT   GPIOA2_BASE
 #define AIN1_BIT    0b00000100      // GPIOA1 [2] GPIO10
 #define AIN2_BIT    0b00001000      // GPIOA1 [3] GPIO11
 #define BIN1_BIT    0b00000001      // GPIOA2 [0] GPIO16
