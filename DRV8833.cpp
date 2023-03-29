@@ -19,10 +19,6 @@ DRV8833::DRV8833(uint_least8_t
                  pin_fault) :
         a1(pin_a1), a2(pin_a2), b1(pin_b1), b2(pin_b2),
         fault(pin_fault) {
-    // GPIO_setCallback(
-    //        pin_fault,
-    //        DRV8833::stop
-    // );
     GPIO_enableInt(pin_fault);
     GPIODirModeSet(A_PORT, AIN1_BIT, GPIO_DIR_MODE_OUT);
     GPIODirModeSet(A_PORT, AIN2_BIT, GPIO_DIR_MODE_OUT);
@@ -56,8 +52,11 @@ void DRV8833::stepSteps(int32_t steps, uint32_t rpm) {
         this->stepMotor(step_number);
         steps_left--;
 
-        // todo fix position finding logic
-        this->current_pos = direction == 1 ? current_pos + 1 : current_pos - 1;
+        if (direction) {
+            this->current_pos = current_pos < MAX_POS ? this->current_pos + 1 : this->MAX_POS;
+        } else {
+            this->current_pos = current_pos > 0 ? this->current_pos - 1 : 0;
+        }
 
         usleep(step_delay);
     }
@@ -80,7 +79,7 @@ void DRV8833::stepMax(uint32_t umps) {
     this->stepPosition(this->MAX_POS, umps);
 }
 
-void DRV8833::stop() {
+void DRV8833::stop(void) {
     this->stepMotor(-1);
 }
 
