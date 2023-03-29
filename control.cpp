@@ -31,6 +31,12 @@ void *mainThread(void *arg0) {
     DRV8833 motor(AIN1, AIN2, BIN1, BIN2, DRV_FAULT);
 
     while(1) {
+        WaterSolenoid::instance().waterSet(true);
+        sleep(1);
+        WaterSolenoid::instance().waterSet(false);
+    }
+    /*
+    while(1) {
         // step quarters
         motor.stepSteps(600, 60);
         sleep(1);
@@ -38,7 +44,7 @@ void *mainThread(void *arg0) {
         sleep(1);
     }
     sleep(1);
-
+     */
 
     // C++ ver (debug)
     std::cout << "ver" << __cplusplus << std::endl;

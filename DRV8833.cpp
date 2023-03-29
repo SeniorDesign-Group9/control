@@ -65,35 +65,23 @@ void DRV8833::stepSteps(int32_t steps, uint32_t rpm) {
     return;
 }
 
-void DRV8833::stepPosition(uint32_t pos, uint32_t rpm) {
-    // todo add some conversion for wavelength and real distance
-    int32_t steps = this->current_pos - pos;
+void DRV8833::stepPosition(uint32_t pos, uint32_t umps) {
+    int32_t steps = pos - this->current_pos;
+    uint32_t rpm = (umps * 60 * 200) / 5;
 
     this->stepSteps(steps, rpm);
 }
 
-void DRV8833::stepZero(uint32_t rpm) {
-    this->stepPosition(0, rpm);
+void DRV8833::stepZero(uint32_t umps) {
+    this->stepPosition(0, umps);
 }
 
-void DRV8833::stepMax(uint32_t rpm) {
-    this->stepPosition(this->MAX_POS, rpm);
+void DRV8833::stepMax(uint32_t umps) {
+    this->stepPosition(this->MAX_POS, umps);
 }
 
-void DRV8833::calibrate(uint32_t rpm) {
-    while (GPIO_read(this->fault)) {
-        this->stepSteps(-4, rpm);
-    }
-    GPIO_clearInt(this->fault);
-    this->current_pos = 0;
-}
-
-void DRV8833::stop(uint_least8_t pin) {
-    GPIOPinWrite(A_PORT, AIN1_BIT, AIN1_BIT);
-    GPIOPinWrite(A_PORT, AIN2_BIT, AIN1_BIT);
-    GPIOPinWrite(B_PORT, BIN1_BIT, BIN1_BIT);
-    GPIOPinWrite(B_PORT, BIN2_BIT, AIN1_BIT);
-    GPIO_clearInt(this->fault);
+void DRV8833::stop() {
+    this->stepMotor(-1);
 }
 
 // Driver function to step motor in certain way
@@ -106,60 +94,30 @@ void DRV8833::stepMotor(int32_t step) {
             b_mask = GPIOPinRead(B_PORT, 0xFF) & ~BIN2_BIT | BIN1_BIT;
             GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
             GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
-            /*
-            GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
-            GPIO_write(this->a2, GPIO_CFG_OUT_LOW);
-            GPIO_write(this->b1, GPIO_CFG_OUT_HIGH);
-            GPIO_write(this->b2, GPIO_CFG_OUT_LOW);
-            */
             break;
         case 1: // 0110
             a_mask = GPIOPinRead(A_PORT, 0xFF) & ~AIN1_BIT | AIN2_BIT;
             b_mask = GPIOPinRead(B_PORT, 0xFF) & ~BIN2_BIT | BIN1_BIT;
             GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
             GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
-            /*
-            GPIO_write(this->a1, GPIO_CFG_OUT_LOW);
-            GPIO_write(this->a2, GPIO_CFG_OUT_HIGH);
-            GPIO_write(this->b1, GPIO_CFG_OUT_HIGH);
-            GPIO_write(this->b2, GPIO_CFG_OUT_LOW);
-            */
             break;
         case 2: // 0101
             a_mask = GPIOPinRead(A_PORT, 0xFF) & ~AIN1_BIT | AIN2_BIT;
             b_mask = GPIOPinRead(B_PORT, 0xFF) & ~BIN1_BIT | BIN2_BIT;
             GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
             GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
-            /*
-            GPIO_write(this->a1, GPIO_CFG_OUT_LOW);
-            GPIO_write(this->a2, GPIO_CFG_OUT_HIGH);
-            GPIO_write(this->b1, GPIO_CFG_OUT_LOW);
-            GPIO_write(this->b2, GPIO_CFG_OUT_HIGH);
-            */
             break;
         case 3: // 1001
             a_mask = GPIOPinRead(A_PORT, 0xFF) & ~AIN2_BIT | AIN1_BIT;
             b_mask = GPIOPinRead(B_PORT, 0xFF) & ~BIN1_BIT | BIN2_BIT;
             GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
             GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
-            /*
-            GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
-            GPIO_write(this->a2, GPIO_CFG_OUT_LOW);
-            GPIO_write(this->b1, GPIO_CFG_OUT_LOW);
-            GPIO_write(this->b2, GPIO_CFG_OUT_HIGH);
-            */
             break;
         default: // Brake
             a_mask = GPIOPinRead(A_PORT, 0xFF) | (AIN2_BIT | AIN1_BIT);
             b_mask = GPIOPinRead(B_PORT, 0xFF) | (BIN2_BIT | BIN1_BIT);
             GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
             GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
-            /*
-            GPIO_write(this->a1, GPIO_CFG_OUT_HIGH);
-            GPIO_write(this->a2, GPIO_CFG_OUT_HIGH);
-            GPIO_write(this->b1, GPIO_CFG_OUT_HIGH);
-            GPIO_write(this->b2, GPIO_CFG_OUT_HIGH);
-            */
             break;
     }
 

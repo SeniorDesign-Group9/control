@@ -25,13 +25,13 @@ public:
     void stepSteps(int32_t steps, uint32_t rpm);
 
     // Step motor to position pos
-    void stepPosition(uint32_t pos, uint32_t rpm);
+    void stepPosition(uint32_t pos, uint32_t umps);
 
     // Step motor to position 0
-    void stepZero(uint32_t rpm);
+    void stepZero(uint32_t umps);
 
     // Step motor to position max_steps
-    void stepMax(uint32_t rpm);
+    void stepMax(uint32_t umps);
 
     void calibrate(uint32_t rpm);
 
