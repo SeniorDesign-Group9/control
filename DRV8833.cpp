@@ -35,8 +35,8 @@ void DRV8833::stepSteps(int32_t steps, uint32_t rpm) {
     int32_t steps_left = 0;
     int32_t direction = 0;
     int32_t step_number = 0;
-    // RPM * 200 steps/rev * us/min
-    useconds_t step_delay = rpm * 200 / (60 * 100000);
+    // us/step = (rpm * 200 steps/min * 1 min/60s * 1 s/1e6 us)^-1
+    useconds_t step_delay = (60 * 1000000) / (rpm * 200);
 
     if (steps > 0) {
         direction = 1;
