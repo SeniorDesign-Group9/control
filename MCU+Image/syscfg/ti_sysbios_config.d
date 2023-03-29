@@ -124,8 +124,6 @@ syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirt
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/heaps/HeapMem_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Clock.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Clock_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Idle.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Idle_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Idle_defs.h
@@ -148,6 +146,11 @@ syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirt
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Swi_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Task.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Task_defs.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Memory.h
@@ -158,11 +161,6 @@ syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirt
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/System.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/System_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/System_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/dpl/ClockP_tirtos.c
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/dpl/ClockP.h
 syscfg/ti_sysbios_config.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdlib.h
@@ -180,9 +178,6 @@ syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirt
 syscfg/ti_sysbios_config.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdlib.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/xdc/runtime/Assert.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/xdc/runtime/Diags.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/xdc/runtime/Log.h
@@ -522,43 +517,6 @@ syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirt
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/TimestampProvider.c
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/TimestampProvider.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/TimestampProvider_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/ClockSupport.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/ClockSupport_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/gates/GateMutex.c
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/gates/GateMutex.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/gates/GateMutex_defs.h
@@ -592,21 +550,6 @@ syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirt
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Clock_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/ClockSupport.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/ClockSupport_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event.c
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Clock.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Clock_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Task.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Task_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Memory.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Memory_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Idle.c
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Idle.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Idle_defs.h
@@ -709,6 +652,13 @@ syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirt
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.c
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.c
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h
@@ -729,17 +679,16 @@ syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirt
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdlib.h
 syscfg/ti_sysbios_config.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/limits.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysCallback.c
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysCallback.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysCallback_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysCallback_defs.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysMin.c
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Startup.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Startup_defs.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysMin.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysMin_defs.h
+syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysMin_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SystemSupport.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SystemSupport_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp.c
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp.h
-syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp_defs.h
 syscfg/ti_sysbios_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Startup.c
 
 syscfg/ti_sysbios_config.c:
@@ -990,10 +939,6 @@ C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Cl
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Clock_defs.h:
 
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event_defs.h:
-
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Idle.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Idle_defs.h:
@@ -1038,6 +983,16 @@ C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Ta
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Task_defs.h:
 
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h:
+
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h:
@@ -1057,16 +1012,6 @@ C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtim
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/System_defs.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/System_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp_defs.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/dpl/ClockP_tirtos.c:
 
@@ -1101,12 +1046,6 @@ C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdlib.h:
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/xdc/runtime/Assert.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h:
 
@@ -1786,80 +1725,6 @@ C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtim
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer_defs.h:
 
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/TimestampProvider.c:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/TimestampProvider.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Hwi_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/Timer_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/family/arm/m3/TimestampProvider_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/ClockSupport.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/ClockSupport_defs.h:
-
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/gates/GateMutex.c:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/gates/GateMutex.h:
@@ -1925,36 +1790,6 @@ C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Cl
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/ClockSupport.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/ClockSupport_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event.c:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Clock.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Clock_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Event_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Queue_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Task.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Task_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Memory.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Memory_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/knl/Idle.c:
 
@@ -2160,6 +1995,20 @@ C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtim
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h:
 
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.c:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Assert_defs.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error_defs.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h:
+
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.c:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Error.h:
@@ -2200,27 +2049,25 @@ C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdlib.h:
 
 C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/limits.h:
 
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysCallback.c:
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysMin.c:
 
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysCallback.h:
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Startup.h:
 
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysCallback_defs.h:
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Startup_defs.h:
 
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysCallback_defs.h:
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysMin.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysMin_defs.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SysMin_defs.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SystemSupport.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/SystemSupport_defs.h:
 
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp.c:
-
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Types_defs.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Timestamp_defs.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages/ti/sysbios/runtime/Startup.c:
 

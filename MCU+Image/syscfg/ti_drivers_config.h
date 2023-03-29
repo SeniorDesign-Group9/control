@@ -10,7 +10,7 @@
  *  Library source code must extern the correct symbol--which is resolved
  *  when the application is linked.
  *
- *  DO NOT EDIT - This file is generated for the CC3220S_LAUNCHXL
+ *  DO NOT EDIT - This file is generated for the CC3220S
  *  by the SysConfig tool.
  */
 #ifndef ti_drivers_config_h
@@ -18,7 +18,7 @@
 
 #define CONFIG_SYSCONFIG_PREVIEW
 
-#define CONFIG_CC3220S_LAUNCHXL
+#define CONFIG_CC3220S
 #ifndef DeviceFamily_CC3220
 #define DeviceFamily_CC3220
 #endif
@@ -36,8 +36,47 @@ extern "C" {
 /*
  *  ======== GPIO ========
  */
-extern const uint_least8_t CONFIG_GPIO_LED_0_CONST;
-#define CONFIG_GPIO_LED_0 9
+extern const uint_least8_t AIN1_CONST;
+#define AIN1 10
+
+extern const uint_least8_t AIN2_CONST;
+#define AIN2 11
+
+extern const uint_least8_t DRV_SLEEP_CONST;
+#define DRV_SLEEP 12
+
+extern const uint_least8_t DRV_FAULT_CONST;
+#define DRV_FAULT 13
+
+extern const uint_least8_t GREEN_LED_CONST;
+#define GREEN_LED 16
+
+extern const uint_least8_t AMBER_LED_CONST;
+#define AMBER_LED 17
+
+extern const uint_least8_t RED_LED_CONST;
+#define RED_LED 22
+
+extern const uint_least8_t CHRG_OK_CONST;
+#define CHRG_OK 0
+
+extern const uint_least8_t BIN1_CONST;
+#define BIN1 3
+
+extern const uint_least8_t BIN2_CONST;
+#define BIN2 4
+
+extern const uint_least8_t ADC_BUSY_CONST;
+#define ADC_BUSY 6
+
+extern const uint_least8_t VALVE_EN_CONST;
+#define VALVE_EN 7
+
+extern const uint_least8_t LAMP_EN_CONST;
+#define LAMP_EN 8
+
+extern const uint_least8_t PROCHOT_CONST;
+#define PROCHOT 9
 
 /* The range of pins available on this device */
 extern const uint_least8_t GPIO_pinLowerBound;
@@ -49,6 +88,43 @@ extern const uint_least8_t GPIO_pinUpperBound;
 
 #define CONFIG_LED_ON  (CONFIG_GPIO_LED_ON)
 #define CONFIG_LED_OFF (CONFIG_GPIO_LED_OFF)
+
+
+/*
+ *  ======== I2C ========
+ */
+
+/*
+ *  SCL: P05
+ *  SDA: P06
+ */
+extern const uint_least8_t              MyI2C1_CONST;
+#define MyI2C1                          0
+#define CONFIG_TI_DRIVERS_I2C_COUNT     1
+
+/* ======== I2C Addresses and Speeds ======== */
+#include <ti/drivers/I2C.h>
+
+/* ---- MyI2C1 I2C bus components ---- */
+
+/* no components connected to MyI2C1 */
+
+/* max speed unspecified, defaulting to 100 Kbps */
+#define MyI2C1_MAXSPEED   (100U) /* Kbps */
+#define MyI2C1_MAXBITRATE ((I2C_BitRate)I2C_100kHz)
+
+
+/*
+ *  ======== UART2 ========
+ */
+
+/*
+ *  TX: P55
+ *  RX: P57
+ */
+extern const uint_least8_t                  MyUART1_CONST;
+#define MyUART1                             0
+#define CONFIG_TI_DRIVERS_UART2_COUNT       1
 
 
 /*

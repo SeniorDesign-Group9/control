@@ -2,7 +2,7 @@
  *  ======== ti_drivers_config.c ========
  *  Configured TI-Drivers module definitions
  *
- *  DO NOT EDIT - This file is generated for the CC3220S_LAUNCHXL
+ *  DO NOT EDIT - This file is generated for the CC3220S
  *  by the SysConfig tool.
  */
 
@@ -16,6 +16,45 @@
 #include <ti/devices/DeviceFamily.h>
 
 #include "ti_drivers_config.h"
+
+/*
+ *  =============================== DMA ===============================
+ */
+
+#include <ti/drivers/dma/UDMACC32XX.h>
+#include <ti/devices/cc32xx/inc/hw_ints.h>
+#include <ti/devices/cc32xx/inc/hw_types.h>
+#include <ti/devices/cc32xx/driverlib/rom_map.h>
+#include <ti/devices/cc32xx/driverlib/udma.h>
+
+/* Ensure DMA control table is aligned as required by the uDMA Hardware */
+static tDMAControlTable dmaControlTable[64] __attribute__ ((aligned (1024)));
+
+/* This is the handler for the uDMA error interrupt. */
+static void dmaErrorFxn(uintptr_t arg)
+{
+    int status = MAP_uDMAErrorStatusGet();
+    MAP_uDMAErrorStatusClear();
+
+    /* Suppress unused variable warning */
+    (void)status;
+
+    while (1);
+}
+
+UDMACC32XX_Object udmaCC3220SObject;
+
+const UDMACC32XX_HWAttrs udmaCC3220SHWAttrs = {
+    .controlBaseAddr = (void *)dmaControlTable,
+    .dmaErrorFxn     = (UDMACC32XX_ErrorFxn)dmaErrorFxn,
+    .intNum          = INT_UDMAERR,
+    .intPriority     = (~0)
+};
+
+const UDMACC32XX_Config UDMACC32XX_config = {
+    .object  = &udmaCC3220SObject,
+    .hwAttrs = &udmaCC3220SHWAttrs
+};
 
 /*
  *  =============================== GPIO ===============================
@@ -33,29 +72,29 @@ const uint_least8_t GPIO_pinUpperBound = 32;
  *  Array of Pin configurations
  */
 GPIO_PinConfig gpioPinConfigs[33] = {
+    GPIO_CFG_INPUT_INTERNAL | GPIO_CFG_IN_INT_NONE | GPIO_CFG_PULL_NONE_INTERNAL, /* CHRG_OK */
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* BIN1 */
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* BIN2 */
+    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
+    GPIO_CFG_INPUT_INTERNAL | GPIO_CFG_IN_INT_NONE | GPIO_CFG_PULL_NONE_INTERNAL, /* ADC_BUSY */
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* VALVE_EN */
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* LAMP_EN */
+    GPIO_CFG_INPUT_INTERNAL | GPIO_CFG_IN_INT_NONE | GPIO_CFG_PULL_NONE_INTERNAL, /* PROCHOT */
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* AIN1 */
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* AIN2 */
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* DRV_SLEEP */
+    GPIO_CFG_INPUT_INTERNAL | GPIO_CFG_IN_INT_NONE | GPIO_CFG_PULL_NONE_INTERNAL, /* DRV_FAULT */
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* CONFIG_GPIO_LED_0 */
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* GREEN_LED */
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* AMBER_LED */
     GPIOCC32XX_DO_NOT_CONFIG, /* Pin not available */
     GPIOCC32XX_DO_NOT_CONFIG, /* Pin not available */
     GPIOCC32XX_DO_NOT_CONFIG, /* Pin not available */
     GPIOCC32XX_DO_NOT_CONFIG, /* Pin not available */
-    GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
+    GPIO_CFG_OUTPUT_INTERNAL | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW, /* RED_LED */
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
     GPIO_CFG_INPUT | GPIOCC32XX_DO_NOT_CONFIG,
@@ -83,7 +122,20 @@ GPIO_CallbackFxn gpioCallbackFunctions[33];
  */
 void* gpioUserArgs[33];
 
-const uint_least8_t CONFIG_GPIO_LED_0_CONST = CONFIG_GPIO_LED_0;
+const uint_least8_t AIN1_CONST = AIN1;
+const uint_least8_t AIN2_CONST = AIN2;
+const uint_least8_t DRV_SLEEP_CONST = DRV_SLEEP;
+const uint_least8_t DRV_FAULT_CONST = DRV_FAULT;
+const uint_least8_t GREEN_LED_CONST = GREEN_LED;
+const uint_least8_t AMBER_LED_CONST = AMBER_LED;
+const uint_least8_t RED_LED_CONST = RED_LED;
+const uint_least8_t CHRG_OK_CONST = CHRG_OK;
+const uint_least8_t BIN1_CONST = BIN1;
+const uint_least8_t BIN2_CONST = BIN2;
+const uint_least8_t ADC_BUSY_CONST = ADC_BUSY;
+const uint_least8_t VALVE_EN_CONST = VALVE_EN;
+const uint_least8_t LAMP_EN_CONST = LAMP_EN;
+const uint_least8_t PROCHOT_CONST = PROCHOT;
 
 /*
  *  ======== GPIO_config ========
@@ -94,6 +146,51 @@ const GPIO_Config GPIO_config = {
     .userArgs = gpioUserArgs,
     .intPriority = (~0)
 };
+
+/*
+ *  =============================== I2C ===============================
+ */
+
+#include <ti/drivers/I2C.h>
+#include <ti/drivers/i2c/I2CCC32XX.h>
+#include <ti/devices/cc32xx/inc/hw_ints.h>
+#include <ti/devices/cc32xx/inc/hw_memmap.h>
+
+#define CONFIG_I2C_COUNT 1
+
+/*
+ *  ======== i2cCC32XXObjects ========
+ */
+I2CCC32XX_Object i2cCC32XXObjects[CONFIG_I2C_COUNT];
+
+/*
+ *  ======== i2cCC32XXHWAttrs ========
+ */
+const I2CCC32XX_HWAttrsV1 i2cCC32XXHWAttrs[CONFIG_I2C_COUNT] = {
+    /* MyI2C1 */
+    {
+        .baseAddr = I2CA0_BASE,
+        .intNum = INT_I2CA0,
+        .intPriority = (~0),
+        .sclTimeout = 0x0,
+        .clkPin  = I2CCC32XX_PIN_05_I2C_SCL,
+        .dataPin = I2CCC32XX_PIN_06_I2C_SDA
+    },
+};
+
+/*
+ *  ======== I2C_config ========
+ */
+const I2C_Config I2C_config[CONFIG_I2C_COUNT] = {
+    /* MyI2C1 */
+    {
+        .object = &i2cCC32XXObjects[MyI2C1],
+        .hwAttrs = &i2cCC32XXHWAttrs[MyI2C1]
+    },
+};
+
+const uint_least8_t MyI2C1_CONST = MyI2C1;
+const uint_least8_t I2C_count = CONFIG_I2C_COUNT;
 
 /*
  *  =============================== Power ===============================
@@ -130,6 +227,55 @@ const PowerCC32XX_ConfigV1 PowerCC32XX_config = {
     .pinParkDefs               = parkInfo,
     .numPins                   = 31
 };
+
+/*
+ *  =============================== UART2 ===============================
+ */
+
+#include <ti/drivers/UART2.h>
+#include <ti/devices/cc32xx/inc/hw_ints.h>
+#include <ti/devices/cc32xx/inc/hw_memmap.h>
+#include <ti/drivers/uart2/UART2CC32XX.h>
+
+#define CONFIG_UART2_COUNT 1
+
+#define UART0_BASE UARTA0_BASE
+#define UART1_BASE UARTA1_BASE
+#define INT_UART0  INT_UARTA0
+#define INT_UART1  INT_UARTA1
+
+static unsigned char uart2RxRingBuffer0[32];
+static unsigned char uart2TxRingBuffer0[32];
+
+
+UART2CC32XX_Object uart2CC32XXObjects0;
+
+static const UART2CC32XX_HWAttrs uart2CC32XXHWAttrs0 = {
+    .baseAddr           = UART0_BASE,
+    .intNum             = INT_UART0,
+    .intPriority        = (~0),
+    .flowControl        = UART2_FLOWCTRL_NONE,
+    .rxDmaChannel       = UDMA_CH8_UARTA0_RX,
+    .txDmaChannel       = UDMA_CH9_UARTA0_TX,
+    .rxPin              = UART2CC32XX_PIN_57_UART0_RX,
+    .txPin              = UART2CC32XX_PIN_55_UART0_TX,
+    .ctsPin             = UART2CC32XX_PIN_UNASSIGNED,
+    .rtsPin             = UART2CC32XX_PIN_UNASSIGNED,
+    .rxBufPtr           = uart2RxRingBuffer0,
+    .rxBufSize          = sizeof(uart2RxRingBuffer0),
+    .txBufPtr           = uart2TxRingBuffer0,
+    .txBufSize          = sizeof(uart2TxRingBuffer0)
+  };
+
+const UART2_Config UART2_config[CONFIG_UART2_COUNT] = {
+    {   /* MyUART1 */
+        .object      = &uart2CC32XXObjects0,
+        .hwAttrs     = &uart2CC32XXHWAttrs0
+    },
+};
+
+const uint_least8_t MyUART1_CONST = MyUART1;
+const uint_least8_t UART2_count = CONFIG_UART2_COUNT;
 
 #include <ti/drivers/power/PowerCC32XX.h>
 
