@@ -26,7 +26,7 @@
 		"UseKey"						:false,
         "KeyFileLocation"				:"",
 		"ServicePackFileLocation"		:"",
-		"UserFileRoot"		            :"C:/Users/Brendan/workspace_v12/control/userFiles"
+		"UserFileRoot"		            :"D:/LocalDocuments/Projects/School/SeniorDesign-Group9/control/userFiles"
     },
     "systemFiles":{
         "FILES":{

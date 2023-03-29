@@ -17,30 +17,27 @@
 #include <ti/sysbios/gates/GateMutex.h>
 #include <ti/sysbios/heaps/HeapMem.h>
 #include <ti/sysbios/knl/Clock.h>
-#include <ti/sysbios/knl/Event.h>
 #include <ti/sysbios/knl/Idle.h>
 #include <ti/sysbios/knl/Mailbox.h>
 #include <ti/sysbios/knl/Queue.h>
 #include <ti/sysbios/knl/Semaphore.h>
 #include <ti/sysbios/knl/Swi.h>
 #include <ti/sysbios/knl/Task.h>
+#include <ti/sysbios/runtime/Assert.h>
 #include <ti/sysbios/runtime/Error.h>
 #include <ti/sysbios/runtime/Memory.h>
 #include <ti/sysbios/runtime/Startup.h>
 #include <ti/sysbios/runtime/System.h>
-#include <ti/sysbios/runtime/Timestamp.h>
 
 
 /* Idle module definitions */
 
 /* Idle functions */
 extern void _pthread_cleanupFxn(void);
-extern void Power_idleFunc(void);
 
 /* Idle function list */
-volatile const Idle_FuncPtr Idle_funcList[2] = {
+volatile const Idle_FuncPtr Idle_funcList[1] = {
     _pthread_cleanupFxn,
-    Power_idleFunc,
 };
 
 
@@ -63,7 +60,6 @@ void Startup_exec()
     Hwi_initNVIC();
     Hwi_initStack();
     BIOS_init();
-    ti_sysbios_family_arm_m3_TimestampProvider_init();
 
     /* Module init functions */
     System_init();
@@ -78,8 +74,7 @@ void Startup_exec()
 
 /* BIOS module definitions */
 
-extern char __primary_heap_start__;
-extern char __primary_heap_end__;
+char BIOS_heap[BIOS_heapSize_D] __attribute__ ((aligned(8)));
 
 HeapMem_Object BIOS_heapMemObject;
 
@@ -94,8 +89,8 @@ void BIOS_init(void)
     }
     BIOS_module->initDone = true;
 
-    char *buf = &__primary_heap_start__;
-    size_t size = &__primary_heap_end__ - &__primary_heap_start__;
+    char *buf = BIOS_heap;
+    size_t size = BIOS_heapSize_D;
     HeapMem_Params heapMemParams;
 
     HeapMem_init();
@@ -136,11 +131,9 @@ void BIOS_init(void)
 #include <ti/sysbios/family/arm/m3/Hwi.c>
 #include <ti/sysbios/family/arm/m3/TaskSupport.c>
 #include <ti/sysbios/family/arm/m3/Timer.c>
-#include <ti/sysbios/family/arm/m3/TimestampProvider.c>
 #include <ti/sysbios/gates/GateMutex.c>
 #include <ti/sysbios/heaps/HeapMem.c>
 #include <ti/sysbios/knl/Clock.c>
-#include <ti/sysbios/knl/Event.c>
 #include <ti/sysbios/knl/Idle.c>
 #include <ti/sysbios/knl/Mailbox.c>
 #include <ti/sysbios/knl/Queue.c>
@@ -148,9 +141,9 @@ void BIOS_init(void)
 #include <ti/sysbios/knl/Swi.c>
 #include <ti/sysbios/knl/Task.c>
 #include <ti/sysbios/rts/MemAlloc.c>
+#include <ti/sysbios/runtime/Assert.c>
 #include <ti/sysbios/runtime/Error.c>
 #include <ti/sysbios/runtime/Memory.c>
 #include <ti/sysbios/runtime/System.c>
-#include <ti/sysbios/runtime/SysCallback.c>
-#include <ti/sysbios/runtime/Timestamp.c>
+#include <ti/sysbios/runtime/SysMin.c>
 #include <ti/sysbios/runtime/Startup.c>

@@ -14,21 +14,33 @@ syscfg/ti_drivers_config.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7
 syscfg/ti_drivers_config.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/sys/_stdint.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/DeviceFamily.h
 syscfg/ti_drivers_config.obj: syscfg/ti_drivers_config.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/I2C.h
+syscfg/ti_drivers_config.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/dpl/HwiP.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/dpl/SemaphoreP.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/dma/UDMACC32XX.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/inc/hw_ints.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/inc/hw_types.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom_map.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom_patch.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/udma.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/GPIO.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/gpio/GPIOCC32XX.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/GPIO.h
-syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/inc/hw_types.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/gpio.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/pin.h
 syscfg/ti_drivers_config.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/arm_acle.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/i2c/I2CCC32XX.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/Power.h
-syscfg/ti_drivers_config.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/utils/List.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/inc/hw_memmap.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/power/PowerCC32XX.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom.h
-syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom_map.h
-syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom_patch.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/prcm.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/UART2.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/dpl/ClockP.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/utils/RingBuf.h
+syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/uart2/UART2CC32XX.h
 syscfg/ti_drivers_config.obj: C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/Board.h
 
 syscfg/ti_drivers_config.c:
@@ -59,13 +71,31 @@ C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/DeviceFamily.h:
 
 syscfg/ti_drivers_config.h:
 
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/I2C.h:
+
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/dpl/HwiP.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/dpl/SemaphoreP.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/dma/UDMACC32XX.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/inc/hw_ints.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/inc/hw_types.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom_map.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom_patch.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/udma.h:
+
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/GPIO.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/gpio/GPIOCC32XX.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/GPIO.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/inc/hw_types.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/gpio.h:
 
@@ -73,21 +103,27 @@ C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/pin.h:
 
 C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/arm_acle.h:
 
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/i2c/I2CCC32XX.h:
+
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/Power.h:
 
-C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h:
-
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/utils/List.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/inc/hw_memmap.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/power/PowerCC32XX.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom.h:
 
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom_map.h:
-
-C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/rom_patch.h:
-
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/devices/cc32xx/driverlib/prcm.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/UART2.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/dpl/ClockP.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/utils/RingBuf.h:
+
+C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/uart2/UART2CC32XX.h:
 
 C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/Board.h:
 

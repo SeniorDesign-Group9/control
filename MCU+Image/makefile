@@ -10,10 +10,14 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
-"./empty.obj" \
+"./DRV8833.obj" \
+"./adc.obj" \
+"./control.obj" \
 "./syscfg/ti_drivers_config.obj" \
 "./syscfg/ti_sysbios_config.obj" \
 "./main_tirtos.obj" \
+"./sensing.obj" \
+"./water.obj" \
 "../cc32xxs_tirtos7.cmd" \
 $(GEN_CMDS__FLAG) \
 -lti_utils_build_linker.cmd.genlibs \
@@ -157,7 +161,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 control.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib -me -O3 --define=DeviceFamily_CC3220 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"control.map" -i"C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source" -i"C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages" -i"C:/Users/Brendan/workspace_v12/control/MCU+Image/syscfg" -i"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="control_linkInfo.xml" --rom_model -o "control.out" $(ORDERED_OBJS)
+	"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib -me -O3 --define=DeviceFamily_CC3220 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"control.map" -i"C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source" -i"C:/ti/simplelink_cc32xx_sdk_6_10_00_05/kernel/tirtos7/packages" -i"D:/LocalDocuments/Projects/School/SeniorDesign-Group9/control/MCU+Image/syscfg" -i"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="control_linkInfo.xml" --rom_model -o "control.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
@@ -178,15 +182,16 @@ control.bin: $(EXE_OUTPUTS) control.out
 syscfg/control.sli: $(EXE_OUTPUTS) control.bin syscfg/ti_drivers_net_wifi_config.json
 	@echo 'Building secondary target: "$@"'
 	@echo 'Invoking: Image Creator'
-	"C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/net/imagecreator/bin/SLImageCreator.exe" syscfg create_image --sdk_path "C:/ti/simplelink_cc32xx_sdk_6_10_00_05" --json "C:/Users/Brendan/workspace_v12/control/MCU+Image/syscfg/ti_drivers_net_wifi_config.json" --file "C:/Users/Brendan/workspace_v12/control/MCU+Image/syscfg/control.sli" --mcu "C:/Users/Brendan/workspace_v12/control/MCU+Image/control.bin"
+	"C:/ti/simplelink_cc32xx_sdk_6_10_00_05/source/ti/drivers/net/imagecreator/bin/SLImageCreator.exe" syscfg create_image --sdk_path "C:/ti/simplelink_cc32xx_sdk_6_10_00_05" --json "D:/LocalDocuments/Projects/School/SeniorDesign-Group9/control/MCU+Image/syscfg/ti_drivers_net_wifi_config.json" --file "D:/LocalDocuments/Projects/School/SeniorDesign-Group9/control/MCU+Image/syscfg/control.sli" --mcu "D:/LocalDocuments/Projects/School/SeniorDesign-Group9/control/MCU+Image/control.bin"
 	@echo 'Finished building secondary target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(CUSTOM_TOOL_OUTPUTS_1481523451__QUOTED)$(CUSTOM_TOOL_OUTPUTS_1330343842__QUOTED)$(GEN_MISC_FILES__QUOTED)$(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "empty.obj" "syscfg\ti_drivers_config.obj" "syscfg\ti_sysbios_config.obj" "main_tirtos.obj" 
-	-$(RM) "empty.d" "syscfg\ti_drivers_config.d" "syscfg\ti_sysbios_config.d" "main_tirtos.d" 
+	-$(RM) "DRV8833.obj" "adc.obj" "control.obj" "syscfg\ti_drivers_config.obj" "syscfg\ti_sysbios_config.obj" "main_tirtos.obj" "sensing.obj" "water.obj" 
+	-$(RM) "syscfg\ti_drivers_config.d" "syscfg\ti_sysbios_config.d" 
+	-$(RM) "DRV8833.d" "adc.d" "control.d" "main_tirtos.d" "sensing.d" "water.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '
