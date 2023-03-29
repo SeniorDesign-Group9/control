@@ -44,20 +44,16 @@
 #include <ti/sysbios/BIOS.h>
 
 #include <ti/drivers/Board.h>
-#include <ti/drivers/GPIO.h>
-#include "ti_drivers_config.h"
-
 
 extern void *mainThread(void *arg0);
 
 /* Stack size in bytes */
-#define THREADSTACKSIZE    1024
+#define THREADSTACKSIZE    4096
 
 /*
  *  ======== main ========
  */
-int main(void)
-{
+int main(void) {
     pthread_t           thread;
     pthread_attr_t      attrs;
     struct sched_param  priParam;
