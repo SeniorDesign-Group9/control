@@ -31,9 +31,17 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <pthread.h>
+/*
+ *  ======== main_tirtos.c ========
+ */
+
+
+/* POSIX Header files */
 #include <cstdint>
 #include <cstdio>
+#include <pthread.h>
+#include <unistd.h>
+
 #include <ti/drivers/Board.h>
 #include <ti/drivers/net/wifi/device.h>
 #include <ti/sysbios/BIOS.h>
@@ -42,7 +50,7 @@
 extern void *mainThread(void *arg0);
 
 // Stack size in bytes
-#define MAINTHREAD_STACKSIZE    2048
+#define MAINTHREAD_STACKSIZE    4096
 #define SLTASK_STACKSIZE        4096
 
 // Main
