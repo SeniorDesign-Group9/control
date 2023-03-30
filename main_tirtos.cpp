@@ -34,53 +34,85 @@
 /*
  *  ======== main_tirtos.c ========
  */
-#include <stdint.h>
-#include <unistd.h>
+
 
 /* POSIX Header files */
+#include <cstdint>
+#include <cstdio>
 #include <pthread.h>
-
-/* RTOS header files */
-#include <ti/sysbios/BIOS.h>
+#include <unistd.h>
 
 #include <ti/drivers/Board.h>
+#include <ti/drivers/net/wifi/device.h>
+#include <ti/sysbios/BIOS.h>
 
+//
 extern void *mainThread(void *arg0);
 
-/* Stack size in bytes */
-#define THREADSTACKSIZE    4096
+// Stack size in bytes
+#define MAINTHREAD_STACKSIZE    4096
+#define SLTASK_STACKSIZE        4096
 
-/*
- *  ======== main ========
- */
+// Main
 int main(void) {
-    pthread_t           thread;
-    pthread_attr_t      attrs;
-    struct sched_param  priParam;
-    int                 retc;
+    // mainThread
+    pthread_t           mainSpawnThread = (pthread_t)NULL;
+    pthread_attr_t      mainSpawnAttrs;
+    struct sched_param  mainSpawnParam;
+    uint32_t            mainSpawnRet = 0;
+
+    // slTask thread
+    pthread_t           slSpawnThread = (pthread_t)NULL;
+    pthread_attr_t      slSpawnAttrs;
+    struct sched_param  slSpawnParam;
+    uint32_t            slSpawnRet = 0;
 
     Board_init();
 
-    /* Initialize the attributes structure with default values */
-    pthread_attr_init(&attrs);
+    // Create mainThread
+    pthread_attr_init(&mainSpawnAttrs);
 
-    /* Set priority, detach state, and stack size attributes */
-    priParam.sched_priority = 1;
-    retc = pthread_attr_setschedparam(&attrs, &priParam);
-    retc |= pthread_attr_setdetachstate(&attrs, PTHREAD_CREATE_DETACHED);
-    retc |= pthread_attr_setstacksize(&attrs, THREADSTACKSIZE);
-    if (retc != 0) {
-        /* failed to set attributes */
+    mainSpawnParam.sched_priority = 1;
+    mainSpawnRet = pthread_attr_setschedparam(&mainSpawnAttrs, &mainSpawnParam);
+    mainSpawnRet |= pthread_attr_setdetachstate(&mainSpawnAttrs, PTHREAD_CREATE_DETACHED);
+    mainSpawnRet |= pthread_attr_setstacksize(&mainSpawnAttrs, MAINTHREAD_STACKSIZE);
+
+    if (mainSpawnRet != 0) {
+        // Failed to set attributes
+        printf("Attrs mainThread failed.\n");
         while (1) {}
     }
 
-    retc = pthread_create(&thread, &attrs, mainThread, NULL);
-    if (retc != 0) {
-        /* pthread_create() failed */
+    mainSpawnRet = pthread_create(&mainSpawnThread, &mainSpawnAttrs, mainThread, NULL);
+    if (mainSpawnRet != 0) {
+        // pthread_create() failed
+        printf("Create mainThread failed.\n");
         while (1) {}
     }
 
+    // Create sl_Task
+    pthread_attr_init(&slSpawnAttrs);
+
+    slSpawnParam.sched_priority = 9;
+    slSpawnRet = pthread_attr_setschedparam(&slSpawnAttrs, &slSpawnParam);
+    slSpawnRet |= pthread_attr_setstacksize(&slSpawnAttrs, SLTASK_STACKSIZE);
+
+    if (slSpawnRet != 0) {
+        // Failed to set attributes
+        printf("Attrs slTask failed.\n");
+        while(1) {}
+    }
+
+    slSpawnRet = pthread_create(&slSpawnThread, &slSpawnAttrs, sl_Task, NULL);
+
+    if (slSpawnRet != 0) {
+        // pthread_create() failed
+        printf("Create slTask failed.\n");
+        while(1) {}
+    }
+
+    // Start RTOS
     BIOS_start();
 
-    return (0);
+    return 0;
 }

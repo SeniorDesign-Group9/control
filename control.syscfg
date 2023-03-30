@@ -10,27 +10,29 @@ scripting.excludeFromBuild("ti_utils_runtime_Makefile");
 /**
  * Import the modules used in this configuration.
  */
-const GPIO     = scripting.addModule("/ti/drivers/GPIO", {}, false);
-const GPIO1    = GPIO.addInstance();
-const GPIO2    = GPIO.addInstance();
-const GPIO3    = GPIO.addInstance();
-const GPIO4    = GPIO.addInstance();
-const GPIO5    = GPIO.addInstance();
-const GPIO6    = GPIO.addInstance();
-const GPIO7    = GPIO.addInstance();
-const GPIO8    = GPIO.addInstance();
-const GPIO9    = GPIO.addInstance();
-const GPIO10   = GPIO.addInstance();
-const GPIO11   = GPIO.addInstance();
-const GPIO12   = GPIO.addInstance();
-const GPIO13   = GPIO.addInstance();
-const GPIO14   = GPIO.addInstance();
-const I2C      = scripting.addModule("/ti/drivers/I2C", {}, false);
-const I2C1     = I2C.addInstance();
-const UART2    = scripting.addModule("/ti/drivers/UART2", {}, false);
-const UART21   = UART2.addInstance();
-const Settings = scripting.addModule("/ti/posix/tirtos/Settings");
-const BIOS     = scripting.addModule("/ti/sysbios/BIOS");
+const GPIO           = scripting.addModule("/ti/drivers/GPIO", {}, false);
+const GPIO1          = GPIO.addInstance();
+const GPIO2          = GPIO.addInstance();
+const GPIO3          = GPIO.addInstance();
+const GPIO4          = GPIO.addInstance();
+const GPIO5          = GPIO.addInstance();
+const GPIO6          = GPIO.addInstance();
+const GPIO7          = GPIO.addInstance();
+const GPIO8          = GPIO.addInstance();
+const GPIO9          = GPIO.addInstance();
+const GPIO10         = GPIO.addInstance();
+const GPIO11         = GPIO.addInstance();
+const GPIO12         = GPIO.addInstance();
+const GPIO13         = GPIO.addInstance();
+const GPIO14         = GPIO.addInstance();
+const I2C            = scripting.addModule("/ti/drivers/I2C", {}, false);
+const I2C1           = I2C.addInstance();
+const SPI            = scripting.addModule("/ti/drivers/SPI");
+const UART2          = scripting.addModule("/ti/drivers/UART2", {}, false);
+const UART21         = UART2.addInstance();
+const SimpleLinkWifi = scripting.addModule("/ti/drivers/net/wifi/SimpleLinkWifi");
+const Settings       = scripting.addModule("/ti/posix/tirtos/Settings");
+const BIOS           = scripting.addModule("/ti/sysbios/BIOS");
 
 /**
  * Write custom configuration values to the imported modules.
@@ -96,9 +98,15 @@ const Power          = scripting.addModule("/ti/drivers/Power", {}, false);
 Power.parkPins.$name = "ti_drivers_power_PowerCC32XXPins0";
 
 UART21.$name              = "MyUART1";
-UART21.uart.$assign       = "UART0";
 UART21.uart.txPin.$assign = "ball.55";
 UART21.uart.rxPin.$assign = "ball.57";
+
+SimpleLinkWifi.connectionPolicy = ["(0,0,0,1)","(1,0,0,0)"];
+SimpleLinkWifi.ipv4Config       = "DHCP";
+
+BIOS.heapSize     = 0x00002000;
+BIOS.heapBaseAddr = "__primary_heap_start__";
+BIOS.heapEndAddr  = "__primary_heap_end__";
 
 /**
  * These are the reserved peripherals and settings in this configuration
@@ -116,5 +124,6 @@ iJTAG1.TMS.$assign = "ball.20";
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
+UART21.uart.$suggestSolution              = "UART0";
 UART21.uart.txDmaChannel.$suggestSolution = "UDMA_CH9";
 UART21.uart.rxDmaChannel.$suggestSolution = "UDMA_CH8";
