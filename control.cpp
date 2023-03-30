@@ -1,27 +1,24 @@
-/*
- *  control.cpp
- */
+// control.cpp
 
 // Driver header files
 #include <ti/drivers/GPIO.h>
+#include <ti/drivers/net/wifi/device.h>
 #include <ti/drivers/I2C.h>
 #include <ti/drivers/UART2.h>
 #include <ti/drivers/Watchdog.h>
 #include <ti/devices/cc32xx/driverlib/gpio.h>
 
-
 // Driver configuration
 #include "ti_drivers_config.h"
 
 // Standard libraries
-#include <unistd.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
+#include <unistd.h>
 
 // Project header files
 #include "adc.hh"
+#include "wireless.hh"
 #include "DRV8833.h"
 #include "water.hh"
 
@@ -41,6 +38,7 @@ void *mainThread(void *arg0) {
 
     I2C_init();
     GPIO_init();
+    SPI_init();
     DRV8833 motor(AIN1, AIN2, BIN1, BIN2, DRV_FAULT);
     
     // Create I2C for usage
@@ -74,7 +72,12 @@ void *mainThread(void *arg0) {
 
 */
 
-
+    // Wireless init
+    if (Wireless::instance().start() < 0) {
+        printf("NWP startup error\n");
+    } else {
+        printf("NWP started successfully\n");
+    }
 
     // ADC init
     if (AdcExternal::instance().init(i2c, adc_address)) {
