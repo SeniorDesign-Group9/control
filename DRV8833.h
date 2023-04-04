@@ -34,16 +34,15 @@ public:
     void stepMax(uint32_t umps);
 
     void calibrate(uint32_t rpm);
-
-    void stop(uint_least8_t pin);
+    
+    void stop(void);
 
 private:
     // Class variables
-    // todo: calculate MAX_POS
-    const uint32_t MAX_POS = UINT32_MAX / 2;
+    const uint32_t MAX_POS = 10000;
     const uint_least8_t a1, a2, b1, b2, fault;
-    // todo: convert to wavelength
-    uint32_t current_pos;
+    uint32_t current_pos = 0;
+
 
     // Helper function to step motor
     void stepMotor(int step);

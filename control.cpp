@@ -12,6 +12,8 @@
 #include "ti_drivers_config.h"
 
 // Standard libraries
+#include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <iostream>
 #include <unistd.h>
