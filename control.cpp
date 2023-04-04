@@ -4,6 +4,7 @@
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/net/wifi/device.h>
 #include <ti/drivers/I2C.h>
+#include <ti/drivers/SPI.h>
 #include <ti/drivers/UART2.h>
 #include <ti/drivers/Watchdog.h>
 #include <ti/devices/cc32xx/driverlib/gpio.h>

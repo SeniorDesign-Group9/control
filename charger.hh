@@ -50,13 +50,6 @@ public:
         MinSystemVoltage = 0x0C
     };
 
-    // Class functions
-    bool init(I2C_Handle i2cHandle, uint8_t device_address);
-
-    // Performs I2C transfer with txBuffer, rxBuffer, txCount, and rxCount
-    // Returns true on transfer success, false on failure
-    bool transfer();
-
     // Sends uint8_t data to uint8_t reg
     // Returns true on transfer success, false on failure
     bool setRawRegisterValue(uint8_t reg, uint8_t lsb, uint8_t msb);
@@ -64,9 +57,6 @@ public:
     // Get the raw value of the register reg
     // Returns value on success, -1 on failure
     uint16_t getRawRegisterValue(uint8_t reg);
-
-    // I2C error handler
-    void i2cErrorHandler(I2C_Transaction *transaction);
 
 private:
     // Singleton variables

@@ -88,10 +88,6 @@ public:
     // Class functions
     bool init(I2C_Handle i2cHandle, uint8_t device_address);
 
-    // Performs I2C transfer with txBuffer, rxBuffer, txCount, and rxCount
-    // Returns true on transfer success, false on failure
-    bool transfer();
-
     // Sends uint8_t data to uint8_t reg
     // Returns true on transfer success, false on failure
     bool setRawRegisterValue(uint8_t reg, uint8_t data);
@@ -107,9 +103,6 @@ public:
     // Clear bit in reg
     // Returns true on success, false on failure
     bool clearRawRegisterBit(uint8_t reg, uint8_t bits);
-
-    // I2C error handler
-    void i2cErrorHandler(I2C_Transaction *transaction);
 
     int8_t getOpmodeStatus();
 
