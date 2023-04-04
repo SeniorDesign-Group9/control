@@ -20,6 +20,7 @@
 
 // Project header files
 #include "adc.hh"
+#include "charger.hh"
 #include "wireless.hh"
 #include "DRV8833.h"
 #include "water.hh"
@@ -79,6 +80,25 @@ void *mainThread(void *arg0) {
         printf("NWP startup error\n");
     } else {
         printf("NWP started successfully\n");
+    }
+
+    // Charge Controller init
+    if (Charger::instance().init(i2c, 0xD6)) {
+        printf("Charger initialized\n");
+    } else {
+        printf("Error initializing charger\n");
+    }
+
+    if(Charger::instance().setRawRegisterValue(Charger::Registers::ChargeOption0, 0x0E, 0x02)) {
+        printf("Set charge options successfully\n");
+    } else {
+        printf("Failed to set charge options\n");
+    }
+
+    if(Charger::instance().setRawRegisterValue(Charger::Registers::ChargeCurrent, 0x08, 0x00)) {
+        printf("Max charge current set");
+    } else {
+        printf("Did not set max charge current");
     }
 
     // ADC init
