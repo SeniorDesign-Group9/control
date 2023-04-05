@@ -1,8 +1,0 @@
-"./empty.obj"
-"./syscfg/ti_drivers_config.obj"
-"./syscfg/ti_sysbios_config.obj"
-"./main_tirtos.obj"
-"../cc32xxs_tirtos7.cmd"
--lti_utils_build_linker.cmd.genlibs
--l"ti/devices/cc32xx/driverlib/ccs/Release/driverlib.a"
--llibc.a

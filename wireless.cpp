@@ -82,7 +82,6 @@ int Wireless::start(void) {
         return retval;
     }
 
-
     // Set SC provisioning
     retval = sl_WlanProvisioning((uint8_t)SL_WLAN_PROVISIONING_CMD_START_MODE_APSC,
                                  (uint8_t)ROLE_STA,
@@ -146,57 +145,4 @@ void SimpleLinkGeneralEventHandler(SlDeviceEvent_t *pDevEvent) {
     printf("[GENERAL EVENT] - ID=[%d] Sender=[%d]\n\n", pDevEvent->Data.Error.Code, pDevEvent->Data.Error.Source);
 }
 void SimpleLinkSockEventHandler(SlSockEvent_t *pSock) {}
-
-
-#define RESPONSE_TEXT "Example text to be displayed in browser"
-
-// Net app request event handler
-void SimpleLinkNetAppRequestEventHandler(SlNetAppRequest_t *pNetAppRequest, SlNetAppResponse_t *pNetAppResponse) {
-    char *contentType = "text/html";
-    unsigned char *pMetadata;
-    unsigned char *pResponseText;
-
-    pMetadata = (unsigned char*)malloc(128);
-    pResponseText = (unsigned char*)malloc(sizeof(RESPONSE_TEXT));
-    if ((NULL == pMetadata) || (NULL == pResponseText))  {
-    /* Allocation error */
-    }
-    memcpy(pResponseText, RESPONSE_TEXT, sizeof(RESPONSE_TEXT));
-    switch(pNetAppRequest->Type) {
-    case SL_NETAPP_REQUEST_HTTP_GET: {
-        printf("SL_NETAPP_REQUEST_HTTP_GET\n");
-
-        pNetAppResponse->Status = SL_NETAPP_HTTP_RESPONSE_200_OK;
-        /* Write the content type TLV to buffer */
-        pNetAppResponse->ResponseData.pMetadata = pMetadata;
-        *pMetadata =
-        (_u8) SL_NETAPP_REQUEST_METADATA_TYPE_HTTP_CONTENT_TYPE;
-        pMetadata++;
-        *(_u16 *)pMetadata = (_u16) strlen (contentType);
-        pMetadata+=2;
-        memcpy (pMetadata, contentType, strlen(contentType));
-        pMetadata+=strlen(contentType);
-        /* Write the content length TLV to buffer */
-        *pMetadata = SL_NETAPP_REQUEST_METADATA_TYPE_HTTP_CONTENT_LEN;
-        pMetadata++;
-        *(_u16 *)pMetadata = 2;
-        pMetadata+=2;
-        *(_u16 *) pMetadata = (_u16) sizeof(RESPONSE_TEXT);
-        pMetadata+=2;
-        /* Calculate and write the total length of meta data */
-        pNetAppResponse->ResponseData.MetadataLen =
-        pMetadata - pNetAppResponse->ResponseData.pMetadata;
-        /* Write the text of the response */
-        pNetAppResponse->ResponseData.PayloadLen = sizeof(RESPONSE_TEXT);
-        pNetAppResponse->ResponseData.pPayload = pResponseText;
-        pNetAppResponse->ResponseData.Flags = 0;
-    }
-    break;
-
-    default:
-        /* POST/PUT/DELETE requests will reach here. */
-        break;
-    }
-
-    return;
-}
+void SimpleLinkNetAppRequestEventHandler(SlNetAppRequest_t *pNetAppRequest, SlNetAppResponse_t *pNetAppResponse) {}
