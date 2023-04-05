@@ -19,7 +19,6 @@ public:
     DRV8833(uint_least8_t pin_a1, uint_least8_t pin_a2, uint_least8_t pin_b1,
             uint_least8_t pin_b2, uint_least8_t pin_fault);
 
-    ~DRV8833();
 
     // Step motor steps number of steps (neg is backward)
     void stepSteps(int32_t steps, uint32_t rpm);

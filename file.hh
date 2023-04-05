@@ -4,10 +4,11 @@
 #define FILEMANAGER_H
 
 #include <string>
+#include <cstdint>
 
 #define BUFFER_LEN      100     // Input buffer length
 
-// Water solenoid class
+// File system class
 class FileManager {
     public:
         // Constructor/destructor
@@ -17,7 +18,7 @@ class FileManager {
         // Class functions
         std::string getFileName(void);
         int32_t writeToFile(std::string line);
-        void readFileToConsole(void);
+        int32_t readFileToConsole(void);
 
     
     private:

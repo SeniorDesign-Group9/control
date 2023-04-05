@@ -44,6 +44,13 @@ void *mainThread(void *arg0) {
     int             i = 0;
     uint8_t         data = 0;
 
+    bool prov = false;
+    _u32 statusWlan;
+    _u8 pConfigOpt;
+    _u16 pConfigLen;
+    pConfigOpt = SL_DEVICE_EVENT_CLASS_WLAN;
+    pConfigLen = sizeof(_u32);
+
     // FS
     std::string fn = "test_file.txt";
     FileManager fm(fn);
@@ -91,6 +98,7 @@ void *mainThread(void *arg0) {
         printf("NWP started successfully\n");
     }
 
+    /*
     // Charge Controller init
     if (Charger::instance().init(i2c, 0xD6)) {
         printf("Charger initialized\n");
@@ -138,7 +146,7 @@ void *mainThread(void *arg0) {
         sleep(1);
         WaterSolenoid::instance().waterSet(false);
     }
-    /*
+
     while(1) {
         // step quarters
         motor.stepSteps(600, 60);
@@ -147,10 +155,11 @@ void *mainThread(void *arg0) {
         sleep(1);
     }
     sleep(1);
-     */
+
 
     // C++ ver (debug)
     std::cout << "ver" << __cplusplus << std::endl;
+    */
 
     while(1) {
         sleep(1);
@@ -173,12 +182,15 @@ void *mainThread(void *arg0) {
     }
 
     // FS test
-    std::cout << "Filename:    " << fm.getFileName() << std::endl;
+    std::cout << "Filename:          " << fm.getFileName() << std::endl;
 
     int32_t rval = 0;
-    rval = fm.writeToFile("Hello, World!");
 
-    std::cout << "writeToFile: " << rval << std::endl;
+    rval = fm.writeToFile("Hello, World!\n");
+    std::cout << "writeToFile:       " << rval << std::endl;
+
+    rval = fm.readFileToConsole();
+    std::cout << "readFileToConsole: " << rval << std::endl;
 
     return 0;
 }
