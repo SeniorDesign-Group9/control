@@ -7,12 +7,11 @@
 
 #include <ti/devices/cc32xx/inc/hw_memmap.h>
 
-#define A_PORT   GPIOA1_BASE
-#define B_PORT   GPIOA2_BASE
-#define AIN1_BIT    0b00000100      // GPIOA1 [2] GPIO10
-#define AIN2_BIT    0b00001000      // GPIOA1 [3] GPIO11
-#define BIN1_BIT    0b00000001      // GPIOA2 [0] GPIO16
-#define BIN2_BIT    0b00000010      // GPIOA2 [1] GOIO17
+#define PORT        GPIOA1_BASE
+#define AIN1_BIT    0b00000001      // GPIOA1 [0] GPIO08
+#define AIN2_BIT    0b00000010      // GPIOA1 [1] GPIO09
+#define BIN1_BIT    0b00000100      // GPIOA1 [2] GPIO10
+#define BIN2_BIT    0b00001000      // GPIOA1 [3] GOIO11
 
 class DRV8833 {
 public:

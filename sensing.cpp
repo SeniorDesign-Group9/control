@@ -4,6 +4,8 @@
 #include <ti/drivers/GPIO.h>
 #include "ti_drivers_config.h"
 #include "sensing.hh"
+#include "adc.hh"
+
 
 // Empty constructor
 Sensing::Sensing() {}
@@ -17,5 +19,39 @@ Sensing& Sensing::instance() {
     return inst;
 }
 
+// Class functions
+void Sensing::getResult(DRV8833& motor) {
+   uint16_t nir_result = 0;
+   uint16_t vis_result = 0;
+   result_t new_result;
 
+   GPIO_write(AMBER_LED, 1);
+
+   motor.stepZero(1);
+
+   // Increment through each position and take a reading
+   for (int i = 0; i < POSITIONS; i++) {
+       nir_result = AdcExternal::instance().getRawResult(AdcExternal::CH0);
+       vis_result = AdcExternal::instance().getRawResult(AdcExternal::CH1);
+
+       if (nir_result != -1) {
+           new_result.nir_results.at(i) = nir_result;
+       }
+
+       if (vis_result != -1) {
+           new_result.vis_results.at(i) = vis_result;
+       }
+
+       // TODO: step motor
+   }
+
+   new_result.time = std::time(nullptr);
+   results.push(new_result);
+
+   GPIO_write(AMBER_LED, 0);
+}
+
+inline float Sensing::resultRawToFloat(uint16_t raw_result) {
+    return static_cast<float>(raw_result) / static_cast<float>(ONE_VOLT);
+}
 
