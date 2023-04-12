@@ -8,7 +8,9 @@
 
 
 // Empty constructor
-Sensing::Sensing() {}
+Sensing::Sensing() {
+    lampGpio = LAMP_EN;
+}
 
 // Empty destructor
 Sensing::~Sensing() {}
@@ -21,37 +23,60 @@ Sensing& Sensing::instance() {
 
 // Class functions
 void Sensing::getResult(DRV8833& motor) {
-   uint16_t nir_result = 0;
-   uint16_t vis_result = 0;
-   result_t new_result;
+    uint16_t nir_result = 0;
+    uint16_t vis_result = 0;
+    result_t new_result;
 
-   GPIO_write(AMBER_LED, 1);
+    GPIO_write(AMBER_LED, 1);
 
-   motor.stepZero(1);
+    motor.stepZero(200);         // 200 micrometers/sec = 60 RPM
 
-   // Increment through each position and take a reading
-   for (int i = 0; i < POSITIONS; i++) {
-       nir_result = AdcExternal::instance().getRawResult(AdcExternal::CH0);
-       vis_result = AdcExternal::instance().getRawResult(AdcExternal::CH1);
+    lampSet(true);
+    usleep(500 * 1000);          // Sleep for 500ms to allow lamp to turn on
 
-       if (nir_result != -1) {
+    // Increment through each position and take a reading
+    for (int i = 0; i < POSITIONS; i++) {
+        nir_result = AdcExternal::instance().getRawResult(AdcExternal::CH0);
+        vis_result = AdcExternal::instance().getRawResult(AdcExternal::CH1);
+
+        if (nir_result != -1) {
            new_result.nir_results.at(i) = nir_result;
-       }
+        }
 
-       if (vis_result != -1) {
+        if (vis_result != -1) {
            new_result.vis_results.at(i) = vis_result;
-       }
+        }
 
-       // TODO: step motor
-   }
+        motor.stepSteps(10000/POSITIONS, 60);        // 10k is max position
+    }
 
-   new_result.time = std::time(nullptr);
-   results.push(new_result);
+    lampSet(false);
 
-   GPIO_write(AMBER_LED, 0);
+    new_result.time = std::time(nullptr);
+    results.push(new_result);
+
+    GPIO_write(AMBER_LED, 0);
 }
 
 inline float Sensing::resultRawToFloat(uint16_t raw_result) {
     return static_cast<float>(raw_result) / static_cast<float>(ONE_VOLT);
+}
+
+// Set lamp on or off
+void Sensing::lampSet(bool on) {
+    GPIO_write(lampGpio, (on ? GPIO_CFG_OUT_HIGH : GPIO_CFG_OUT_LOW));
+    lampOn = on;
+    return;
+}
+
+// Toggle lamp
+void Sensing::lampToggle(void) {
+    GPIO_toggle(lampGpio);
+    lampOn = !lampOn;
+    return;
+}
+
+result_t Sensing::queuePeek(void) {
+    return results.front();
 }
 

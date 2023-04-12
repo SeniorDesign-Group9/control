@@ -120,6 +120,8 @@ int Wireless::haltProvisioning(void) {
     while(SL_WLAN_EVENT_PROVISIONING_STATUS & statusWlan) {
         sl_DeviceGet(SL_DEVICE_STATUS,&pConfigOpt,&pConfigLen,(_u8 *)(&statusWlan));
     }
+
+    return 0;
 }
 
 // Event handlers

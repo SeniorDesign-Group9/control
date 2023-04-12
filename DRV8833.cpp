@@ -86,23 +86,27 @@ void DRV8833::stop(void) {
 
 // Driver function to step motor in certain way
 void DRV8833::stepMotor(int32_t step) {
+    GPIOPinWrite(GPIOA1_BASE, SLEEP_BIT, SLEEP_BIT);
+
     switch (step) {
         case 0: // 1010
-            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN1_BIT|BIN1_BIT|SLEEP_BIT);
+            GPIOPinWrite(GPIOA1_BASE, (AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT), (AIN1_BIT|BIN1_BIT));
             break;
         case 1: // 0110
-            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN2_BIT|BIN1_BIT|SLEEP_BIT);
+            GPIOPinWrite(GPIOA1_BASE, (AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT), (AIN2_BIT|BIN1_BIT));
             break;
         case 2: // 0101
-            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN2_BIT|BIN2_BIT|SLEEP_BIT);
+            GPIOPinWrite(GPIOA1_BASE, (AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT), (AIN2_BIT|BIN2_BIT));
             break;
         case 3: // 1001
-            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN1_BIT|BIN2_BIT|SLEEP_BIT);
+            GPIOPinWrite(GPIOA1_BASE, (AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT), (AIN1_BIT|BIN2_BIT));
             break;
         default: // Brake
-            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT);
+            GPIOPinWrite(GPIOA1_BASE, (AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT), (AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT));
             break;
     }
+
+    GPIOPinWrite(GPIOA1_BASE, SLEEP_BIT, 0);
 
     return;
 }

@@ -35,6 +35,8 @@ void *mainThread(void *arg0) {
     I2C_Handle      i2c;
     I2C_Params      i2cParams;
     I2C_Transaction i2cTransaction;
+    UART2_Handle    uart;
+    UART2_Params    uartParams;
     uint8_t         adc_address = 0x1F;     // 0x18 for eval board, 0x1F for prod board
 
 
@@ -43,6 +45,10 @@ void *mainThread(void *arg0) {
     SPI_init();
     DRV8833 motor(AIN1, AIN2, BIN1, BIN2, DRV_FAULT);
     
+    // Program running
+    GPIO_write(GREEN_LED, 1);
+    GPIO_write(RED_LED, 1);
+
     // Create I2C for usage
     I2C_Params_init(&i2cParams);
     i2cParams.bitRate = I2C_400kHz;
@@ -54,6 +60,17 @@ void *mainThread(void *arg0) {
         printf("I2C initialized\n");
     }
 
+    // Create a UART where the default read and write mode is BLOCKING
+    UART2_Params_init(&uartParams);
+    uartParams.baudRate = 115200;
+    uart = UART2_open(MyUART1, &uartParams);
+    if (uart == NULL) {
+        printf("Error initializing UART\n");
+        while (1) {}
+    } else {
+        printf("UART initialized\n");
+    }
+
     // Wireless init
     if (Wireless::instance().start() < 0) {
         printf("NWP startup error\n");
@@ -63,6 +80,7 @@ void *mainThread(void *arg0) {
 
     Wireless::instance().haltProvisioning();
 
+    /*
     // Charge Controller init
     if (Charger::instance().init(i2c, 0xD6)) {
         printf("Charger initialized\n");
@@ -82,6 +100,7 @@ void *mainThread(void *arg0) {
         printf("Did not set max charge current");
     }
     */
+
     // ADC init
     if (AdcExternal::instance().init(i2c, adc_address)) {
         printf("ADC initialized\n");
@@ -89,49 +108,27 @@ void *mainThread(void *arg0) {
         printf("Error initializing ADC\n");
     }
 
+    // Done initializing
+    GPIO_write(RED_LED, 0);
+
+    // Write to the UART
+    size_t  bytesWritten;
+    char buffer[] = "UART initialized.\r\n";
+    UART2_write(uart, buffer, sizeof(buffer), &bytesWritten);
+    strcpy(buffer, "Hello, World!\r\n");
+
     while(1) {
-        WaterSolenoid::instance().waterSet(true);
-        GPIO_write(RED_LED, 1);
+        UART2_write(uart, buffer, sizeof(buffer), &bytesWritten);
 
-        ch0_result = AdcExternal::instance().getRawResult(AdcExternal::CH0);
-        ch1_result = AdcExternal::instance().getRawResult(AdcExternal::CH1);
-        ch0_voltage = static_cast<float>(ch0_result) / static_cast<float>(ONE_VOLT);
-        ch1_voltage = static_cast<float>(ch1_result) / static_cast<float>(ONE_VOLT);
-
-        WaterSolenoid::instance().waterSet(false);
-        GPIO_write(RED_LED, 0);
-
-        printf("[%3d]", i);
-        printf(" NIR raw result: 0x%04x\n", ch0_result);
-        printf("      NIR voltage:    %.3f V\n", ch0_voltage);
-        printf("      VIS raw result: 0x%04x\n", ch1_result);
-        printf("      VIS voltage:    %.3f V\n", ch1_voltage);
-
-        ++i;
-
-        motor.stepSteps(77, 60);
-
-        sleep(2);
-    }
-
-
-    /*
         Sensing::instance().getResult(motor);
 
         // Solenoid test
         WaterSolenoid::instance().waterToggle();
 
-        sleep(1);
-    }
-    */
+        std::cout << "time: " << (Sensing::instance().queuePeek()).time << std::endl;
+        std::cout << "nir0: " << (Sensing::instance().queuePeek()).nir_results[0] << std::endl;
+        std::cout << "vis0: " << (Sensing::instance().queuePeek()).vis_results[0] << std::endl;
 
-
-    // Motor test
-    while(1) {
-        // step quarters
-        motor.stepSteps(600, 60);
-        sleep(1);
-        motor.stepSteps(-600, 60);
         sleep(1);
     }
 

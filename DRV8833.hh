@@ -8,11 +8,9 @@
 #include <ti/devices/cc32xx/inc/hw_memmap.h>
 #include <cstdint>
 
-#define A_PORT   GPIOA1_BASE
-#define B_PORT   GPIOA1_BASE
 #define AIN1_BIT    0b00000001      // GPIOA1 [0] GPIO08
 #define AIN2_BIT    0b00000010      // GPIOA1 [1] GPIO09
-#define BIN1_BIT    0b00100000      // GPIOA1 [2] GPIO10   changed to DRV_FAULT GPIOA1 [5] GPIO13
+#define BIN1_BIT    0b00000100      // GPIOA1 [2] GPIO10
 #define BIN2_BIT    0b00001000      // GPIOA1 [3] GPIO11
 #define SLEEP_BIT   0b00010000      // GPIOA1 [4] GPIO12
 

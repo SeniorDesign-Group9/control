@@ -7,7 +7,7 @@
 #include <ctime>
 #include <queue>
 #include <deque>
-#include "DRV8833.h"
+#include "DRV8833.hh"
 
 #define POSITIONS       130
 
@@ -21,6 +21,13 @@ public:
         std::queue<T, Container>::push(value);
     }
 };
+
+typedef struct result {
+    std::time_t time;
+    std::array<uint16_t, POSITIONS> vis_results;
+    std::array<uint16_t, POSITIONS> nir_results;
+} result_t;
+
 
 class Sensing {
     public:
@@ -42,6 +49,14 @@ class Sensing {
 
         inline float resultRawToFloat(uint16_t raw_result);
 
+        // Set lamp on or off
+        void lampSet(bool on);
+
+        // Toggle lamp
+        void lampToggle(void);
+
+        result_t queuePeek(void);
+
     private:
         // Singleton variables
         Sensing();
@@ -49,14 +64,8 @@ class Sensing {
 
         // Class variables
         const uint16_t ONE_VOLT = static_cast<uint16_t>(static_cast<float>(UINT16_MAX) / static_cast<float>(3.3));
-
-        typedef struct result {
-            std::time_t time;
-            std::array<uint16_t, POSITIONS> vis_results;
-            std::array<uint16_t, POSITIONS> nir_results;
-
-            result_t();
-        } result_t;
+        unsigned int lampGpio;
+        bool lampOn;
 
         FixedQueue<result_t, 4> results;
 };
