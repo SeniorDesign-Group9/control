@@ -7,7 +7,7 @@
 // Singleton functions
 // Empty constructor
 WaterSolenoid::WaterSolenoid() {
-    waterGpio = VALVE_EN;                       // Solenoid GPIO is VALVE_EN
+    waterGpio = LAMP_EN;                       // FIXME: Solenoid GPIO is VALVE_EN
 }
 
 // Empty destructor

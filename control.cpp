@@ -23,7 +23,7 @@
 #include "adc.hh"
 #include "charger.hh"
 #include "wireless.hh"
-#include "DRV8833.h"
+#include "DRV8833.hh"
 #include "water.hh"
 
 // mainThread
@@ -83,6 +83,7 @@ void *mainThread(void *arg0) {
         printf("NWP started successfully\n");
     }
 
+    /*
     // Charge Controller init
     if (Charger::instance().init(i2c, 0xD6)) {
         printf("Charger initialized\n");
@@ -101,7 +102,7 @@ void *mainThread(void *arg0) {
     } else {
         printf("Did not set max charge current");
     }
-
+    */
     // ADC init
     if (AdcExternal::instance().init(i2c, adc_address)) {
         printf("ADC initialized\n");
@@ -111,10 +112,16 @@ void *mainThread(void *arg0) {
 
     // ADC test
     while(1) {
+        WaterSolenoid::instance().waterSet(true);
+        GPIO_write(RED_LED, 1);
+
         ch0_result = AdcExternal::instance().getRawResult(AdcExternal::CH0);
         ch1_result = AdcExternal::instance().getRawResult(AdcExternal::CH1);
         ch0_voltage = static_cast<float>(ch0_result) / static_cast<float>(ONE_VOLT);
         ch1_voltage = static_cast<float>(ch1_result) / static_cast<float>(ONE_VOLT);
+
+        WaterSolenoid::instance().waterSet(false);
+        GPIO_write(RED_LED, 0);
 
         printf("[%3d]", i);
         printf(" NIR raw result: 0x%04x\n", ch0_result);
@@ -123,13 +130,12 @@ void *mainThread(void *arg0) {
         printf("      VIS voltage:    %.3f V\n", ch1_voltage);
 
         ++i;
+
+        motor.stepSteps(77, 60);
+
+        sleep(2);
     }
 
-    while(1) {
-        WaterSolenoid::instance().waterSet(true);
-        sleep(1);
-        WaterSolenoid::instance().waterSet(false);
-    }
     /*
     while(1) {
         // step quarters

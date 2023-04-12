@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <ti/drivers/GPIO.h>
 #include <ti/devices/cc32xx/driverlib/gpio.h>
-#include "DRV8833.h"
+#include "DRV8833.hh"
 
 
 // This expects that the pins are correctly configured, the motor pins should be set as
@@ -20,10 +20,11 @@ DRV8833::DRV8833(uint_least8_t
         a1(pin_a1), a2(pin_a2), b1(pin_b1), b2(pin_b2),
         fault(pin_fault) {
     GPIO_enableInt(pin_fault);
-    GPIODirModeSet(A_PORT, AIN1_BIT, GPIO_DIR_MODE_OUT);
-    GPIODirModeSet(A_PORT, AIN2_BIT, GPIO_DIR_MODE_OUT);
-    GPIODirModeSet(B_PORT, BIN1_BIT, GPIO_DIR_MODE_OUT);
-    GPIODirModeSet(B_PORT, BIN2_BIT, GPIO_DIR_MODE_OUT);
+    GPIODirModeSet(GPIOA1_BASE, AIN1_BIT, GPIO_DIR_MODE_OUT);
+    GPIODirModeSet(GPIOA1_BASE, AIN2_BIT, GPIO_DIR_MODE_OUT);
+    GPIODirModeSet(GPIOA1_BASE, BIN1_BIT, GPIO_DIR_MODE_OUT);
+    GPIODirModeSet(GPIOA1_BASE, BIN2_BIT, GPIO_DIR_MODE_OUT);
+    GPIODirModeSet(GPIOA1_BASE, SLEEP_BIT, GPIO_DIR_MODE_OUT);
 }
 
 // Step the motor a number of steps
@@ -85,38 +86,21 @@ void DRV8833::stop(void) {
 
 // Driver function to step motor in certain way
 void DRV8833::stepMotor(int32_t step) {
-    unsigned char a_mask = 0x00;
-    unsigned char b_mask = 0x00;
     switch (step) {
         case 0: // 1010
-            a_mask = GPIOPinRead(A_PORT, 0xFF) & ~AIN2_BIT | AIN1_BIT;
-            b_mask = GPIOPinRead(B_PORT, 0xFF) & ~BIN2_BIT | BIN1_BIT;
-            GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
-            GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
+            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN1_BIT|BIN1_BIT|SLEEP_BIT);
             break;
         case 1: // 0110
-            a_mask = GPIOPinRead(A_PORT, 0xFF) & ~AIN1_BIT | AIN2_BIT;
-            b_mask = GPIOPinRead(B_PORT, 0xFF) & ~BIN2_BIT | BIN1_BIT;
-            GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
-            GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
+            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN2_BIT|BIN1_BIT|SLEEP_BIT);
             break;
         case 2: // 0101
-            a_mask = GPIOPinRead(A_PORT, 0xFF) & ~AIN1_BIT | AIN2_BIT;
-            b_mask = GPIOPinRead(B_PORT, 0xFF) & ~BIN1_BIT | BIN2_BIT;
-            GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
-            GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
+            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN2_BIT|BIN2_BIT|SLEEP_BIT);
             break;
         case 3: // 1001
-            a_mask = GPIOPinRead(A_PORT, 0xFF) & ~AIN2_BIT | AIN1_BIT;
-            b_mask = GPIOPinRead(B_PORT, 0xFF) & ~BIN1_BIT | BIN2_BIT;
-            GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
-            GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
+            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN1_BIT|BIN2_BIT|SLEEP_BIT);
             break;
         default: // Brake
-            a_mask = GPIOPinRead(A_PORT, 0xFF) | (AIN2_BIT | AIN1_BIT);
-            b_mask = GPIOPinRead(B_PORT, 0xFF) | (BIN2_BIT | BIN1_BIT);
-            GPIOPinWrite(A_PORT, AIN1_BIT | AIN2_BIT, a_mask);
-            GPIOPinWrite(B_PORT, BIN1_BIT | BIN2_BIT, b_mask);
+            GPIOPinWrite(GPIOA1_BASE, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT, AIN1_BIT|AIN2_BIT|BIN1_BIT|BIN2_BIT|SLEEP_BIT);
             break;
     }
 
