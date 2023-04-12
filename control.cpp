@@ -13,14 +13,17 @@
 #include "ti_drivers_config.h"
 
 // Standard libraries
+#include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <pthread.h>
 #include <string>
-#include <cstddef>
-#include <cstdint>
 #include <unistd.h>
+
+// Driver configuration
+#include "ti_drivers_config.h"
 
 // Project header files
 #include "adc.hh"
