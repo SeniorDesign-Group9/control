@@ -9,8 +9,6 @@
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/I2C.h>
 
-#define SLEEP 50000             // Sleep 50 ms (50000 us)
-
 // Singleton functions
 // Empty constructor
 AdcExternal::AdcExternal() {}
@@ -27,10 +25,10 @@ AdcExternal& AdcExternal::instance() {
 // Class functions
 // Initializes ADC (I2C bus and parameters)
 // Returns true on success, false on failure
-bool AdcExternal::init(I2C_Handle i2cHandle, uint8_t i2cAddress) {
+bool AdcExternal::init(I2C_Handle i2cHandle, uint8_t device_address) {
     this->i2cHandle = i2cHandle;
-    this->i2cAddress = i2cAddress;
-    i2cTransaction.slaveAddress = this->i2cAddress;
+    this->device_address = device_address;
+    i2cTransaction.slaveAddress = this->device_address;
 
     txCount = 0;
     rxCount = 0;
@@ -81,33 +79,9 @@ bool AdcExternal::init(I2C_Handle i2cHandle, uint8_t i2cAddress) {
     return true;
 }
 
-// Performs I2C transfer with txBuffer, rxBuffer, txCount, and rxCount
-// Returns true on transfer success, false on failure
-bool AdcExternal::transfer() {
-    bool ret;
-
-    /* Before performing any i2c transfer, verify we called init() first*/
-    if (i2cHandle == NULL) {
-        return false;
-    }
-
-    i2cTransaction.writeBuf = txBuffer;
-    i2cTransaction.writeCount = txCount;
-    i2cTransaction.readBuf = rxBuffer;
-    i2cTransaction.readCount = rxCount;
-
-    ret = I2C_transfer(i2cHandle, &i2cTransaction);
-
-    if (!ret) {
-        i2cErrorHandler(&i2cTransaction);
-    }
-
-    return ret;
-}
-
 // Sends uint8_t data to uint8_t reg
 // Returns true on transfer success, false on failure
-bool AdcExternal::setRawRegisterValue(Register reg, uint8_t data) {
+bool AdcExternal::setRawRegisterValue(uint8_t reg, uint8_t data) {
     txBuffer[0] = SINGLE_WRITE;
     txBuffer[1] = (uint8_t)reg;
     txBuffer[2] = data;
@@ -119,7 +93,7 @@ bool AdcExternal::setRawRegisterValue(Register reg, uint8_t data) {
 
 // Get the raw value of the register reg
 // Returns value on success, -1 on failure
-uint8_t AdcExternal::getRawRegisterValue(Register reg) {
+uint8_t AdcExternal::getRawRegisterValue(uint8_t reg) {
     txBuffer[0] = SINGLE_READ;
     txBuffer[1] = reg;
     txCount = 2;
@@ -136,7 +110,7 @@ uint8_t AdcExternal::getRawRegisterValue(Register reg) {
 
 // Set bit in reg
 // Returns true on transfer success, false on failure
-bool AdcExternal::setRawRegisterBit(Register reg, uint8_t bits) {
+bool AdcExternal::setRawRegisterBit(uint8_t reg, uint8_t bits) {
     txBuffer[0] = SET_BIT;
     txBuffer[1] = (uint8_t)reg;
     txBuffer[2] = bits;
@@ -148,7 +122,7 @@ bool AdcExternal::setRawRegisterBit(Register reg, uint8_t bits) {
 
 // Clear bit in reg
 // Returns true on success, false on failure
-bool AdcExternal::clearRawRegisterBit(Register reg, uint8_t bits) {
+bool AdcExternal::clearRawRegisterBit(uint8_t reg, uint8_t bits) {
     txBuffer[0] = CLEAR_BIT;
     txBuffer[1] = (uint8_t)reg;
     txBuffer[2] = bits;
@@ -212,41 +186,3 @@ void * readyCallback(void) {
     return nullptr;
 }
 
-// I2C error handler
-void AdcExternal::i2cErrorHandler(I2C_Transaction *transaction) {
-    switch (transaction->status) {
-        case I2C_STATUS_TIMEOUT:
-            printf("%s: I2C transaction timed out!", __FILE__);
-            break;
-        case I2C_STATUS_CLOCK_TIMEOUT:
-            printf("%s: I2C serial clock line timed out!", __FILE__);
-            break;
-        case I2C_STATUS_ADDR_NACK:
-            printf("%s: I2C slave address 0x%x not acknowledged!", __FILE__, transaction->slaveAddress);
-            break;
-        case I2C_STATUS_DATA_NACK:
-            printf("%s: I2C data byte not acknowledged!", __FILE__);
-            break;
-        case I2C_STATUS_ARB_LOST:
-            printf("%s: I2C arbitration to another master!", __FILE__);
-            break;
-        case I2C_STATUS_INCOMPLETE:
-            printf("%s: I2C transaction returned before completion!", __FILE__);
-            break;
-        case I2C_STATUS_BUS_BUSY:
-            printf("%s: I2C bus is already in use!", __FILE__);
-            break;
-        case I2C_STATUS_CANCEL:
-            printf("%s: I2C transaction cancelled!", __FILE__);
-            break;
-        case I2C_STATUS_INVALID_TRANS:
-            printf("%s: I2C transaction invalid!", __FILE__);
-            break;
-        case I2C_STATUS_ERROR:
-            printf("%s: I2C generic error!", __FILE__);
-            break;
-        default:
-            printf("%s: I2C undefined error case!", __FILE__);
-            break;
-    }
-}
