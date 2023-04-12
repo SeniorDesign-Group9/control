@@ -27,6 +27,8 @@ class Wireless {
 
         // Stop NWP
         int stop(void);
+
+        int haltProvisioning(void);
     
     private:
         // Singleton variables

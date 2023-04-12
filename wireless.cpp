@@ -93,6 +93,10 @@ int Wireless::start(void) {
         return retval;
     }
 
+    // FIXME debug: stop provisioning
+    //sl_WlanProvisioning(SL_WLAN_PROVISIONING_CMD_STOP,0xFF,0,NULL, 0x0);
+
+
     return 0;
 }
 
@@ -103,6 +107,19 @@ int Wireless::stop(void) {
     stop_retval = sl_Stop(SL_STOP_TIMEOUT);
 
     return stop_retval;
+}
+
+int Wireless::haltProvisioning(void) {
+    uint32_t statusWlan;
+    uint16_t pConfigLen;
+    uint8_t pConfigOpt;
+    pConfigOpt = SL_DEVICE_EVENT_CLASS_WLAN;
+    pConfigLen = sizeof(uint32_t);
+    sl_WlanProvisioning(SL_WLAN_PROVISIONING_CMD_STOP, 0xFF, 0, NULL, 0x0);
+
+    while(SL_WLAN_EVENT_PROVISIONING_STATUS & statusWlan) {
+        sl_DeviceGet(SL_DEVICE_STATUS,&pConfigOpt,&pConfigLen,(_u8 *)(&statusWlan));
+    }
 }
 
 // Event handlers
