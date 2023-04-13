@@ -33,6 +33,11 @@
 #include "water.hh"
 #include "wireless.hh"
 
+static float convert(uint16_t raw_result) {
+    static const uint16_t OV = static_cast<uint16_t>(static_cast<float>(UINT16_MAX) / static_cast<float>(3.3));
+    return static_cast<float>(raw_result) / static_cast<float>(OV);
+}
+
 // mainThread
 void *mainThread(void *arg0) {
     I2C_Handle      i2c;
@@ -42,6 +47,7 @@ void *mainThread(void *arg0) {
     UART2_Params    uartParams;
     uint8_t         adc_address = 0x1F;     // 0x18 for eval board, 0x1F for prod board
 
+    printf("\n--- Initialization begin ---\n");
 
     I2C_init();
     GPIO_init();
@@ -120,6 +126,8 @@ void *mainThread(void *arg0) {
     UART2_write(uart, buffer, sizeof(buffer), &bytesWritten);
     strcpy(buffer, "Hello, World!\r\n");
 
+    printf("---- Initialization end ----\n\n");
+
     while(1) {
         UART2_write(uart, buffer, sizeof(buffer), &bytesWritten);
 
@@ -128,9 +136,15 @@ void *mainThread(void *arg0) {
         // Solenoid test
         WaterSolenoid::instance().waterToggle();
 
-        std::cout << "time: " << (Sensing::instance().queuePeek()).time << std::endl;
-        std::cout << "nir0: " << (Sensing::instance().queuePeek()).nir_results[0] << std::endl;
-        std::cout << "vis0: " << (Sensing::instance().queuePeek()).vis_results[0] << std::endl;
+        printf("--------- Spectra ----------\n\n");
+        printf("POS    NIR       VIS\n");
+        for (int j = 0; j < 130; j++) {
+            printf("[%03d]  ", j);
+            std::cout << convert(((Sensing::instance().queuePeek()).nir_results[j]));
+            std::cout << " V   ";
+            std::cout << convert(((Sensing::instance().queuePeek()).vis_results[j]));
+            std::cout << " V" << std::endl;
+        }
 
         sleep(1);
     }

@@ -43,6 +43,7 @@ private:
     const uint8_t a1, a2, b1, b2, fault;
     // todo: convert to wavelength
     uint32_t current_pos;
+    uint32_t step_number;
 
     // Helper function to step motor
     void stepMotor(int step);
