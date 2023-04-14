@@ -91,6 +91,23 @@ public:
         }
     }
 
+    bool checkAddress(I2C_Handle i2c, uint8_t address) {
+        uint8_t data = 0;
+        // Setup I2C transaction to find slave
+        i2cTransaction.writeBuf = &data;
+        i2cTransaction.writeCount = 1;
+        i2cTransaction.readBuf = &data;
+        i2cTransaction.readCount = 0;
+        i2cTransaction.slaveAddress = address;
+        if (I2C_transfer(i2c, &i2cTransaction)) {
+            // I2C device found at address
+            return true;
+        } else {
+            // Error finding I2C device at address
+            return false;
+        }
+    }
+
 protected:
     I2C_Handle i2cHandle;
     I2C_Transaction i2cTransaction;

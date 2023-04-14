@@ -6,20 +6,19 @@
 #define CONTROLLER_DRV8833_H
 
 #include <ti/devices/cc32xx/inc/hw_memmap.h>
+#include <cstdint>
 
-#define A_PORT   GPIOA1_BASE
-#define B_PORT   GPIOA2_BASE
-#define AIN1_BIT    0b00000100      // GPIOA1 [2] GPIO10
-#define AIN2_BIT    0b00001000      // GPIOA1 [3] GPIO11
-#define BIN1_BIT    0b00000001      // GPIOA2 [0] GPIO16
-#define BIN2_BIT    0b00000010      // GPIOA2 [1] GOIO17
+#define AIN1_BIT    0b00000001      // GPIOA1 [0] GPIO08
+#define AIN2_BIT    0b00000010      // GPIOA1 [1] GPIO09
+#define BIN1_BIT    0b00000100      // GPIOA1 [2] GPIO10
+#define BIN2_BIT    0b00001000      // GPIOA1 [3] GPIO11
+#define SLEEP_BIT   0b00010000      // GPIOA1 [4] GPIO12
 
 class DRV8833 {
 public:
-    DRV8833(uint_least8_t pin_a1, uint_least8_t pin_a2, uint_least8_t pin_b1,
-            uint_least8_t pin_b2, uint_least8_t pin_fault);
+    DRV8833(uint8_t pin_a1, uint8_t pin_a2, uint8_t pin_b1,
+            uint8_t pin_b2, uint8_t pin_fault);
 
-    ~DRV8833();
 
     // Step motor steps number of steps (neg is backward)
     void stepSteps(int32_t steps, uint32_t rpm);
@@ -39,10 +38,12 @@ public:
 
 private:
     // Class variables
+    // todo: calculate MAX_POS
     const uint32_t MAX_POS = 10000;
-    const uint_least8_t a1, a2, b1, b2, fault;
-    uint32_t current_pos = 0;
-
+    const uint8_t a1, a2, b1, b2, fault;
+    // todo: convert to wavelength
+    uint32_t current_pos;
+    uint32_t step_number;
 
     // Helper function to step motor
     void stepMotor(int step);
