@@ -39,7 +39,7 @@ public:
 private:
     // Class variables
     // todo: calculate MAX_POS
-    const uint32_t MAX_POS = UINT32_MAX / 2;
+    const uint32_t MAX_POS = 10000;
     const uint8_t a1, a2, b1, b2, fault;
     // todo: convert to wavelength
     uint32_t current_pos;
