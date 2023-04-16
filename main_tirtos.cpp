@@ -46,12 +46,15 @@
 #include <ti/drivers/net/wifi/device.h>
 #include <ti/sysbios/BIOS.h>
 
-//
 extern void *mainThread(void *arg0);
+extern void *powerThread(void *arg0);
+extern void *waterThread(void *arg0);
 
 // Stack size in bytes
 #define MAINTHREAD_STACKSIZE    12288
 #define SLTASK_STACKSIZE        4096
+#define POWERTHREAD_STACKSIZE   512
+#define WATERTHREAD_STACKSIZE   512
 
 // Main
 int main(void) {
@@ -66,6 +69,18 @@ int main(void) {
     pthread_attr_t      slSpawnAttrs;
     struct sched_param  slSpawnParam;
     uint32_t            slSpawnRet = 0;
+
+    // powerThread
+    pthread_t           powerSpawnThread = (pthread_t)NULL;
+    pthread_attr_t      powerSpawnAttrs;
+    struct sched_param  powerSpawnParam;
+    uint32_t            powerSpawnRet = 0;
+
+    // waterThread
+    pthread_t           waterSpawnThread = (pthread_t)NULL;
+    pthread_attr_t      waterSpawnAttrs;
+    struct sched_param  waterSpawnParam;
+    uint32_t            waterSpawnRet = 0;
 
     Board_init();
 
@@ -109,6 +124,48 @@ int main(void) {
         // pthread_create() failed
         printf("Create slTask failed.\n");
         while(1) {}
+    }
+
+    // Create powerThread
+    pthread_attr_init(&powerSpawnAttrs);
+
+    powerSpawnParam.sched_priority = 1;
+    powerSpawnRet = pthread_attr_setschedparam(&powerSpawnAttrs, &powerSpawnParam);
+    powerSpawnRet |= pthread_attr_setdetachstate(&powerSpawnAttrs, PTHREAD_CREATE_DETACHED);
+    powerSpawnRet |= pthread_attr_setstacksize(&powerSpawnAttrs, POWERTHREAD_STACKSIZE);
+
+    if (powerSpawnRet != 0) {
+        // Failed to set attributes
+        printf("Attrs powerThread failed.\n");
+        while (1) {}
+    }
+
+    powerSpawnRet = pthread_create(&powerSpawnThread, &powerSpawnAttrs, powerThread, NULL);
+    if (powerSpawnRet != 0) {
+        // pthread_create() failed
+        printf("Create powerThread failed.\n");
+        while (1) {}
+    }
+
+    // Create waterThread
+    pthread_attr_init(&waterSpawnAttrs);
+
+    waterSpawnParam.sched_priority = 1;
+    waterSpawnRet = pthread_attr_setschedparam(&waterSpawnAttrs, &waterSpawnParam);
+    waterSpawnRet |= pthread_attr_setdetachstate(&waterSpawnAttrs, PTHREAD_CREATE_DETACHED);
+    waterSpawnRet |= pthread_attr_setstacksize(&waterSpawnAttrs, WATERTHREAD_STACKSIZE);
+
+    if (waterSpawnRet != 0) {
+        // Failed to set attributes
+        printf("Attrs waterThread failed.\n");
+        while (1) {}
+    }
+
+    waterSpawnRet = pthread_create(&waterSpawnThread, &waterSpawnAttrs, waterThread, NULL);
+    if (waterSpawnRet != 0) {
+        // pthread_create() failed
+        printf("Create waterThread failed.\n");
+        while (1) {}
     }
 
     // Start RTOS

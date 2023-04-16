@@ -38,11 +38,13 @@ static float convert(uint16_t raw_result) {
     return static_cast<float>(raw_result) / static_cast<float>(OV);
 }
 
+// Globals
+I2C_Handle      i2c;
+I2C_Params      i2cParams;
+I2C_Transaction i2cTransaction;
+
 // mainThread
 void *mainThread(void *arg0) {
-    I2C_Handle      i2c;
-    I2C_Params      i2cParams;
-    I2C_Transaction i2cTransaction;
     UART2_Handle    uart;
     UART2_Params    uartParams;
     uint8_t         adc_address = 0x1F;     // 0x18 for eval board, 0x1F for prod board
@@ -89,27 +91,6 @@ void *mainThread(void *arg0) {
 
     Wireless::instance().haltProvisioning();
 
-    /*
-    // Charge Controller init
-    if (Charger::instance().init(i2c, 0xD6)) {
-        printf("Charger initialized\n");
-    } else {
-        printf("Error initializing charger\n");
-    }
-
-    if(Charger::instance().setRawRegisterValue(Charger::Registers::ChargeOption0, 0x0E, 0x02)) {
-        printf("Set charge options successfully\n");
-    } else {
-        printf("Failed to set charge options\n");
-    }
-
-    if(Charger::instance().setRawRegisterValue(Charger::Registers::ChargeCurrent, 0x08, 0x00)) {
-        printf("Max charge current set");
-    } else {
-        printf("Did not set max charge current");
-    }
-    */
-
     // ADC init
     if (AdcExternal::instance().init(i2c, adc_address)) {
         printf("ADC initialized\n");
@@ -147,6 +128,56 @@ void *mainThread(void *arg0) {
         }
 
         sleep(1);
+    }
+
+    return 0;
+}
+
+// powerThread
+void *powerThread(void *arg0) {
+    // Wait until I2C is initialized
+    while(i2c == NULL) {
+        sleep(1);
+    }
+
+    // Charge Controller init
+    if (Charger::instance().init(i2c, 0xD6)) {
+        printf("Charger initialized\n");
+    } else {
+        printf("Error initializing charger\n");
+    }
+
+    if(Charger::instance().setRawRegisterValue(Charger::Registers::ChargeOption0, 0x0E, 0x02)) {
+        printf("Set charge options successfully\n");
+    } else {
+        printf("Failed to set charge options\n");
+    }
+
+    if(Charger::instance().setRawRegisterValue(Charger::Registers::ChargeCurrent, 0x08, 0x00)) {
+        printf("Max charge current set");
+    } else {
+        printf("Did not set max charge current");
+    }
+
+    while(1) {
+        sleep(60);
+    }
+
+    return 0;
+}
+
+// waterThread
+void *waterThread(void *arg0) {
+    WaterSolenoid::instance().waterSet(false);
+
+    while(1) {
+        // Sleep for 24 hours
+        sleep(86400);
+
+        // Water on for 10 seconds
+        WaterSolenoid::instance().waterSet(true);
+        sleep(10);
+        WaterSolenoid::instance().waterSet(false);
     }
 
     return 0;
