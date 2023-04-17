@@ -53,8 +53,8 @@ extern void *waterThread(void *arg0);
 // Stack size in bytes
 #define MAINTHREAD_STACKSIZE    12288
 #define SLTASK_STACKSIZE        4096
-#define POWERTHREAD_STACKSIZE   512
-#define WATERTHREAD_STACKSIZE   512
+#define POWERTHREAD_STACKSIZE   2048
+#define WATERTHREAD_STACKSIZE   2048
 
 // Main
 int main(void) {

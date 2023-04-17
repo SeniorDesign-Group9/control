@@ -89,7 +89,7 @@ void *mainThread(void *arg0) {
         printf("NWP started successfully\n");
     }
 
-    Wireless::instance().haltProvisioning();
+    //Wireless::instance().haltProvisioning();
 
     // ADC init
     if (AdcExternal::instance().init(i2c, adc_address)) {
@@ -107,6 +107,8 @@ void *mainThread(void *arg0) {
     UART2_write(uart, buffer, sizeof(buffer), &bytesWritten);
     strcpy(buffer, "Hello, World!\r\n");
 
+    motor.stepMax(200);
+
     printf("---- Initialization end ----\n\n");
 
     while(1) {
@@ -118,13 +120,13 @@ void *mainThread(void *arg0) {
         WaterSolenoid::instance().waterToggle();
 
         printf("--------- Spectra ----------\n\n");
-        printf("POS    NIR       VIS\n");
-        for (int j = 0; j < 130; j++) {
-            printf("[%03d]  ", j);
+        printf("\"POS\",\"NIR\",\"VIS\"\n");
+        for (int j = 0; j < POSITIONS; j++) {
+            printf("%03d,", j);
             std::cout << convert(((Sensing::instance().queuePeek()).nir_results[j]));
-            std::cout << " V   ";
+            std::cout << ",";
             std::cout << convert(((Sensing::instance().queuePeek()).vis_results[j]));
-            std::cout << " V" << std::endl;
+            std::cout << "" << std::endl;
         }
 
         sleep(1);

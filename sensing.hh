@@ -9,7 +9,7 @@
 #include <deque>
 #include "DRV8833.hh"
 
-#define POSITIONS       130
+#define POSITIONS       500
 
 template <typename T, int MaxLen, typename Container=std::deque<T>>
 class FixedQueue : public std::queue<T, Container> {

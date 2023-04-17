@@ -29,9 +29,6 @@ void Sensing::getResult(DRV8833& motor) {
 
     GPIO_write(AMBER_LED, 1);
 
-    // FIXME: stepZero doesn't work
-    //motor.stepZero(200);         // 200 micrometers/sec = 60 RPM
-
     lampSet(true);
     usleep(500 * 1000);          // Sleep for 500ms to allow lamp to turn on
 
@@ -40,9 +37,9 @@ void Sensing::getResult(DRV8833& motor) {
         nir_result = AdcExternal::instance().getRawResult(AdcExternal::CH0);
         vis_result = AdcExternal::instance().getRawResult(AdcExternal::CH1);
 
-        printf("Position %03d:\n", i);
-        printf("   NIR:     %.3f V\n", resultRawToFloat(nir_result));
-        printf("   Visible: %.3f V\n\n", resultRawToFloat(vis_result));
+        printf("P %03d\n", i);
+        //printf("   NIR:     %.3f V\n", resultRawToFloat(nir_result));
+        //printf("   Visible: %.3f V\n\n", resultRawToFloat(vis_result));
 
         if (nir_result != -1) {
            new_result.nir_results.at(i) = nir_result;
@@ -52,7 +49,7 @@ void Sensing::getResult(DRV8833& motor) {
            new_result.vis_results.at(i) = vis_result;
         }
 
-        motor.stepSteps(10000/POSITIONS, 60);        // 10k is max position
+        motor.stepPosition((20000 - ((20000/POSITIONS) * i)), 800);        // 10k is max position
     }
 
     lampSet(false);
@@ -61,6 +58,9 @@ void Sensing::getResult(DRV8833& motor) {
     results.push(new_result);
 
     GPIO_write(AMBER_LED, 0);
+
+    //FIXME
+    //motor.stepMax(200);         // 200 micrometers/sec = 60 RPM
 }
 
 inline float Sensing::resultRawToFloat(uint16_t raw_result) {

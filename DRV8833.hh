@@ -13,6 +13,7 @@
 #define BIN1_BIT    0b00000100      // GPIOA1 [2] GPIO10
 #define BIN2_BIT    0b00001000      // GPIOA1 [3] GPIO11
 #define SLEEP_BIT   0b00010000      // GPIOA1 [4] GPIO12
+#define BITMASK     0b00011111
 
 class DRV8833 {
 public:
@@ -39,7 +40,7 @@ public:
 private:
     // Class variables
     // todo: calculate MAX_POS
-    const uint32_t MAX_POS = 10000;
+    const uint32_t MAX_POS = 20000;
     const uint8_t a1, a2, b1, b2, fault;
     // todo: convert to wavelength
     uint32_t current_pos;
