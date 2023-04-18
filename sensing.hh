@@ -55,7 +55,7 @@ class Sensing {
         // Toggle lamp
         void lampToggle(void);
 
-        result_t queuePeek(void);
+        result_t accessResult(void);
 
     private:
         // Singleton variables
@@ -67,7 +67,7 @@ class Sensing {
         unsigned int lampGpio;
         bool lampOn;
 
-        FixedQueue<result_t, 4> results;
+        result_t results;
 };
 
 

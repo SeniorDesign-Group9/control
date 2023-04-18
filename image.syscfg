@@ -22,7 +22,11 @@ const Radio       = scripting.addModule("/ti/drivers/net/imagecreator/new_design
 /**
  * Write custom configuration values to the imported modules.
  */
-General.ModeSelect = "development";
+General.ModeSelect   = "development";
+General.ModuleSelect = "1";
+
+MCUImage.Secure     = false;
+MCUImage.PublicRead = true;
 
 fileTree.rootDirCfg = "userFiles";
 

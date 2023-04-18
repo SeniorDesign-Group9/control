@@ -17,7 +17,10 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <ctime>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <pthread.h>
 #include <string>
 #include <unistd.h>
@@ -33,20 +36,45 @@
 #include "water.hh"
 #include "wireless.hh"
 
-static float convert(uint16_t raw_result) {
-    static const uint16_t OV = static_cast<uint16_t>(static_cast<float>(UINT16_MAX) / static_cast<float>(3.3));
-    return static_cast<float>(raw_result) / static_cast<float>(OV);
-}
+#define UART_BUFFER_SIZE    128
+#define SLEEP_SPECTROSCOPY  60      // Sleep 60 sec
+#define SLEEP_SOLENOID      60      // Sleep 60 sec
 
 // Globals
 I2C_Handle      i2c;
 I2C_Params      i2cParams;
 I2C_Transaction i2cTransaction;
+UART2_Handle    uart;
+UART2_Params    uartParams;
+
+static float convert(uint16_t raw_result) {
+    static const uint16_t OV = static_cast<uint16_t>(static_cast<float>(UINT16_MAX) / static_cast<float>(3.3));
+    return static_cast<float>(raw_result) / static_cast<float>(OV);
+}
+
+static void print_spectra(void) {
+    char buffer[UART_BUFFER_SIZE] = "";
+    time_t time_reading(Sensing::instance().accessResult().time);
+
+    // Print time captured
+    std::strftime(buffer, UART_BUFFER_SIZE, "%Y-%m-%d %H:%M:%S", localtime(&time_reading));
+    std::strcat(buffer, "\r\n");
+    UART2_write(uart, buffer, UART_BUFFER_SIZE, nullptr);
+
+    // Print header
+    snprintf(buffer, UART_BUFFER_SIZE, "\"POS\",\"NIR\",\"VIS\"\r\n");
+    UART2_write(uart, buffer, UART_BUFFER_SIZE, nullptr);
+
+    // Print spectra
+    for (int j = 0; j < POSITIONS; j++) {
+        snprintf(buffer, UART_BUFFER_SIZE, "%03d,%.8f,%.8f\r\n", j, convert(Sensing::instance().accessResult().nir_results[j]), convert(Sensing::instance().accessResult().vis_results[j]));
+        UART2_write(uart, buffer, UART_BUFFER_SIZE, nullptr);
+    }
+}
+
 
 // mainThread
 void *mainThread(void *arg0) {
-    UART2_Handle    uart;
-    UART2_Params    uartParams;
     uint8_t         adc_address = 0x1F;     // 0x18 for eval board, 0x1F for prod board
 
     printf("\n--- Initialization begin ---\n");
@@ -89,7 +117,8 @@ void *mainThread(void *arg0) {
         printf("NWP started successfully\n");
     }
 
-    //Wireless::instance().haltProvisioning();
+    // FIXME
+    // Wireless::instance().haltProvisioning();
 
     // ADC init
     if (AdcExternal::instance().init(i2c, adc_address)) {
@@ -101,24 +130,16 @@ void *mainThread(void *arg0) {
     // Done initializing
     GPIO_write(RED_LED, 0);
 
-    // Write to the UART
-    size_t  bytesWritten;
-    char buffer[] = "UART initialized.\r\n";
-    UART2_write(uart, buffer, sizeof(buffer), &bytesWritten);
-    strcpy(buffer, "Hello, World!\r\n");
-
     motor.stepMax(200);
 
     printf("---- Initialization end ----\n\n");
 
     while(1) {
-        UART2_write(uart, buffer, sizeof(buffer), &bytesWritten);
-
         Sensing::instance().getResult(motor);
 
-        // Solenoid test
-        WaterSolenoid::instance().waterToggle();
+        print_spectra();
 
+        /*
         printf("--------- Spectra ----------\n\n");
         printf("\"POS\",\"NIR\",\"VIS\"\n");
         for (int j = 0; j < POSITIONS; j++) {
@@ -128,8 +149,11 @@ void *mainThread(void *arg0) {
             std::cout << convert(((Sensing::instance().queuePeek()).vis_results[j]));
             std::cout << "" << std::endl;
         }
+        */
 
-        sleep(1);
+        motor.stepMax(200);         // 200 micrometers/sec = 60 RPM
+
+        sleep(SLEEP_SPECTROSCOPY);
     }
 
     return 0;
@@ -173,8 +197,8 @@ void *waterThread(void *arg0) {
     WaterSolenoid::instance().waterSet(false);
 
     while(1) {
-        // Sleep for 24 hours
-        sleep(86400);
+        // FIXME: Sleep for 24 hours
+        sleep(SLEEP_SOLENOID);
 
         // Water on for 10 seconds
         WaterSolenoid::instance().waterSet(true);

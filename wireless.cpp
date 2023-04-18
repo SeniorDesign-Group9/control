@@ -93,10 +93,6 @@ int Wireless::start(void) {
         return retval;
     }
 
-    // FIXME debug: stop provisioning
-    //sl_WlanProvisioning(SL_WLAN_PROVISIONING_CMD_STOP,0xFF,0,NULL, 0x0);
-
-
     return 0;
 }
 
